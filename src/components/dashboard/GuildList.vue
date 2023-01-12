@@ -35,8 +35,8 @@ export default {
       tokenRes = await fetch('https://discord.com/api/oauth2/token', {
         method: 'POST',
         body: new URLSearchParams({
-          client_id: '968164973467541574',
-          client_secret: 'wn_VJJp14a2gNT-qV6CBuhgj5VFc8fvd',
+          client_id: '',
+          client_secret: '',
           code,
           grant_type: 'authorization_code',
           redirect_uri: 'http://127.0.0.1:5173/',
