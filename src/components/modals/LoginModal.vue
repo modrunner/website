@@ -24,25 +24,35 @@ export default {
 
 <style scoped>
 
-#modal[data-v-8e255f99] {
-  background-color: #2c3e50;
+#modal {
+  background-color: #10121B;
   border-radius: 25px;
   display: grid;
-  row-gap: 20px;
-  max-height: 400px;
-  max-width: 500px;
+  row-gap: 10px;
+  max-height: 50vh;
+  max-width: 100vw;
   position: absolute;
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
   padding: 20px;
 }
-h1[data-v-8e255f99] {
-  font-size: 1em;
+h1 {
+  font-size: 1.5em;
+  text-align: center;
 }
-button[data-v-8e255f99] {
-  background-color: #5865F2;
+button {
+  color: white;
+  background-color: #8e8e8e;
+  border: 2px solid white;
   border-radius: 20px;
+  font-size: 1.3em;
+  font-weight: bold;
+  padding: 5px;
+  transition-duration: 0.2s;
 }
-
+button:hover {
+  color: #5865F2;
+  background-color: white;
+}
 </style>
