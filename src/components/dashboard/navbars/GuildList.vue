@@ -4,7 +4,8 @@
 		<h1>Your Servers</h1>
 		<input id="search-box" v-model="searchInput" placeholder="🔎 Search for servers">
 		<div id="guild-list" v-if="guilds.length">
-			<GuildListItem v-for="guild in guilds" v-show="guild.visible" :guild="guild" />
+			<GuildListItem v-for="guild in guilds" v-show="new RegExp(`${searchInput}`, 'i').test(guild.name)"
+				:guild="guild" />
 		</div>
 	</div>
 </template>
@@ -27,37 +28,31 @@ export default {
 			searchInput: '',
 		}
 	},
-	watch: {
-		searchInput(newInput) {
-			const regExp = new RegExp(`${newInput}`, 'i');
-			for (const guild of this.guilds) {
-				if (regExp.test(guild.name)) {
+	methods: {
+		async getUserGuilds() {
+			try {
+				const res = await fetch('https://discord.com/api/users/@me/guilds', {
+					headers: {
+						authorization: this.authStore.header,
+					},
+				});
+
+				const guilds = await res.json();
+				for (const guild of guilds) {
 					guild.visible = true;
-				} else {
-					guild.visible = false;
+					this.guilds.push(guild);
 				}
+				this.guilds.sort((a, b) => {
+					return a.name.localeCompare(b.name);
+				});
+			} catch (error) {
+				console.error(error);
 			}
 		},
 	},
 	async mounted() {
-		let res;
-		try {
-			res = await fetch('https://discord.com/api/users/@me/guilds', {
-				headers: {
-					authorization: `${this.authStore.authData.tokenType} ${this.accessToken}`,
-				},
-			});
-
-			const guilds = await res.json();
-			for (const guild of guilds) {
-				guild.visible = true;
-				this.guilds.push(guild);
-			}
-			this.guilds.sort((a, b) => {
-				return a.name.localeCompare(b.name);
-			});
-		} catch (error) {
-			console.error(error);
+		if (this.authStore.authorized) {
+			await this.getUserGuilds();
 		}
 	}
 }

@@ -1,19 +1,19 @@
 <template>
-	<LoginModal v-if="!accessToken" />
+	<LoginModal v-if="!authStore.accessToken" />
 	<template v-else>
 		<div id="dashboard-container">
-			<GuildList :access-token="accessToken" />
+			<GuildList :access-token="authStore.accessToken" />
 			<div id="main-content-container">
 				<div id="headers-container">
 					<Navbar :user="user" />
 					<h1 id="greeting-header">Good {{ getTimeOfDayString(new Date()) }}, {{ user.username }}</h1>
 				</div>
 				<div id="content-container">
-					<template v-if="!currentlySelectedGuild">
+					<template v-if="!guildStore.selectedGuildId">
 						<p>To get started, select a server from the list on the left.</p>
 					</template>
 					<template v-else>
-
+						<p>{{ guild.name }}</p>
 					</template>
 				</div>
 			</div>
@@ -23,32 +23,27 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth';
+import { useGuildStore } from '@/stores/guild';
 import LoginModal from '@/components/modals/LoginModal.vue';
 import GuildList from '@/components/dashboard/navbars/GuildList.vue';
 import Navbar from './dashboard/navbars/Navbar.vue';
-import { onBeforeMount } from 'vue';
 
 export default {
 	name: 'Dashboard',
 	components: { GuildList, LoginModal, Navbar },
 	setup() {
 		const authStore = useAuthStore();
-		return { authStore };
+		const guildStore = useGuildStore();
+		return { authStore, guildStore };
 	},
 	data() {
 		return {
-			accessToken: null,
 			user: {
 				username: 'user',
 				avatar: null,
 			},
-			currentlySelectedGuild: null,
+			guild: null,
 		}
-	},
-	watch: {
-		currentlySelectedGuild(newGuild, oldGuild) {
-
-		},
 	},
 	methods: {
 		async getUser() {
@@ -56,7 +51,21 @@ export default {
 			try {
 				res = await fetch('https://discord.com/api/users/@me', {
 					headers: {
-						authorization: `${this.authStore.authData.tokenType} ${this.accessToken}`,
+						authorization: this.authStore.header,
+					},
+				});
+			} catch (error) {
+				console.error(error);
+			}
+
+			return await res.json();
+		},
+		async getGuild() {
+			let res;
+			try {
+				res = await fetch(`https://discord.com/api/guilds/${this.guildStore.selectedGuildId}`, {
+					headers: {
+						authorization: this.authStore.header,
 					},
 				});
 			} catch (error) {
@@ -76,15 +85,20 @@ export default {
 			}
 		},
 	},
-	async beforeMount() {
-		let code, state;
+	async mounted() {
 		if (location.search) {
-			code = new URLSearchParams(location.search).get('code').toString();
-			state = new URLSearchParams(location.search).get('state').toString();
+			if (this.authStore.isStateModified(new URLSearchParams(location.search).get('state').toString())) {
+				console.log('[Dashboard] Retrieving auth code from url');
+				this.authStore.code = new URLSearchParams(location.search).get('code').toString();
+			}
 		}
 
-		this.accessToken = await this.authStore.getAccessToken(code, state);
-		this.user = await this.getUser();
+		await this.authStore.authorize();
+
+		if (this.authStore.authorized) {
+			this.user = await this.getUser();
+			if (location.search) history.replaceState({}, '', '/');
+		};
 	},
 };
 </script>

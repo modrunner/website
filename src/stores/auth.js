@@ -1,42 +1,53 @@
 import { defineStore } from 'pinia';
 
+const route_url = 'https://discord.com/api/oauth2/token';
+const client_id = import.meta.env.VITE_CLIENT_ID;
+const client_secret = import.meta.env.VITE_CLIENT_SECRET;
+const redirect_uri = import.meta.env.VITE_REDIRECT_URI;
+
 export const useAuthStore = defineStore('auth', {
 	persist: {
-		storage: localStorage,
+		paths: ['expiresAt', 'refreshToken', 'scope', 'state', 'tokenType'],
+		debug: import.meta.env.DOPPLER_ENVIRONMENT === 'dev' ? true : false,
 	},
 	state: () => ({
-		authData: {
-			tokenType: null,
-			expiresAt: null,
-			refreshToken: null,
-			scope: null,
-		},
-		stateParam: null,
+		accessToken: null,
+		code: null,
+		expiresAt: null,
+		refreshToken: null,
+		scope: null,
+		state: null,
+		tokenType: null,
 	}),
+	getters: {
+		authorized: (state) => {
+			return state.accessToken && state.expiresAt > Date.now() ? true : false;
+		},
+		header: (state) => {
+			return `${state.tokenType} ${state.accessToken}`;
+		},
+	},
 	actions: {
-		async getAccessToken(code, state) {
-			let reqData;
-			if (this.authData.refreshToken) {
-				reqData = new URLSearchParams({
-					client_id: import.meta.env.VITE_CLIENT_ID,
-					client_secret: import.meta.env.VITE_CLIENT_SECRET,
+		async authorize() {
+			let payload;
+			if (this.refreshToken) {
+				// re-authorize using refresh token
+				console.log('[Auth] Re-authorizing using refresh token');
+				payload = new URLSearchParams({
+					client_id,
+					client_secret,
 					grant_type: 'refresh_token',
-					refresh_token: this.authData.refreshToken,
+					refresh_token: this.refreshToken,
 				}).toString();
-			} else if (code) {
-				if (!state || atob(decodeURIComponent(state)) !== this.stateParam) {
-					console.warn(
-						'Auth error: state parameter does not match or is missing.'
-					);
-					return;
-				}
-
-				reqData = new URLSearchParams({
-					client_id: import.meta.env.VITE_CLIENT_ID,
-					client_secret: import.meta.env.VITE_CLIENT_SECRET,
-					code,
+			} else if (this.code) {
+				// authorize using auth code grant flow
+				console.log('[Auth] Authorizing using auth code');
+				payload = new URLSearchParams({
+					client_id,
+					client_secret,
+					code: this.code,
 					grant_type: 'authorization_code',
-					redirect_uri: import.meta.env.VITE_REDIRECT_URI,
+					redirect_uri,
 					scope: 'identify',
 				}).toString();
 			} else {
@@ -44,24 +55,40 @@ export const useAuthStore = defineStore('auth', {
 			}
 
 			try {
-				const res = await fetch('https://discord.com/api/oauth2/token', {
+				const res = await fetch(route_url, {
 					method: 'POST',
-					body: reqData,
+					body: payload,
 					headers: {
 						'Content-Type': 'application/x-www-form-urlencoded',
 					},
 				});
 
-				const authData = await res.json();
-				this.authData.tokenType = authData['token_type'];
-				this.authData.expiresAt = Date.now() + authData['expires_in'];
-				this.authData.refreshToken = authData['refresh_token'];
-				this.authData.scope = authData['scope'];
-
-				return authData['access_token'];
+				const data = await res.json();
+				this.accessToken = data['access_token'];
+				this.tokenType = data['token_type'];
+				this.expiresAt = Date.now() + data['expires_in'];
+				this.refreshToken = data['refresh_token'];
+				this.scope = data['scope'];
 			} catch (error) {
 				console.error(error);
 			}
+		},
+		isStateModified(returnedState = null) {
+			if (!returnedState) {
+				console.warn('[Auth] No state parameter was returned');
+				return false;
+			}
+			const decodedState = atob(decodeURIComponent(returnedState));
+			if (decodedState !== this.state) {
+				console.warn('[Auth] Decoded state parameter does not match');
+				console.table({
+					returnedState,
+					decodedState,
+					savedState: this.state,
+				});
+				return false;
+			}
+			return true;
 		},
 		generateStateString() {
 			let randomString = '';
@@ -73,7 +100,7 @@ export const useAuthStore = defineStore('auth', {
 				);
 			}
 
-			this.stateParam = randomString;
+			this.state = randomString;
 			return randomString;
 		},
 	},
