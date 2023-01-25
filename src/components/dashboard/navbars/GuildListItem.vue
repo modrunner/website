@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import { useGuildStore } from '../../../stores/guild';
-import placeholderImage from '../../assets/missing_icon_placeholder.png';
+import { useGuildStore } from '@/stores/guild';
+import placeholderImage from '@/assets/missing_icon_placeholder.png';
 
 export default {
 	name: 'GuildListItem',
@@ -22,9 +22,22 @@ export default {
 		},
 	},
 	methods: {
+		async isBotInGuild() {
+			try {
+				const res = await fetch(`http://localhost:3000/guilds/${this.guild.id}`);
+				return res.status === 200 ? true : false;
+			} catch (error) {
+				console.error(error);
+			}
+		},
 		setSelectedGuild() {
 			this.guildStore.guild = this.guild;
 		},
+	},
+	async created() {
+		console.log(`created list item for ${this.guild.name}`);
+		// TODO edit endpoints on server to return a list of guilds in database then make one API call to get that list and run bot presence checks on frontend
+		this.guild.isBotPresent = await this.isBotInGuild();
 	},
 }
 </script>

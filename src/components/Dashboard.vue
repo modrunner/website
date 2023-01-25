@@ -9,12 +9,7 @@
 					<h1 id="greeting-header">Good {{ getTimeOfDayString(new Date()) }}, {{ user.username }}</h1>
 				</div>
 				<div id="content-container">
-					<template v-if="!guildStore.selectedGuildId">
-						<p>To get started, select a server from the list on the left.</p>
-					</template>
-					<template v-else>
-						<p>{{ guild.name }}</p>
-					</template>
+					<GuildView />
 				</div>
 			</div>
 		</div>
@@ -26,11 +21,12 @@ import { useAuthStore } from '@/stores/auth';
 import { useGuildStore } from '@/stores/guild';
 import LoginModal from '@/components/modals/LoginModal.vue';
 import GuildList from '@/components/dashboard/navbars/GuildList.vue';
-import Navbar from './dashboard/navbars/Navbar.vue';
+import Navbar from '@/components/dashboard/navbars/Navbar.vue';
+import GuildView from '@/components/dashboard/views/GuildView.vue';
 
 export default {
 	name: 'Dashboard',
-	components: { GuildList, LoginModal, Navbar },
+	components: { GuildList, LoginModal, Navbar, GuildView },
 	setup() {
 		const authStore = useAuthStore();
 		const guildStore = useGuildStore();

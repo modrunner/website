@@ -12,7 +12,7 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth';
-import GuildListItem from '@/components/dashboard/GuildListItem.vue';
+import GuildListItem from '@/components/dashboard/navbars/GuildListItem.vue';
 
 export default {
 	name: 'GuildList',
@@ -38,10 +38,7 @@ export default {
 				});
 
 				const guilds = await res.json();
-				for (const guild of guilds) {
-					guild.visible = true;
-					this.guilds.push(guild);
-				}
+				this.guilds = [...guilds];
 				this.guilds.sort((a, b) => {
 					return a.name.localeCompare(b.name);
 				});
