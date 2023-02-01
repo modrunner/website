@@ -1,0 +1,168 @@
+@import './components.css';
+@import './layout.css';
+@import './utils.css';
+
+body {
+  /* Defaults */
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  --font-standard: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen,
+    Ubuntu, Roboto, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  --mono-font: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
+    Liberation Mono, monospace;
+  font-family: var(--font-standard);
+  font-size: 16px;
+  font-weight: var(--font-weight-regular);
+  margin: 0;
+  padding: 0;
+
+  /* Rounding sizes */
+  --size-rounded-xs: 0.5rem;
+  --size-rounded-sm: 0.75rem;
+  --size-rounded-md: 1rem;
+  --size-rounded-lg: 1.25rem;
+
+  --size-rounded-max: 999999999px;
+  --size-rounded-card: 1rem;
+  --size-rounded-icon: 1rem;
+  --size-rounded-control: 0.25rem;
+  --size-rounded-tooltip: 0.25rem;
+
+  --spacing-card-lg: 1.5rem;
+  --spacing-card-bg: 1rem;
+  --spacing-card-md: 0.75rem;
+  --spacing-card-sm: 0.5rem;
+  --spacing-card-xs: 0.25rem;
+
+  /* Font Sizes */
+  --font-size-xxs: 0.625rem; /* 10px */
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-nm: 1rem; /* 16px */
+  --font-size-md: 1.125rem; /* 18px */
+  --font-size-lg: 1.25rem; /* 20px */
+  --font-size-xl: 1.5rem; /* 24px */
+  --font-size-2xl: 2rem; /* 32px */
+  --font-size-3xl: 3rem; /* 48px */
+
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --font-weight-text: var(--font-weight-medium);
+  --font-weight-heading: var(--font-weight-extrabold);
+  --font-weight-title: var(--font-weight-extrabold);
+
+  --color-brand: #1a9ae4;
+  --color-brand-highlight: #1a9ae4;
+  --color-brand-shadow: #1a9ae4;
+  --color-brand-inverted: #ffffff;
+}
+
+.light-mode {
+  --color-text: #202020;
+  --color-text-secondary: #3e4747;
+  --color-text-inactive: #566272;
+  --color-text-dark: #000000;
+  --color-heading: var(--color-text-dark);
+  --color-bg: #e4e4e4;
+  --color-raised-bg: #ffffff;
+  --color-divider: #dbdbdb;
+  --color-divider-dark: #b6b6b6;
+
+  --color-text-inverted: var(--color-bg);
+  --color-bg-inverted: var(--color-text);
+
+  --color-button-bg: #e5e7eb;
+  --color-button-text: var(--color-text-dark);
+  --color-button-bg-hover: #d9dce0;
+  --color-button-text-hover: #1b1e24;
+  --color-button-bg-active: #c3c6cb;
+  --color-button-text-active: var(--color-button-text-hover);
+
+  --color-dropdown-bg: var(--color-button-bg);
+  --color-dropdown-text: var(--color-button-text);
+
+  --color-link: #0d60bb;
+  --color-link-hover: #1a76e7;
+  --color-link-active: #146fd7;
+}
+
+.dark-mode {
+  --color-text: #c7d4e0;
+  --color-text-secondary: #9ca6bb;
+  --color-text-inactive: #788088;
+  --color-text-dark: #e2efff;
+  --color-heading: var(--color-text-dark);
+  --color-bg: #1b1b1d;
+  --color-raised-bg: #26292f;
+  --color-divider: #474b54;
+  --color-divider-dark: #646c75;
+
+  --color-text-inverted: var(--color-bg);
+  --color-bg-inverted: var(--color-text);
+
+  --color-button-bg: #434956;
+  --color-button-text: var(--color-text);
+  --color-button-bg-hover: #494f58;
+  --color-button-text-hover: #ffffff;
+  --color-button-bg-active: #616570;
+  --color-button-text-active: var(--color-button-text-hover);
+
+  --color-link: #74b6f3;
+  --color-link-hover: #92c0f5;
+  --color-link-active: #b5d5fd;
+}
+
+a {
+  color: inhert;
+  text-decoration: none;
+}
+
+h1 {
+  color: var(--color-text-dark);
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--color-text-dark);
+}
+
+h3 {
+  margin-block: var(--spacing-card-md) var(--spacing-card-sm);
+  color: var(--color-text-dark);
+}
+
+input {
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  /* Safari iOS rounds inputs by default
+  set the appearance to none to prevent this */
+  appearance: none !important;
+}
+
+@keyframes push-button {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+button:active {
+  transform: scale(0.9);
+}
+
+button:focus-visible,
+a:focus-visible,
+[tabindex='0']:focus-visible {
+  outline: 0.25rem solid rebeccapurple !important;
+  border-radius: 0.25rem;
+}

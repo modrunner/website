@@ -1,0 +1,13 @@
+.card {
+  position: relative;
+  min-height: var(--font-size-2xl);
+  padding: var(--spacing-card-md) var(--spacing-card-lg);
+
+  background: var(--color-raised-bg);
+  border-radius: var(--size-rounded-card);
+  outline: 2px solid transparent;
+
+  margin-bottom: var(--spacing-card-md);
+
+  box-shadow: var(--shadow-card);
+}
