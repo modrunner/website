@@ -2,35 +2,41 @@ import { defineStore } from 'pinia'
 
 export const useGuildStore = defineStore('guild', {
   state: () => ({
-    botGuilds: [],
-    currentGuild: null,
-    guildProjects: [],
+    applicationGuilds: [],
+    currentGuild: {
+      id: null,
+      name: null,
+      projects: [],
+    },
   }),
   getters: {
-    isBotPresent() {
-      return this.botGuilds.find((guild) => guild.id === this.guild.id)
+    currentGuildAppData(state) {
+      return state.applicationGuilds.find(
+        (guild) => guild.id === state.currentGuild.id
+      )
     },
   },
   actions: {
-    async saveBotGuilds() {
+    async fetchApplicationGuilds() {
+      let res
       try {
-        const res = await fetch('http://localhost:3000/guilds/list')
-        this.botGuilds = await res.json()
+        res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/guilds`)
+        this.applicationGuilds = await res.json()
       } catch (error) {
         console.error(error)
       }
     },
-    async saveGuildProjects() {
-      if (this.isBotPresent) {
-        try {
-          console.log("[Guild] Saving current guild's projects")
-          const res = await fetch(
-            `http://localhost:3000/guilds/${this.guild.id}/projects`
-          )
-          this.guildProjects = await res.json()
-        } catch (error) {
-          console.error(error)
-        }
+    async fetchCurrentGuildProjects() {
+      let res
+      try {
+        res = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/guilds/${
+            this.guild.id
+          }/projects`
+        )
+        this.currentGuild.projects = await res.json()
+      } catch (error) {
+        console.error(error)
       }
     },
   },

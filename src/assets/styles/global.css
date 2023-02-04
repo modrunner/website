@@ -56,8 +56,8 @@ body {
   --font-weight-title: var(--font-weight-extrabold);
 
   --color-brand: #1a9ae4;
-  --color-brand-highlight: #1a9ae4;
-  --color-brand-shadow: #1a9ae4;
+  --color-brand-highlight: #44a2d8;
+  --color-brand-shadow: #1677af;
   --color-brand-inverted: #ffffff;
 }
 
@@ -85,9 +85,9 @@ body {
   --color-dropdown-bg: var(--color-button-bg);
   --color-dropdown-text: var(--color-button-text);
 
-  --color-link: #0d60bb;
-  --color-link-hover: #1a76e7;
-  --color-link-active: #146fd7;
+  --color-link: #1a9ae4;
+  --color-link-hover: #44a2d8;
+  --color-link-active: #1677af;
 }
 
 .dark-mode {
@@ -111,14 +111,23 @@ body {
   --color-button-bg-active: #616570;
   --color-button-text-active: var(--color-button-text-hover);
 
-  --color-link: #74b6f3;
-  --color-link-hover: #92c0f5;
-  --color-link-active: #b5d5fd;
+  --color-link: #1a9ae4;
+  --color-link-hover: #44a2d8;
+  --color-link-active: #1677af;
+}
+
+svg {
+  color: var(--color-text);
 }
 
 a {
-  color: inhert;
+  color: var(--color-link);
   text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
 }
 
 h1 {
@@ -128,12 +137,12 @@ h1 {
 h2 {
   margin-top: 0;
   margin-bottom: 1rem;
-  color: var(--color-text-dark);
+  color: var(--color-text-secondary);
 }
 
 h3 {
   margin-block: var(--spacing-card-md) var(--spacing-card-sm);
-  color: var(--color-text-dark);
+  color: var(--color-text-secondary);
 }
 
 input {

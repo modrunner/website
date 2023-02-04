@@ -49,6 +49,8 @@ export default {
     },
     toggleItem(guild) {
       this.selected = guild.id
+      this.guildStore.currentGuild.id = guild.id
+      this.guildStore.currentGuild.name = guild.name
     },
   },
 }

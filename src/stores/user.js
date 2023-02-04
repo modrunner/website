@@ -22,7 +22,6 @@ export const useUserStore = defineStore('user', {
       this.currentTheme = 'dark'
       this.guilds = null
       this.user = null
-      console.debug('Cleared the user store')
     },
     async getCurrentUser() {
       const data = await fetch('https://discord.com/api/users/@me', {
@@ -31,7 +30,6 @@ export const useUserStore = defineStore('user', {
         .then((response) => response.json())
         .catch((error) => console.error(error))
 
-      console.debug('Fetched user data')
       this.user = data
       return data
     },
@@ -46,11 +44,15 @@ export const useUserStore = defineStore('user', {
         console.error(error)
       }
 
-      this.guilds = [...guilds]
+      const filteredGuilds = guilds.filter(
+        (guild) => (guild.permissions & 0x20) == 0x20
+      )
+
+      this.guilds = [...filteredGuilds]
       this.guilds.sort((a, b) => {
         return a.name.localeCompare(b.name)
       })
-      console.debug('Fetched user guilds')
+
       return this.guilds
     },
     guildIconUrl(guildId) {

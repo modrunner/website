@@ -13,9 +13,12 @@
         </a>
       </section>
       <section class="user-controls" role="navigation">
-        <button class="control-button button-transparent">
-          <HelpIcon class="icon help-icon" />
-        </button>
+        <a
+          href="http://invite.modrunner.net"
+          class="control-button button-transparent"
+        >
+          <PlusIcon class="icon plus-icon" />
+        </a>
         <button class="control-button button-transparent" @click="changeTheme">
           <MoonIcon v-if="colorMode === 'light'" class="icon moon-icon" />
           <SunIcon v-else class="icon sun-icon" />
@@ -77,11 +80,10 @@ import GuildList from '@/components/ui/GuildList.vue'
 
 import DiscordIcon from '@/components/icons/DiscordIcon.vue'
 import DropdownIcon from '@/components/icons/DropdownIcon.vue'
-import HelpIcon from '@/components/icons/HelpIcon.vue'
 import LogoutIcon from '@/components/icons/LogoutIcon.vue'
 import MoonIcon from '@/components/icons/MoonIcon.vue'
+import PlusIcon from '@/components/icons/PlusIcon.vue'
 import SunIcon from '@/components/icons/SunIcon.vue'
-import NotificationIcon from '@/components/icons/NotificationIcon.vue'
 
 export default {
   name: 'App',
@@ -90,11 +92,10 @@ export default {
     GuildList,
     DiscordIcon,
     DropdownIcon,
-    HelpIcon,
     LogoutIcon,
     MoonIcon,
+    PlusIcon,
     SunIcon,
-    NotificationIcon,
   },
   setup() {
     const authStore = useAuthStore()
@@ -239,7 +240,6 @@ export default {
 }
 
 .control-button svg {
-  color: var(--color-brand);
   height: 1.5rem;
   width: 1.5rem;
 }

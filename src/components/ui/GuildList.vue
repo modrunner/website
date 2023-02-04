@@ -63,11 +63,12 @@ export default {
   min-width: 350px;
   max-width: 100vw;
   max-height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
   border: 0.5rem solid var(--color-bg);
   overflow: scroll;
   transition: transform 0.5s ease-in-out;
   background-color: var(--color-bg);
-  position: absolute;
+  position: relative;
 }
 
 .sidebar > .menu-title {
@@ -141,13 +142,13 @@ export default {
 }
 
 .control-button svg {
-  color: var(--color-brand);
   height: 1.5rem;
   width: 1.5rem;
 }
 
 .closed {
   transform: translate(-308px);
+  position: absolute;
   border: 0.5rem solid transparent;
   overflow: hidden;
 }
