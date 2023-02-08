@@ -6,12 +6,13 @@
   >
     <div class="menu-title">
       <h1 class="title">Your Servers</h1>
-      <button
-        class="control-button button-transparent"
+      <IconButton
+        type="button"
+        alt="Toggle menu"
         @click="isSidebarClosed = !isSidebarClosed"
       >
         <HamburgerIcon class="menu-icon" />
-      </button>
+      </IconButton>
     </div>
     <div class="search-bar">
       <SearchIcon class="search-icon" />
@@ -34,13 +35,20 @@ import { useGuildStore } from '@/stores/guild'
 import { useUserStore } from '@/stores/user'
 
 import GuildListItems from '@/components/ui/GuildListItems.vue'
+import IconButton from '@/components/ui/IconButton.vue'
 
 import HamburgerIcon from '@/components/icons/HamburgerIcon.vue'
 import SearchIcon from '@/components/icons/SearchIcon.vue'
 
 export default {
   name: 'GuildList',
-  components: { GuildListItems, HamburgerIcon, SearchIcon },
+  components: {
+    GuildListItems,
+    IconButton,
+    HamburgerIcon,
+    SearchIcon,
+    IconButton,
+  },
   setup() {
     const authStore = useAuthStore()
     const guildStore = useGuildStore()
@@ -65,10 +73,15 @@ export default {
   max-height: calc(100vh - 80px);
   min-height: calc(100vh - 80px);
   border: 0.5rem solid var(--color-bg);
-  overflow: scroll;
+  overflow-y: auto;
   transition: transform 0.5s ease-in-out;
   background-color: var(--color-bg);
   position: relative;
+}
+
+.menu-icon {
+  height: 1.5rem;
+  width: 1.5rem;
 }
 
 .sidebar > .menu-title {

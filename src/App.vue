@@ -13,18 +13,23 @@
         </a>
       </section>
       <section class="user-controls" role="navigation">
-        <a
+        <IconButton
+          type="link"
           href="http://invite.modrunner.net"
-          class="control-button button-transparent"
+          alt="Invite the bot to a server"
         >
-          <PlusIcon class="icon plus-icon" />
-        </a>
-        <button class="control-button button-transparent" @click="changeTheme">
+          <PlusIcon class="icon" />
+        </IconButton>
+        <IconButton
+          type="button"
+          alt="Change the current theme"
+          @click="changeTheme"
+        >
           <MoonIcon v-if="colorMode === 'light'" class="icon moon-icon" />
           <SunIcon v-else class="icon sun-icon" />
-        </button>
+        </IconButton>
         <div
-          v-if="userStore.user"
+          v-if="userStore.user.id !== ''"
           class="dropdown"
           :class="{ closed: !isDropdownOpen }"
           tabindex="0"
@@ -40,7 +45,6 @@
               alt="Your avatar picture"
               aria-hidden="true"
             />
-            <DropdownIcon class="caret" />
           </button>
           <div class="content card">
             <div class="username">
@@ -77,19 +81,22 @@ import { useUserStore } from '@/stores/user'
 
 import ControlPanel from '@/components/ui/ControlPanel.vue'
 import GuildList from '@/components/ui/GuildList.vue'
+import IconButton from '@/components/ui/IconButton.vue'
 
 import DiscordIcon from '@/components/icons/DiscordIcon.vue'
 import DropdownIcon from '@/components/icons/DropdownIcon.vue'
 import LogoutIcon from '@/components/icons/LogoutIcon.vue'
 import MoonIcon from '@/components/icons/MoonIcon.vue'
-import PlusIcon from '@/components/icons/PlusIcon.vue'
 import SunIcon from '@/components/icons/SunIcon.vue'
+
+import PlusIcon from '@/components/icons/PlusIcon.vue'
 
 export default {
   name: 'App',
   components: {
     ControlPanel,
     GuildList,
+    IconButton,
     DiscordIcon,
     DropdownIcon,
     LogoutIcon,
@@ -112,6 +119,7 @@ export default {
       isMobileMenuOpen: false,
       hideDropdown: false,
       colorMode: 'dark',
+      PlusIcon,
     }
   },
   computed: {
@@ -174,6 +182,11 @@ export default {
     margin-left: auto;
     margin-right: auto;
   }
+}
+
+.icon {
+  height: 1.5rem;
+  width: 1.5rem;
 }
 
 .navbar {

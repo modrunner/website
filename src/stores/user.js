@@ -1,12 +1,17 @@
 import { defineStore } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
-import PlaceholderIcon from '../assets/images/utils/icon_placeholder.png'
+import PlaceholderAvatar from '@/assets/images/utils/icon_placeholder.png'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
     currentTheme: 'dark',
-    guilds: null,
-    user: null,
+    guilds: [],
+    user: {
+      id: '',
+      username: '',
+      discriminator: '',
+      avatar: PlaceholderAvatar,
+    },
   }),
   getters: {
     authStore() {
