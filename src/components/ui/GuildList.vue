@@ -7,8 +7,9 @@
     <div class="menu-title">
       <h1 class="title">Your Servers</h1>
       <IconButton
+        class="menu-toggle"
         type="button"
-        alt="Toggle menu"
+        alt="Menu"
         @click="isSidebarClosed = !isSidebarClosed"
       >
         <HamburgerIcon class="menu-icon" />
@@ -72,11 +73,11 @@ export default {
   max-width: 100vw;
   max-height: calc(100vh - 80px);
   min-height: calc(100vh - 80px);
-  border: 0.5rem solid var(--color-bg);
+  /* border: 0.5rem solid var(--color-bg); */
   overflow-y: auto;
   transition: transform 0.5s ease-in-out;
   background-color: var(--color-bg);
-  position: relative;
+  margin: 0 0.5rem;
 }
 
 .menu-icon {
@@ -88,6 +89,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 
 .sidebar > .menu-title > .title {
@@ -162,7 +164,6 @@ export default {
 .closed {
   transform: translate(-308px);
   position: absolute;
-  border: 0.5rem solid transparent;
   overflow: hidden;
 }
 
