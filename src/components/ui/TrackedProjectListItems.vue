@@ -1,5 +1,8 @@
 <template>
-  <div class="project-item">
+  <div
+    class="project-item"
+    v-show="new RegExp(`${searchInput}`, 'i').test(projectData.name)"
+  >
     <h1>{{ projectData.name }}</h1>
     <span>#{{ projectData.channelName }}</span>
   </div>
@@ -10,7 +13,7 @@ import { useAuthStore } from '@/stores/auth'
 
 export default {
   name: 'Project',
-  props: ['projectTrackingData'],
+  props: ['projectTrackingData', 'searchInput'],
   setup() {
     const authStore = useAuthStore()
     return { authStore }

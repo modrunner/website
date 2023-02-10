@@ -3,11 +3,7 @@ import { defineStore } from 'pinia'
 export const useGuildStore = defineStore('guild', {
   state: () => ({
     applicationGuilds: [],
-    currentGuild: {
-      id: null,
-      name: null,
-      projects: [],
-    },
+    selectedGuild: null,
   }),
   getters: {
     currentGuildAppData(state) {

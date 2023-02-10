@@ -259,7 +259,7 @@ export default {
 
 .dropdown {
   position: relative;
-  margin-left: 0.5rem;
+  margin: 0 0.5rem;
 }
 
 .dropdown > .control {
@@ -269,12 +269,6 @@ export default {
   justify-content: center;
   padding: 0;
   border: transparent;
-}
-
-.dropdown > .control > .caret {
-  color: var(--color-button-text);
-  margin-left: 0.25rem;
-  width: 1rem;
 }
 
 .dropdown > .control > .user-avatar {

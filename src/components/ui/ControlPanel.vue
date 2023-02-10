@@ -24,18 +24,7 @@
           v-if="tab === 'tracked-projects'"
           class="tracked-projects-content"
         >
-          <h2>Tracked Projects</h2>
-          <div v-if="this.guildStore.currentGuildAppData.projects.length">
-            <Project
-              v-for="project in this.guildStore.currentGuildAppData.projects"
-              :key="project"
-              :projectTrackingData="project"
-            />
-          </div>
-          <div v-else>
-            You don't appear to have any projects tracked in this server yet.
-            Get started by using the `/track` command in Discord!
-          </div>
+          <TrackedProjectList />
         </section>
         <section v-else-if="tab === 'settings'" class="settings-content">
           <h2>Settings</h2>
@@ -70,11 +59,13 @@
 import { useAuthStore } from '@/stores/auth'
 import { useGuildStore } from '@/stores/guild'
 
-import Project from '@/components/ui/Project.vue'
+import TrackedProjectList from '@/components/ui/TrackedProjectList.vue'
+
+import SearchIcon from '@/components/icons/SearchIcon.vue'
 
 export default {
   name: 'ControlPanel',
-  components: { Project },
+  components: { TrackedProjectList },
   setup() {
     const authStore = useAuthStore()
     const guildStore = useGuildStore()
@@ -83,6 +74,7 @@ export default {
   data() {
     return {
       tab: 'tracked-projects',
+      searchInput: '',
     }
   },
   async created() {
