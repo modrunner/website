@@ -71,10 +71,11 @@ export default {
   border-radius: 50%;
 
   /* Padding and margins */
-  padding: 0.5rem;
+  padding: 0.25rem;
 
   /* Animations */
   transition: transform 0.25s ease-in-out;
+  transition: background-color 0.15s ease-in-out;
 }
 
 .clickable-element:hover {

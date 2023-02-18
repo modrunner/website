@@ -1,74 +1,9 @@
 <template>
-  <header class="site-header" role="presentation">
-    <section class="navbar columns" role="navigation">
-      <section class="logo" role="presentation">
-        <a href="">
-          <img
-            class="logo-banner"
-            src="./assets/images/logo_banner.png"
-            alt="the Modrunner logo"
-            aria-current="page"
-            aria-label="The Modrunner logo"
-          />
-        </a>
-      </section>
-      <section class="user-controls" role="navigation">
-        <IconButton
-          type="link"
-          href="http://invite.modrunner.net"
-          alt="Invite the bot to a server"
-        >
-          <PlusIcon class="icon" />
-        </IconButton>
-        <IconButton
-          type="button"
-          alt="Change the current theme"
-          @click="changeTheme"
-        >
-          <MoonIcon v-if="colorMode === 'light'" class="icon moon-icon" />
-          <SunIcon v-else class="icon sun-icon" />
-        </IconButton>
-        <div
-          v-if="userStore.user.id !== ''"
-          class="dropdown"
-          :class="{ closed: !isDropdownOpen }"
-          tabindex="0"
-          @mouseover="isDropdownOpen = true"
-          @focus="isDropdownOpen = true"
-          @mouseleave="isDropdownOpen = false"
-          @click="isDropdownOpen = !isDropdownOpen"
-        >
-          <button class="control" value="Profile Dropdown">
-            <img
-              class="icon user-avatar"
-              :src="userStore.userAvatarUrl"
-              alt="Your avatar picture"
-              aria-hidden="true"
-            />
-          </button>
-          <div class="content card">
-            <div class="username">
-              {{ userStore.user.username }}#{{ userStore.user.discriminator }}
-            </div>
-            <hr class="divider" />
-            <button class="item button-transparent" @click="logout">
-              <LogoutIcon class="icon" />
-              <span class="dropdown-item_text">Log out</span>
-            </button>
-          </div>
-        </div>
-        <button v-else class="header-button brand-button" @click="login">
-          <DiscordIcon class="icon discord-icon" aria-hidden="true" />
-          Sign in with Discord
-        </button>
-      </section>
-    </section>
-  </header>
-
+  <Header />
   <main>
     <section class="main">
       <GuildList />
-      <ControlPanel />
+      <!-- <ControlPanel /> -->
     </section>
   </main>
 
@@ -78,6 +13,8 @@
 <script>
 import { useAuthStore } from '@/stores/auth'
 import { useUserStore } from '@/stores/user'
+
+import Header from '@/components/ui/Header.vue'
 
 import ControlPanel from '@/components/ui/ControlPanel.vue'
 import GuildList from '@/components/ui/GuildList.vue'
@@ -94,6 +31,7 @@ import PlusIcon from '@/components/icons/PlusIcon.vue'
 export default {
   name: 'App',
   components: {
+    Header,
     ControlPanel,
     GuildList,
     IconButton,
@@ -173,7 +111,7 @@ export default {
 <style scoped>
 .site-header {
   margin-bottom: var(--spacing-card-md);
-  max-height: 4.25rem;
+  max-height: 60px;
 }
 
 @media screen and (min-width: 1920px) {

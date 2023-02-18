@@ -55,20 +55,20 @@ body {
   --font-weight-heading: var(--font-weight-extrabold);
   --font-weight-title: var(--font-weight-extrabold);
 
-  --color-brand: #1a9ae4;
+  --color-brand: #14addd;
   --color-brand-highlight: #44a2d8;
   --color-brand-shadow: #1677af;
   --color-brand-inverted: #ffffff;
 }
 
 .light-mode {
-  --color-text: #202020;
+  --color-text: #1c1e21;
   --color-text-secondary: #3e4747;
   --color-text-inactive: #566272;
   --color-text-dark: #000000;
   --color-heading: var(--color-text-dark);
-  --color-bg: #e4e4e4;
-  --color-raised-bg: #ffffff;
+  --color-bg: #ffffff;
+  --color-raised-bg: #ebedf0;
   --color-divider: #dbdbdb;
   --color-divider-dark: #b6b6b6;
 
@@ -91,13 +91,13 @@ body {
 }
 
 .dark-mode {
-  --color-text: #c7d4e0;
+  --color-text: #ebedf0;
   --color-text-secondary: #9ca6bb;
   --color-text-inactive: #788088;
   --color-text-dark: #e2efff;
   --color-heading: var(--color-text-dark);
-  --color-bg: #1b1b1d;
-  --color-raised-bg: #26292f;
+  --color-bg: #242526;
+  --color-raised-bg: #444950;
   --color-divider: #474b54;
   --color-divider-dark: #646c75;
 
@@ -123,6 +123,7 @@ svg {
 a {
   color: var(--color-link);
   text-decoration: none;
+  transition: color 0.1s ease-in-out;
 }
 
 a:hover {
