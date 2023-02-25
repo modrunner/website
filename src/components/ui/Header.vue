@@ -9,18 +9,31 @@
       <a href="http://invite.modrunner.net" class="icon-link"
         ><DoorEnterIcon class="icon" /> Add Bot to Server</a
       >
-      <button class="icon-link login-button">
-        <DiscordIcon class="icon" /> Sign in with Discord
-      </button>
       <button type="button" class="theme-toggle" @click="toggleTheme">
         <SunIcon v-if="currentTheme === 'light'" />
         <MoonIcon v-else />
       </button>
+      <template v-if="authStore.isAuthorized">
+        <div class="user-card">
+          <img
+            class="user-avatar"
+            :src="userStore.avatarUrl"
+            alt="user avatar"
+          />
+          {{ userStore.user.username }}#{{ userStore.user.discriminator }}
+        </div>
+      </template>
+      <template v-else>
+        <button class="icon-link login-button" @click="login">
+          <DiscordIcon class="icon" /> Sign in with Discord
+        </button>
+      </template>
     </div>
   </header>
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/auth'
 import { useUserStore } from '@/stores/user'
 
 import DoorEnterIcon from '@/components/icons/DoorEnterIcon.vue'
@@ -39,8 +52,9 @@ export default {
     DiscordIcon,
   },
   setup() {
+    const authStore = useAuthStore()
     const userStore = useUserStore()
-    return { userStore }
+    return { authStore, userStore }
   },
   data() {
     return {
@@ -48,6 +62,16 @@ export default {
     }
   },
   methods: {
+    login() {
+      location.href = `${
+        import.meta.env.VITE_OAUTH2_URL
+      }&state=${encodeURIComponent(this.authStore.generateNonce())}`
+    },
+    async logout() {
+      await this.authStore.clearStore()
+      this.userStore.clearStore()
+      location.href = '/'
+    },
     toggleTheme() {
       if (this.currentTheme === 'light') {
         this.currentTheme = 'dark'
@@ -122,14 +146,46 @@ header {
   margin-right: 0.25rem;
 }
 
+.user-card {
+  /* Positioning and sizing */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  /* Element styling */
+  border: 1px solid var(--color-text);
+  border-radius: 1rem;
+
+  /* Padding and margins */
+  padding: 0.25rem 1rem;
+  margin-left: 1rem;
+}
+
+.user-avatar {
+  /* Sizing */
+  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+}
+
 .login-button {
   /* Element styling */
-  background: transparent;
+  color: var(--color-text-inverted);
+  background: var(--color-brand);
   border: transparent;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
 
   /* Text styles */
-  font-family: unset;
+  font-family: var(--font-standard);
+  font-size: 1rem;
+
+  /* Padding and margins */
+  margin: 0 1rem;
+}
+
+.login-button .icon {
+  /* Element styling */
+  color: var(--color-text-inverted);
 }
 
 .login-button:hover {

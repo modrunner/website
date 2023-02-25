@@ -68,6 +68,7 @@ body {
   --color-text-dark: #000000;
   --color-heading: var(--color-text-dark);
   --color-bg: #ffffff;
+	--color-bg-dark: #ffffff;
   --color-raised-bg: #ebedf0;
   --color-divider: #dbdbdb;
   --color-divider-dark: #b6b6b6;
@@ -97,6 +98,7 @@ body {
   --color-text-dark: #e2efff;
   --color-heading: var(--color-text-dark);
   --color-bg: #242526;
+	--color-bg-dark: #1b1b1d;
   --color-raised-bg: #444950;
   --color-divider: #474b54;
   --color-divider-dark: #646c75;

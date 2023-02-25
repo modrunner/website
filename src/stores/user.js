@@ -17,7 +17,7 @@ export const useUserStore = defineStore('user', {
     authStore() {
       return useAuthStore()
     },
-    userAvatarUrl(state) {
+    avatarUrl(state) {
       if (!state.user.avatar) return PlaceholderIcon
       return `https://cdn.discordapp.com/avatars/${state.user.id}/${state.user.avatar}.webp`
     },

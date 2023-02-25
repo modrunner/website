@@ -23,7 +23,7 @@
         placeholder="Search for servers"
       />
     </div>
-    <section v-if="userStore.guilds" class="list">
+    <section v-if="userStore.guilds.length" class="list">
       <GuildListItems :guilds="userStore.guilds" :searchInput="searchInput" />
     </section>
     <div v-else class="empty-list-text">Log in to see your servers here.</div>

@@ -85,16 +85,6 @@ export default {
     document.documentElement.classList.add(`${this.colorMode}-mode`)
   },
   methods: {
-    login() {
-      location.href = `${
-        import.meta.env.VITE_OAUTH2_URL
-      }&state=${encodeURIComponent(this.authStore.generateNonce())}`
-    },
-    async logout() {
-      await this.authStore.clearStore()
-      this.userStore.clearStore()
-      location.href = '/'
-    },
     changeTheme() {
       if (this.colorMode === 'light') {
         this.colorMode = 'dark'
