@@ -53,7 +53,16 @@ export const useUserStore = defineStore('user', {
         (guild) => (guild.permissions & 0x20) == 0x20
       )
 
-      this.guilds = [...filteredGuilds]
+      for (const guild of filteredGuilds) {
+        this.guilds.push({
+          id: guild.id,
+          name: guild.name,
+          icon: guild.icon
+            ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`
+            : PlaceholderAvatar,
+        })
+      }
+
       this.guilds.sort((a, b) => {
         return a.name.localeCompare(b.name)
       })

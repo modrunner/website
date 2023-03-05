@@ -2,7 +2,8 @@
   <Header />
   <main>
     <section class="main">
-      <GuildList />
+      <Sidebar />
+      <!-- <GuildList /> -->
       <!-- <ControlPanel /> -->
     </section>
   </main>
@@ -16,6 +17,7 @@ import { useUserStore } from '@/stores/user'
 
 import Header from '@/components/ui/Header.vue'
 
+import Sidebar from '@/components/ui/Sidebar.vue'
 import ControlPanel from '@/components/ui/ControlPanel.vue'
 import GuildList from '@/components/ui/GuildList.vue'
 import IconButton from '@/components/ui/IconButton.vue'
@@ -31,6 +33,7 @@ import PlusIcon from '@/components/icons/PlusIcon.vue'
 export default {
   name: 'App',
   components: {
+    Sidebar,
     Header,
     ControlPanel,
     GuildList,
@@ -99,6 +102,9 @@ export default {
 </script>
 
 <style scoped>
+main {
+  background-color: var(--color-bg-dark);
+}
 .site-header {
   margin-bottom: var(--spacing-card-md);
   max-height: 60px;
