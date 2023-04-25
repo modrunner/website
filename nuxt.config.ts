@@ -1,6 +1,7 @@
 export default defineNuxtConfig({
 	app: {
 		head: {
+			title: 'Modrunner',
 			meta: [
 				{
 					name: 'viewport',
@@ -10,7 +11,10 @@ export default defineNuxtConfig({
 					charset: 'utf-8',
 				},
 			],
-			link: [{ rel: "icon", href: './favicon.ico' }],
+			link: [
+				{ rel: 'icon', href: './favicon.ico' },
+				{ rel: 'stylesheet', href: './assets/styles/global.scss' },
+			],
 			style: [],
 			script: [],
 			noscript: [],
