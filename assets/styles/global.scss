@@ -1,22 +1,32 @@
-html {}
+html {
+	position: relative;
+	min-height: 100vh;
+}
 
 .light-mode {
 	--color-bg: #ffffff;
+	--color-bg-dark: #c5c5c5;
+
 	--color-text: #000000;
+	--color-text-link: #8eccff;
 }
 
 .dark-mode {
 	--color-bg: #191c2a;
+	--color-bg-dark: #10121b;
+
 	--color-text: #ffffff;
+	--color-text-link: #8eccff;
 }
 
 body {
 	// Defaults
 	background-color: var(--color-bg);
 	color: var(--color-text);
-	--font-standard: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Roboto,
-    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  --mono-font: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+	--font-standard: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen,
+		Ubuntu, Roboto, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	--mono-font: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
+		Liberation Mono, monospace;
 	font-family: var(--font-standard);
 	font-size: 16px;
 	font-weight: var(--font-weight-regular);

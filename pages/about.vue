@@ -1,5 +1,3 @@
 <template>
-	<section>
-		<p>This page will be displayed at the /about route.</p>
-	</section>
+	<h1>THIS IS THE ABOUT PAGE</h1>
 </template>
