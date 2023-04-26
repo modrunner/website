@@ -88,22 +88,21 @@ export default {
 
 #site-header {
 	display: flex;
+	background: var(--color-bg);
 	box-shadow: 0 1px 3px black;
+	position: sticky;
+	top: 0;
 
 	#header-nav {
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
 		gap: 2rem;
-		padding: 1rem;
+		padding: 0.5rem;
 
 		#header-links {
 			display: flex;
-
-			a {
-				padding: 0.25rem;
-				margin: 0 0.25rem;
-			}
+			gap: 2rem;
 		}
 	}
 
@@ -128,8 +127,10 @@ export default {
 	display: flex;
 	justify-content: center;
 	position: absolute;
-	bottom: 0px;
-	width: 100vw;
+	bottom: 0;
+	box-sizing: border-box;
+	height: 300px;
+	width: 100%;
 
 	#footer-wrapper {
 		display: flex;
