@@ -30,7 +30,6 @@
 		</div>
 		<div id="hero-image">
 			<!-- cool image or widget goes here -->
-			cool image or widget goes here
 		</div>
 	</section>
 </template>

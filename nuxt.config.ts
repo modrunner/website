@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
 	app: {
 		head: {
-			title: 'Modrunner',
+			title: 'The ultimate resource for modding communities - Modrunner',
 			meta: [
 				{
 					name: 'viewport',
@@ -20,4 +20,5 @@ export default defineNuxtConfig({
 			noscript: [],
 		},
 	},
+	modules: ['@nuxt/content'],
 });

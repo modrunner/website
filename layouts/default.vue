@@ -2,7 +2,6 @@
 	<header id="site-header">
 		<div id="header-nav">
 			<div>
-				<!-- logo goes here -->
 				<NuxtLink to="/"
 					><img
 						src="~/assets/images/logo_banner.png"
@@ -10,70 +9,72 @@
 				/></NuxtLink>
 			</div>
 			<nav id="header-links">
-				<!-- nav links -->
+				<NuxtLink to="/dashboard">Dashboard</NuxtLink>
 				<NuxtLink to="/docs">Docs</NuxtLink>
 				<NuxtLink to="/blog">Blog</NuxtLink>
-				<NuxtLink to="/about">About</NuxtLink>
 			</nav>
 		</div>
 		<div id="header-user-controls">
-			<!-- sign in/out stuff -->
 			<button></button>
 			<button></button>
 		</div>
 	</header>
 
-	<slot />
+	<main id="page-wrapper">
+		<slot />
+	</main>
 
 	<footer id="site-footer">
 		<section id="footer-wrapper">
 			<div>
-				<!-- branding & meta -->
-				<img
-					src="~/assets/images/logo_banner.png"
-					alt="The full-sized Modrunner logo banner"
-				/>
+				<NuxtLink to="/">
+					<img
+						src="~/assets/images/logo_banner.png"
+						alt="The full-sized Modrunner logo banner"
+					/>
+				</NuxtLink>
 				<p>
 					Modrunner is
-					<a
-						href="https://github.com/smcmo/modrunner-dashboard"
+					<NuxtLink
+						to="https://github.com/smcmo/modrunner-dashboard"
 						class="anchor-link"
-						>open source</a
+						>open source</NuxtLink
 					>.
 				</p>
 				<p>
-					smcmo/modrunner-dashboard<br />main@<a href="/" class="anchor-link"
-						>12345</a
+					smcmo/modrunner-dashboard<br />main@<NuxtLink
+						to="/"
+						class="anchor-link"
+						>12345</NuxtLink
 					>
 				</p>
 				<p>&copy; {{ new Date().getFullYear() }} Modrunner</p>
 			</div>
 			<nav class="link-list">
-				<!-- company links -->
-				<h1>Legal</h1>
-				<NuxtLink to="/legal/terms">Terms of Service</NuxtLink>
+				<h1>About Us</h1>
+				<NuxtLink to="/about">About Modrunner</NuxtLink>
 				<NuxtLink to="/legal/privacy-policy">Privacy Policy</NuxtLink>
+				<NuxtLink to="/legal/terms">Terms of Service</NuxtLink>
 			</nav>
 			<nav class="link-list">
-				<!-- resources links -->
 				<h1>Resources</h1>
 				<NuxtLink to="/blog">Blog</NuxtLink>
 				<NuxtLink to="/docs">Docs</NuxtLink>
-				<NuxtLink to="/">Status</NuxtLink>
-				<a href="https://github.com/smcmo/modrunner-dashboard">GitHub</a>
+				<NuxtLink to="https://github.com/smcmo/modrunner-dashboard"
+					>GitHub</NuxtLink
+				>
+				<NuxtLink to="https://status.modrunner.net/">Status</NuxtLink>
 			</nav>
 			<nav class="link-list">
-				<!-- interact links -->
-				<h1>Socials</h1>
-				<!-- <a :href="appConfig.links.discord">Discord</a> -->
+				<h1>Interact</h1>
+				<NuxtLink to="https://discord.modrunner.net">Discord</NuxtLink>
+				<NuxtLink to="mailto:contact@modrunner.net">Email</NuxtLink>
+				<NuxtLink to="https://floss.social/@modrunner">Mastodon</NuxtLink>
+				<NuxtLink to="https://twitter.com/modrunnerbot">Twitter</NuxtLink>
 			</nav>
 		</section>
 	</footer>
 </template>
-
-<!-- <script setup>
-const appConfig = useAppConfig();
-<script> -->
 
 <script lang="ts" scoped>
 export default {
@@ -108,7 +109,7 @@ export default {
 
 	#header-user-controls {
 		display: flex;
-		justify-content: end;
+		justify-content: flex-end;
 		align-items: center;
 		gap: 2rem;
 		margin: 0 2rem;
@@ -120,6 +121,11 @@ export default {
 			width: 2rem;
 		}
 	}
+}
+
+#page-wrapper {
+	display: flex;
+	justify-content: center;
 }
 
 #site-footer {

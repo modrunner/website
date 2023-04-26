@@ -1,1 +1,5 @@
-<template>Privacy Policy</template>
+<template>
+	<section class="doc">
+		<ContentDoc />
+	</section>
+</template>
