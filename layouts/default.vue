@@ -35,16 +35,12 @@
 				</NuxtLink>
 				<p>
 					Modrunner is
-					<NuxtLink
-						to="https://github.com/smcmo/modrunner-dashboard"
-						class="anchor-link"
+					<NuxtLink :to="appConfig.links.github" class="anchor-link"
 						>open source</NuxtLink
 					>.
 				</p>
 				<p>
-					smcmo/modrunner-dashboard<br />main@<NuxtLink
-						to="/"
-						class="anchor-link"
+					modrunner/website<br />main@<NuxtLink to="/" class="anchor-link"
 						>12345</NuxtLink
 					>
 				</p>
@@ -60,17 +56,15 @@
 				<h1>Resources</h1>
 				<NuxtLink to="/blog">Blog</NuxtLink>
 				<NuxtLink to="/docs">Docs</NuxtLink>
-				<NuxtLink to="https://github.com/smcmo/modrunner-dashboard"
-					>GitHub</NuxtLink
-				>
-				<NuxtLink to="https://status.modrunner.net/">Status</NuxtLink>
+				<NuxtLink :to="appConfig.links.github">GitHub</NuxtLink>
+				<NuxtLink :to="appConfig.links.statusPage">Status</NuxtLink>
 			</nav>
 			<nav class="link-list">
 				<h1>Interact</h1>
-				<NuxtLink to="https://discord.modrunner.net">Discord</NuxtLink>
-				<NuxtLink to="mailto:contact@modrunner.net">Email</NuxtLink>
-				<NuxtLink to="https://floss.social/@modrunner">Mastodon</NuxtLink>
-				<NuxtLink to="https://twitter.com/modrunnerbot">Twitter</NuxtLink>
+				<NuxtLink :to="appConfig.links.discord">Discord</NuxtLink>
+				<NuxtLink :to="appConfig.links.email">Email</NuxtLink>
+				<NuxtLink :to="appConfig.links.mastodon">Mastodon</NuxtLink>
+				<NuxtLink :to="appConfig.links.twitter">Twitter</NuxtLink>
 			</nav>
 		</section>
 	</footer>
@@ -78,6 +72,10 @@
 
 <script lang="ts" scoped>
 export default {
+	setup() {
+		const appConfig = useAppConfig();
+		return { appConfig };
+	},
 	mounted() {
 		document.documentElement.classList.add(`dark-mode`);
 	},
@@ -125,7 +123,6 @@ export default {
 
 #page-wrapper {
 	display: flex;
-	justify-content: center;
 }
 
 #site-footer {

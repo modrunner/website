@@ -23,9 +23,13 @@
 			</ul>
 			<div id="hero-text-buttons">
 				<button>
-					<a href="https://invite.modrunner.net">Add to Your Server</a>
+					<NuxtLink to="https://invite.modrunner.net"
+						>Add to Your Server</NuxtLink
+					>
 				</button>
-				<button>Sign Into the Dashboard</button>
+				<button>
+					<NuxtLink to="/dashboard">Sign Into the Dashboard</NuxtLink>
+				</button>
 			</div>
 		</div>
 		<div id="hero-image">
