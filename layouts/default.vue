@@ -122,21 +122,21 @@ export default {
 }
 
 #page-wrapper {
-	display: flex;
+	box-sizing: border-box;
+	min-height: calc(100vh - 370px);
 }
 
 #site-footer {
 	background-color: var(--color-bg-dark);
 	display: flex;
 	justify-content: center;
-	position: absolute;
-	bottom: 0;
 	box-sizing: border-box;
-	height: 300px;
+	min-height: 300px;
 	width: 100%;
 
 	#footer-wrapper {
 		display: flex;
+		flex-wrap: wrap;
 		gap: 5rem;
 		margin: 2rem;
 	}
