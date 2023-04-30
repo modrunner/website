@@ -15,10 +15,18 @@
 			</nav>
 		</div>
 		<div id="header-user-controls">
+			<NuxtLink to="https://invite.modrunner.net">Add to Server</NuxtLink>
 			<button @click="changeTheme">
-				<SunIcon />
+				<SunIcon v-if="theme === 'light'" />
+				<MoonIcon v-else />
 			</button>
-			<button></button>
+			<button v-if="authStore.isAuthorized">
+				<img
+					:src="userStore.avatarUrl"
+					:alt="`${userStore.username}#${userStore.discriminator}`"
+				/>
+			</button>
+			<NuxtLink v-else to="/">Sign In</NuxtLink>
 		</div>
 	</header>
 
@@ -74,8 +82,14 @@
 
 <script setup>
 import SunIcon from '~/assets/images/utils/sun.svg';
+import MoonIcon from '~/assets/images/utils/moon.svg';
+
+import { useAuthStore } from '~/stores/auth';
+import { useUserStore } from '~/stores/user';
 
 const appConfig = useAppConfig();
+const authStore = useAuthStore();
+const userStore = useUserStore();
 </script>
 
 <script>
@@ -129,14 +143,25 @@ export default {
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
-		gap: 2rem;
+		gap: 1rem;
 		margin: 0 2rem;
 		width: 100%;
 
 		button {
+			color: var(--color-text);
+			background: none;
 			border-radius: 999999px;
-			height: 2rem;
-			width: 2rem;
+			height: 2.25rem;
+			width: 2.25rem;
+
+			&:hover {
+				background-color: rgba($color: #ffffff, $alpha: 0.2);
+			}
+
+			svg {
+				height: 100%;
+				width: 100%;
+			}
 		}
 	}
 }

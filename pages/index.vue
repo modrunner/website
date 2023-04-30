@@ -32,9 +32,7 @@
 				</button>
 			</div>
 		</div>
-		<div id="hero-image">
-			<!-- cool image or widget goes here -->
-		</div>
+		<div id="hero-image">cool image or widget goes here</div>
 	</section>
 </template>
 
@@ -69,9 +67,12 @@
 
 	#hero-image {
 		// temp
-		background-color: #ffffff;
+		border: 2px solid rebeccapurple;
 		width: 1000px;
 		margin-top: 50px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 }
 </style>
