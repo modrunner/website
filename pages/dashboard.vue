@@ -103,12 +103,7 @@ export default defineComponent({
 				gap: 0.5rem;
 				border-radius: 10px;
 				padding: 0.5rem;
-				max-width: 300px;
-
-				span {
-					overflow: hidden;
-					max-width: 70%;
-				}
+				max-width: 400px;
 
 				&:hover {
 					background-color: rgba($color: #ffffff, $alpha: 0.2);

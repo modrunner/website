@@ -15,7 +15,9 @@
 			</nav>
 		</div>
 		<div id="header-user-controls">
-			<button></button>
+			<button @click="changeTheme">
+				<SunIcon />
+			</button>
 			<button></button>
 		</div>
 	</header>
@@ -70,14 +72,32 @@
 	</footer>
 </template>
 
-<script lang="ts" scoped>
+<script setup>
+import SunIcon from '~/assets/images/utils/sun.svg';
+
+const appConfig = useAppConfig();
+</script>
+
+<script>
 export default {
-	setup() {
-		const appConfig = useAppConfig();
-		return { appConfig };
+	data() {
+		return {
+			theme: 'dark',
+		};
 	},
 	mounted() {
 		document.documentElement.classList.add(`dark-mode`);
+	},
+	methods: {
+		changeTheme() {
+			if (this.theme === 'dark') {
+				this.theme = 'light';
+				document.documentElement.classList.replace('dark-mode', 'light-mode');
+			} else {
+				this.theme = 'dark';
+				document.documentElement.classList.replace('light-mode', 'dark-mode');
+			}
+		},
 	},
 };
 </script>
