@@ -1,5 +1,3 @@
 <template>
-	<section class="doc">
-		<ContentDoc />
-	</section>
+	<NuxtLayout name="doc" />
 </template>

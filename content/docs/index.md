@@ -1,5 +1,6 @@
 ---
 title: Introduction
+foo: bar
 ---
 
 # Introduction
