@@ -13,10 +13,25 @@
 		<div id="doc-outline-wrapper">
 			<nav id="doc-outline">
 				<!-- doc outline items -->
+				<div v-for="heading in headings" :key="heading.fragment">
+					<NuxtLink :to="heading.fragment">{{ heading.title }}</NuxtLink>
+					<NuxtLink
+						v-for="subHeading in heading.subHeadings"
+						:key="subHeading.fragment"
+						:to="subHeading.fragment"
+						>{{ subHeading.title }}</NuxtLink
+					>
+				</div>
 			</nav>
 		</div>
 	</div>
 </template>
+
+<script>
+export default {
+	props: ['headings'],
+};
+</script>
 
 <style scoped lang="scss">
 #doc-wrapper {
@@ -30,9 +45,9 @@
 	}
 
 	#doc-outline-wrapper {
-		min-width: 100px;
+		min-width: 400px;
 		margin-top: 1rem;
-		margin-right: 10rem;
+		margin-right: 1rem;
 
 		#doc-outline {
 			border-left: 1px solid var(--color-text);

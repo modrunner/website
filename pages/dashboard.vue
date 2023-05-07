@@ -29,37 +29,9 @@
 	</div>
 </template>
 
-<script lang="ts">
-export default defineComponent({
-	data() {
-		return {
-			selectedServer: {
-				id: '11111',
-				name: 'Selected Server Name',
-				icon: '',
-			},
-			servers: [
-				{
-					id: '11111',
-					name: 'Selected Server Name',
-					icon: '',
-				},
-				{
-					id: '22222',
-					name: 'Super Cool Example Server',
-					icon: '',
-				},
-				{
-					id: '22222',
-					name: 'Server with loooooooooooooooooooooooooooooooong ass name',
-					icon: '',
-				},
-			],
-		};
-	},
-	beforeCreate() {
-		// navigateTo('/login');
-	},
+<script setup>
+useHead({
+	title: 'Dashboard',
 });
 </script>
 

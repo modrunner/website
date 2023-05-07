@@ -60,7 +60,7 @@
 				<h1>About Us</h1>
 				<NuxtLink to="/about">About Modrunner</NuxtLink>
 				<NuxtLink to="/legal/privacy-policy">Privacy Policy</NuxtLink>
-				<NuxtLink to="/legal/terms">Terms of Service</NuxtLink>
+				<NuxtLink to="/legal/terms-of-service">Terms of Service</NuxtLink>
 			</nav>
 			<nav class="link-list">
 				<h1>Resources</h1>

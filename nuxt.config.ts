@@ -6,7 +6,6 @@ export default defineNuxtConfig({
 			htmlAttrs: {
 				lang: 'en',
 			},
-			title: 'The ultimate resource for modding communities - Modrunner',
 			meta: [
 				{
 					name: 'viewport',

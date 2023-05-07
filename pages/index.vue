@@ -36,6 +36,12 @@
 	</section>
 </template>
 
+<script setup>
+useHead({
+	title: 'The ultimate resource for modding communities',
+});
+</script>
+
 <style lang="scss" scoped>
 #hero {
 	display: flex;

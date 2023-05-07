@@ -1,5 +1,5 @@
 ---
-title: About - Modrunner
+title: About
 ---
 
 # What is Modrunner?
