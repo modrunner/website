@@ -30,9 +30,23 @@
 </template>
 
 <script setup>
-useHead({
-	title: 'Dashboard',
-});
+import { useAuthStore } from '~/stores/auth';
+
+const appConfig = useAppConfig();
+const authStore = useAuthStore();
+useHead({ title: 'Dashboard' });
+</script>
+
+<script>
+export default {
+	data() {
+		return {
+			// temp
+			selectedServer: '',
+			servers: [],
+		};
+	},
+};
 </script>
 
 <style lang="scss" scoped>

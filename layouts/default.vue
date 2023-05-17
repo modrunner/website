@@ -1,5 +1,5 @@
 <template>
-	<header id="site-header">
+	<header id="site-header" v-if="enableMobileLayout === false">
 		<div id="header-nav">
 			<div>
 				<NuxtLink to="/"
@@ -26,7 +26,21 @@
 					:alt="`${userStore.username}#${userStore.discriminator}`"
 				/>
 			</button>
-			<NuxtLink v-else to="/">Sign In</NuxtLink>
+			<NuxtLink v-else :to="appConfig.meta.authUrl">Sign In</NuxtLink>
+		</div>
+	</header>
+	<header id="site-header-mobile" v-else>
+		<div id="display-wrapper">
+			<img src="~/assets/images/logo.png" alt="the modrunner logo" />
+			<MenuIcon />
+		</div>
+		<div id="menu-buttons">
+			<NuxtLink to="/dashboard">Dashboard</NuxtLink>
+			<NuxtLink to="/docs">Docs</NuxtLink>
+			<NuxtLink to="/blog">Blog</NuxtLink>
+			<NuxtLink to="https://invite.modrunner.net">Add to Server</NuxtLink>
+			<button @click="changeTheme">Change Theme</button>
+			<NuxtLink :to="appConfig.meta.authUrl">Sign In</NuxtLink>
 		</div>
 	</header>
 
@@ -81,8 +95,9 @@
 </template>
 
 <script setup>
-import SunIcon from '~/assets/images/utils/sun.svg';
+import MenuIcon from '~/assets/images/utils/menu.svg';
 import MoonIcon from '~/assets/images/utils/moon.svg';
+import SunIcon from '~/assets/images/utils/sun.svg';
 
 import { useAuthStore } from '~/stores/auth';
 import { useUserStore } from '~/stores/user';
@@ -97,6 +112,8 @@ export default {
 	data() {
 		return {
 			theme: 'dark',
+			// temp
+			enableMobileLayout: true,
 		};
 	},
 	mounted() {
@@ -164,6 +181,11 @@ export default {
 			}
 		}
 	}
+}
+
+#site-header-mobile {
+	position: absolute;
+	bottom: 0;
 }
 
 #page-wrapper {

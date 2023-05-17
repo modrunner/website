@@ -71,6 +71,11 @@ export default defineNuxtConfig({
 		},
 	},
 	modules: ['@nuxt/content', '@pinia/nuxt'],
+	pinia: {
+		autoImports: [
+			'defineStore',
+		],
+	},
 	vite: {
 		plugins: [svgLoader()],
 	},

@@ -20,5 +20,9 @@ export const useAuthStore = defineStore('auth', {
 			return `${state.tokenType} ${state.accessToken}`;
 		},
 	},
-	actions: {},
+	actions: {
+		sayHello() {
+			console.log('HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
+		},
+	},
 });
