@@ -1,5 +1,5 @@
 <template>
-	<header id="site-header" v-if="enableMobileLayout === false">
+	<header id="site-header">
 		<div id="header-nav">
 			<div>
 				<NuxtLink to="/"
@@ -29,18 +29,30 @@
 			<NuxtLink v-else :to="appConfig.meta.authUrl">Sign In</NuxtLink>
 		</div>
 	</header>
-	<header id="site-header-mobile" v-else>
-		<div id="display-wrapper">
-			<img src="~/assets/images/logo.png" alt="the modrunner logo" />
-			<MenuIcon />
+	<header id="site-header-mobile">
+		<div id="menu-buttons" v-show="showMobileMenu === true">
+			<div id="wrapper">
+				<NuxtLink to="/dashboard" @click="showMobileMenu = !showMobileMenu"
+					>Dashboard</NuxtLink
+				>
+				<NuxtLink to="/docs" @click="showMobileMenu = !showMobileMenu"
+					>Docs</NuxtLink
+				>
+				<NuxtLink to="/blog" @click="showMobileMenu = !showMobileMenu"
+					>Blog</NuxtLink
+				>
+				<NuxtLink to="https://invite.modrunner.net">Add to Server</NuxtLink>
+				<button @click="changeTheme">Change Theme</button>
+				<NuxtLink :to="appConfig.meta.authUrl">Sign In</NuxtLink>
+			</div>
 		</div>
-		<div id="menu-buttons">
-			<NuxtLink to="/dashboard">Dashboard</NuxtLink>
-			<NuxtLink to="/docs">Docs</NuxtLink>
-			<NuxtLink to="/blog">Blog</NuxtLink>
-			<NuxtLink to="https://invite.modrunner.net">Add to Server</NuxtLink>
-			<button @click="changeTheme">Change Theme</button>
-			<NuxtLink :to="appConfig.meta.authUrl">Sign In</NuxtLink>
+		<div id="display-wrapper">
+			<NuxtLink to="/">
+				<img src="~/assets/images/logo.png" alt="the modrunner logo" />
+			</NuxtLink>
+			<button @click="showMobileMenu = !showMobileMenu">
+				<MenuIcon />
+			</button>
 		</div>
 	</header>
 
@@ -112,8 +124,7 @@ export default {
 	data() {
 		return {
 			theme: 'dark',
-			// temp
-			enableMobileLayout: true,
+			showMobileMenu: false,
 		};
 	},
 	mounted() {
@@ -142,6 +153,10 @@ export default {
 	box-shadow: 0 1px 3px black;
 	position: sticky;
 	top: 0;
+
+	@media screen and (max-width: 800px) {
+		display: none;
+	}
 
 	#header-nav {
 		display: flex;
@@ -186,6 +201,58 @@ export default {
 #site-header-mobile {
 	position: absolute;
 	bottom: 0;
+
+	@media screen and (min-width: 800px) {
+		display: none;
+	}
+
+	#menu-buttons {
+		background-color: var(--color-bg);
+		display: flex;
+		justify-content: center;
+
+		#wrapper {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			width: 75vw;
+
+			> * {
+				background-color: var(--color-bg-dark);
+				padding: 0.5rem;
+				margin: 0.25rem;
+				border-radius: 20px;
+				width: 100%;
+				box-sizing: border-box;
+			}
+		}
+	}
+
+	#display-wrapper {
+		background-color: var(--color-bg);
+		display: flex;
+		justify-content: space-between;
+		width: 100vw;
+
+		img {
+			border-radius: 999999px;
+			padding: 0.75rem;
+			width: 2rem;
+			height: 2rem;
+		}
+
+		button {
+			background-color: transparent;
+
+			svg {
+				color: var(--color-text);
+				padding: 0.75rem;
+				width: 2rem;
+				height: 2rem;
+			}
+		}
+	}
 }
 
 #page-wrapper {

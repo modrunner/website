@@ -65,7 +65,9 @@ export default {
 <style lang="scss" scoped>
 #hero {
 	display: flex;
-	max-width: 1280px;
+	flex-wrap: wrap;
+	width: 1280px;
+	max-width: 90vw;
 	margin: 0 auto;
 	padding-bottom: 50px;
 
@@ -76,6 +78,8 @@ export default {
 
 		#hero-text-buttons {
 			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
 			gap: 1rem;
 
 			button {
