@@ -1,5 +1,6 @@
 <template>
-	<div id="dashboard">
+	<div v-if="authStore.isAuthorized === false">yeet</div>
+	<div id="dashboard" v-else>
 		<section id="server-sidebar">
 			<input
 				id="server-search"
@@ -29,22 +30,33 @@
 	</div>
 </template>
 
-<script setup>
+<script>
 import { useAuthStore } from '~/stores/auth';
 
-const appConfig = useAppConfig();
-const authStore = useAuthStore();
-useHead({ title: 'Dashboard' });
-</script>
-
-<script>
 export default {
+	setup(props, context) {
+		const appConfig = useAppConfig();
+		const authStore = useAuthStore(context.$pinia);
+		return { appConfig, authStore };
+	},
 	data() {
 		return {
 			// temp
 			selectedServer: '',
 			servers: [],
 		};
+	},
+	computed: {
+		authUrl() {
+			return `${this.appConfig.meta.authUrl}&state=${encodeURIComponent(
+				this.authStore.generateNonce()
+			)}`;
+		},
+	},
+	mounted() {
+		if (!this.authStore.isAuthorized) {
+			location.href = this.authUrl;
+		}
 	},
 };
 </script>

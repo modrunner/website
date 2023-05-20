@@ -106,29 +106,36 @@
 	</footer>
 </template>
 
-<script setup>
-import MenuIcon from '~/assets/images/utils/menu.svg';
-import MoonIcon from '~/assets/images/utils/moon.svg';
-import SunIcon from '~/assets/images/utils/sun.svg';
-
+<script>
 import { useAuthStore } from '~/stores/auth';
 import { useUserStore } from '~/stores/user';
 
-const appConfig = useAppConfig();
-const authStore = useAuthStore();
-const userStore = useUserStore();
-</script>
-
-<script>
 export default {
+	setup(props, context) {
+		const appConfig = useAppConfig();
+		const config = useRuntimeConfig();
+		const authStore = useAuthStore(context.$pinia);
+		const userStore = useUserStore(context.$pinia);
+		return { appConfig, config, authStore, userStore };
+	},
 	data() {
 		return {
 			theme: 'dark',
 			showMobileMenu: false,
 		};
 	},
-	mounted() {
+	async mounted() {
 		document.documentElement.classList.add(`dark-mode`);
+
+		if (location.search) {
+			const code = new URLSearchParams(location.search).get('code');
+			const state = new URLSearchParams(location.search).get('state');
+
+			if (code) {
+				await this.authStore.authorize(code, state);
+				history.replaceState({}, '', '/');
+			}
+		}
 	},
 	methods: {
 		changeTheme() {
@@ -139,6 +146,11 @@ export default {
 				this.theme = 'dark';
 				document.documentElement.classList.replace('light-mode', 'dark-mode');
 			}
+		},
+		login() {
+			location.href = `${
+				this.appConfig.meta.authUrl
+			}&state=${encodeURIComponent(this.authStore.generateNonce())}`;
 		},
 	},
 };

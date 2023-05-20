@@ -64,17 +64,18 @@ export default defineNuxtConfig({
 					content: '@modrunnerbot',
 				},
 			],
-			link: [
-				{ rel: 'icon', href: './favicon.ico' },
-				{ rel: 'stylesheet', href: './assets/styles/global.scss' },
-			],
+			link: [{ rel: 'icon', href: './favicon.ico' }],
 		},
 	},
+	components: ['~/components/icons'],
 	modules: ['@nuxt/content', '@pinia/nuxt'],
 	pinia: {
-		autoImports: [
-			'defineStore',
-		],
+		autoImports: ['defineStore'],
+	},
+	runtimeConfig: {
+		clientId: '',
+		clientSecret: '',
+		redirectUri: '',
 	},
 	vite: {
 		plugins: [svgLoader()],

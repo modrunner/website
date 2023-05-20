@@ -44,21 +44,7 @@ useHead({
 
 <script>
 export default {
-	beforeMount() {
-		const searchParams = new URLSearchParams(window.location.search);
-		if (searchParams.has('code')) {
-			if (searchParams.has('state')) {
-				this.authorize(searchParams.get('code'), searchParams.get('state'));
-			} else {
-				console.error('The state parameter was missing during authorization.');
-			}
-		}
-	},
-	methods: {
-		authorize(code, state) {
-			console.log('authorization woooooooooo');
-		},
-	},
+	
 };
 </script>
 
