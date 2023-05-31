@@ -8,30 +8,27 @@
 			</ContentList>
 		</nav>
 
-		<ContentDoc />
+		<ContentDoc v-slot="{ doc }">
+			<ContentRenderer :value="doc" />
 
-		<div id="doc-outline-wrapper">
-			<nav id="doc-outline">
-				<!-- doc outline items -->
-				<div v-for="heading in headings" :key="heading.fragment">
-					<NuxtLink :to="heading.fragment">{{ heading.title }}</NuxtLink>
-					<NuxtLink
-						v-for="subHeading in heading.subHeadings"
-						:key="subHeading.fragment"
-						:to="subHeading.fragment"
-						>{{ subHeading.title }}</NuxtLink
-					>
-				</div>
-			</nav>
-		</div>
+			<div id="doc-outline-wrapper">
+				<nav id="doc-outline">
+					<div class="link" v-for="link in doc.body.toc.links" :key="link.id">
+						<NuxtLink :to="`#${link.id}`">{{ link.text }}</NuxtLink>
+						<NuxtLink
+							class="child-link"
+							v-if="link.children"
+							v-for="childLink of link.children"
+							:key="childLink.id"
+							:to="`#${childLink.id}`"
+							>{{ childLink.text }}</NuxtLink
+						>
+					</div>
+				</nav>
+			</div>
+		</ContentDoc>
 	</div>
 </template>
-
-<script>
-export default {
-	props: ['headings'],
-};
-</script>
 
 <style scoped lang="scss">
 #doc-wrapper {
@@ -52,6 +49,16 @@ export default {
 		#doc-outline {
 			border-left: 1px solid var(--color-text);
 			padding: 1rem;
+
+			.link {
+				display: flex;
+				flex-direction: column;
+				padding: 0.125rem;
+			}
+
+			.child-link {
+				margin-left: 2rem;
+			}
 		}
 	}
 }
