@@ -9,7 +9,6 @@
 				/></NuxtLink>
 			</div>
 			<nav id="header-links">
-				<NuxtLink to="/dashboard">Dashboard</NuxtLink>
 				<NuxtLink to="/docs">Docs</NuxtLink>
 				<NuxtLink to="/blog">Blog</NuxtLink>
 			</nav>
@@ -26,7 +25,9 @@
 					:alt="`${userStore.username}#${userStore.discriminator}`"
 				/>
 			</button>
-			<NuxtLink v-else :to="appConfig.meta.authUrl">Sign In</NuxtLink>
+			<NuxtLink v-else :to="appConfig.meta.authUrl" class="sign-in-button"
+				>Sign In</NuxtLink
+			>
 		</div>
 	</header>
 	<header id="site-header-mobile">
@@ -43,7 +44,9 @@
 				>
 				<NuxtLink to="https://invite.modrunner.net">Add to Server</NuxtLink>
 				<button @click="changeTheme">Change Theme</button>
-				<NuxtLink :to="appConfig.meta.authUrl">Sign In</NuxtLink>
+				<NuxtLink :to="appConfig.meta.authUrl" class="sign-in-button"
+					>Sign In</NuxtLink
+				>
 			</div>
 		</div>
 		<div id="display-wrapper">
@@ -162,9 +165,10 @@ export default {
 #site-header {
 	display: flex;
 	background: var(--color-bg);
-	box-shadow: 0 1px 3px black;
 	position: sticky;
 	top: 0;
+	width: 1280px;
+	margin: 0 auto;
 
 	@media screen and (max-width: 800px) {
 		display: none;
@@ -180,6 +184,14 @@ export default {
 		#header-links {
 			display: flex;
 			gap: 2rem;
+		}
+	}
+
+	a {
+		color: var(--color-text);
+
+		&:hover {
+			color: var(--color-text-dark);
 		}
 	}
 
@@ -205,6 +217,17 @@ export default {
 			svg {
 				height: 100%;
 				width: 100%;
+			}
+		}
+
+		.sign-in-button {
+			color: var(--color-brand);
+			border: 1px solid var(--color-brand);
+			border-radius: 5px;
+			padding: 0.5rem 1rem;
+
+			&:hover {
+				background-color: rgba(10, 90, 114, 0.5);
 			}
 		}
 	}
@@ -237,6 +260,10 @@ export default {
 				border-radius: 20px;
 				width: 100%;
 				box-sizing: border-box;
+			}
+
+			.sign-in-button {
+				border: 1px solid var(--color-brand);
 			}
 		}
 	}
@@ -291,11 +318,14 @@ export default {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-	}
 
-	.anchor-link {
-		color: var(--color-text-link);
-		text-decoration: underline;
+		a {
+			color: var(--color-text);
+
+			&:hover {
+				color: var(--color-text-dark);
+			}
+		}
 	}
 }
 

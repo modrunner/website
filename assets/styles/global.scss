@@ -5,18 +5,28 @@ html {
 }
 
 .light-mode {
+	--color-brand: #14addd;
+	--color-brand-dark: #0e7c9e;
+
 	--color-bg: #ffffff;
 	--color-bg-dark: #c5c5c5;
+	--color-bg-light: #ffffff;
 
 	--color-text: #000000;
+	--color-text-dark: #808080;
 	--color-text-link: #8eccff;
 }
 
 .dark-mode {
+	--color-brand: #14addd;
+	--color-brand-dark: #0a5a72;
+
 	--color-bg: #191c2a;
 	--color-bg-dark: #10121b;
+	--color-bg-light: #202436;
 
 	--color-text: #ffffff;
+	--color-text-dark: #808080;
 	--color-text-link: #8eccff;
 }
 
@@ -64,28 +74,19 @@ svg {
 }
 
 a {
-	color: inherit;
+	color: var(--color-brand);
 	text-decoration: none;
 
 	&:hover {
+		color: var(--color-brand-dark);
 		background: none;
-		text-shadow: 0 0 10px var(--color-text);
 	}
 }
 
-h1 {
-	color: var(--color-text-dark);
-}
-
-h2 {
-	margin-top: 0;
-	margin-bottom: 1rem;
-	color: var(--color-text-dark);
-}
-
+h1,
+h2,
 h3 {
-	// margin-block: var(--spacing-card-md) var(--spacing-card-sm);
-	color: var(--color-text-dark);
+	color: var(--color-text);
 }
 
 input {

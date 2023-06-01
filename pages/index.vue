@@ -1,94 +1,257 @@
 <template>
-	<section id="hero">
-		<div id="hero-text">
-			<h1>The ultimate resource for modding communities</h1>
-			<p>
+	<section class="landing-section">
+		<div id="landing-text">
+			<h1>The Ultimate Resource for Modding Communities</h1>
+			<h2>
 				Modrunner levels up your Discord communities by providing a free and
 				easy to use Discord bot that allows both creators and users to find,
 				share and follow modding projects on some of the most popular platforms.
-			</p>
-			<ul>
-				<li>
-					Search for modding projects right within Discord and easily share them
-					with others
-				</li>
-				<li>
-					Follow projects and get notifications posted to Discord whenever they
-					recieve updates
-				</li>
-				<li>
-					Customize the bot's behavior by selecting from multiple notification
-					styles and more
-				</li>
-			</ul>
-			<div id="hero-text-buttons">
-				<button>
-					<NuxtLink to="https://invite.modrunner.net"
-						>Add to Your Server</NuxtLink
-					>
-				</button>
-				<button>
-					<NuxtLink to="/dashboard">Sign Into the Dashboard</NuxtLink>
-				</button>
+			</h2>
+			<div id="landing-buttons-container">
+				<NuxtLink to="https://invite.modrunner.net" class="landing-button"
+					>Add to Your Server</NuxtLink
+				>
+				<NuxtLink to="/dashboard" class="landing-button"
+					>View the Docs</NuxtLink
+				>
 			</div>
 		</div>
-		<div id="hero-image">cool image or widget goes here</div>
+	</section>
+
+	<section class="landing-section">
+		<div id="landing-img">
+			<img src="~/assets/images/logo.png" alt="" />
+		</div>
+	</section>
+
+	<section class="landing-section" id="stats-section">
+		<div id="statistics">
+			<div class="statistic">
+				<h1>70+</h1>
+				<p>Servers Across Discord</p>
+			</div>
+			<div class="statistic">
+				<h1>500+</h1>
+				<p>Modding Projects Tracked</p>
+			</div>
+			<div class="statistic">
+				<h1>99.99%</h1>
+				<p>Historical Uptime</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="landing-section">
+		<div id="feature-1">
+			<div class="feature-container feature-text">
+				<h1>Feature 1</h1>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+					minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+					aliquip ex ea commodo consequat. Duis aute irure dolor in
+					reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+					pariatur.
+				</p>
+			</div>
+			<div class="feature-container feature-img">
+				<img src="~/assets/images/logo.png" alt="" />
+			</div>
+		</div>
+	</section>
+
+	<section class="landing-section" id="feature-2-section">
+		<div id="feature-2">
+			<div class="feature-container feature-img">
+				<img src="~/assets/images/logo.png" alt="" />
+			</div>
+			<div class="feature-container feature-text">
+				<h1>Feature 2</h1>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+					minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+					aliquip ex ea commodo consequat. Duis aute irure dolor in
+					reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+					pariatur.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="landing-section">
+		<div id="feature-3">
+			<div class="feature-container feature-text">
+				<h1>Feature 3</h1>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+					minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+					aliquip ex ea commodo consequat. Duis aute irure dolor in
+					reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+					pariatur.
+				</p>
+			</div>
+			<div class="feature-container feature-img">
+				<img src="~/assets/images/logo.png" alt="" />
+			</div>
+		</div>
+	</section>
+
+	<section class="landing-section">
+		<div id="call-to-action">
+			<h1>Are You Ready to Level Up Your Modding Community Today?</h1>
+			<NuxtLink to="/dashboard">Get Started</NuxtLink>
+		</div>
 	</section>
 </template>
 
 <script setup>
 useHead({
-	title: 'The ultimate resource for modding communities',
+	title: 'The Ultimate Resource for Modding Communities',
 });
 </script>
 
 <script>
-export default {
-	
-};
+export default {};
 </script>
 
 <style lang="scss" scoped>
-#hero {
-	display: flex;
-	flex-wrap: wrap;
-	width: 1280px;
-	max-width: 90vw;
-	margin: 0 auto;
-	padding-bottom: 50px;
+#stats-section {
+	background-color: var(--color-bg-light);
+	border-top: 1px solid var(--color-text);
+	border-bottom: 1px solid var(--color-text);
+}
 
-	#hero-text {
+#feature-2-section {
+	background-color: var(--color-bg-dark);
+}
+
+.landing-section {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 6.5rem;
+
+	#landing-text {
+		width: 960px;
+		text-align: center;
+
 		h1 {
-			font-size: var(--font-size-3extralarge);
+			font-size: 4rem;
+			margin-bottom: 1rem;
 		}
 
-		#hero-text-buttons {
+		h2 {
+			font-size: 1.25rem;
+			font-weight: var(--font-weight-regular);
+			margin-bottom: 2rem;
+		}
+
+		#landing-buttons-container {
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: center;
 			gap: 1rem;
 
-			button {
+			.landing-button {
+				color: var(--color-text);
+				background-color: var(--color-brand);
 				border-radius: 0.5rem;
-				padding: 1rem;
-				font-weight: var(--font-weight-bold);
+				padding: 1.125rem;
+				width: 180px;
 				font-size: var(--font-size-medium);
+				font-weight: var(--font-weight-medium);
 
 				&:hover {
-					box-shadow: 0px 0px 20px white;
+					background-color: var(--color-brand-dark);
 				}
 			}
 		}
 	}
 
-	#hero-image {
-		// temp
-		border: 2px solid rebeccapurple;
-		width: 1000px;
-		margin-top: 50px;
+	#landing-img {
+		img {
+			width: 1280px;
+			height: 720px;
+		}
+	}
+
+	#statistics {
 		display: flex;
-		justify-content: center;
+		justify-content: space-around;
+		width: 100%;
+		padding: 2rem 0;
+
+		.statistic {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			h1 {
+				font-size: var(--font-size-2extralarge);
+				margin: 0;
+			}
+
+			p {
+				font-size: var(--font-size-large);
+				margin: 0;
+			}
+		}
+	}
+
+	#feature-1,
+	#feature-2,
+	#feature-3 {
+		width: 1280px;
+		display: flex;
+		gap: 3rem;
+		padding: 5rem;
+
+		.feature-container {
+			width: 50%;
+		}
+
+		.feature-text {
+			display: flex;
+			flex-direction: column;
+
+			h1 {
+				font-size: var(--font-size-2extralarge);
+				margin: 0;
+			}
+		}
+
+		.feature-img {
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+
+	#call-to-action {
+		display: flex;
+		flex-direction: column;
 		align-items: center;
+		text-align: center;
+		width: 720px;
+
+		h1 {
+			font-size: var(--font-size-2extralarge);
+			margin-top: 0;
+		}
+
+		a {
+			color: var(--color-text);
+			background-color: var(--color-brand);
+			border-radius: 0.5rem;
+			padding: 1rem;
+			font-weight: var(--font-weight-medium);
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
 	}
 }
 </style>
