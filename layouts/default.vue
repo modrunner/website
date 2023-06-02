@@ -1,33 +1,35 @@
 <template>
 	<header id="site-header">
-		<div id="header-nav">
-			<div>
-				<NuxtLink to="/"
-					><img
-						src="~/assets/images/logo_banner.png"
-						alt="The full-sized Modrunner logo banner"
-				/></NuxtLink>
+		<div id="header-container">
+			<div id="header-nav">
+				<div>
+					<NuxtLink to="/"
+						><img
+							src="~/assets/images/logo_banner.png"
+							alt="The full-sized Modrunner logo banner"
+					/></NuxtLink>
+				</div>
+				<nav id="header-links">
+					<NuxtLink to="/docs">Docs</NuxtLink>
+					<NuxtLink to="/blog">Blog</NuxtLink>
+				</nav>
 			</div>
-			<nav id="header-links">
-				<NuxtLink to="/docs">Docs</NuxtLink>
-				<NuxtLink to="/blog">Blog</NuxtLink>
-			</nav>
-		</div>
-		<div id="header-user-controls">
-			<NuxtLink to="https://invite.modrunner.net">Add to Server</NuxtLink>
-			<button @click="changeTheme">
-				<SunIcon v-if="theme === 'light'" />
-				<MoonIcon v-else />
-			</button>
-			<button v-if="authStore.isAuthorized">
-				<img
-					:src="userStore.avatarUrl"
-					:alt="`${userStore.username}#${userStore.discriminator}`"
-				/>
-			</button>
-			<NuxtLink v-else :to="appConfig.meta.authUrl" class="sign-in-button"
-				>Sign In</NuxtLink
-			>
+			<div id="header-user-controls">
+				<NuxtLink to="https://invite.modrunner.net">Add to Server</NuxtLink>
+				<button @click="changeTheme">
+					<SunIcon v-if="theme === 'light'" />
+					<MoonIcon v-else />
+				</button>
+				<button v-if="authStore.isAuthorized">
+					<img
+						:src="userStore.avatarUrl"
+						:alt="`${userStore.username}#${userStore.discriminator}`"
+					/>
+				</button>
+				<NuxtLink v-else :to="appConfig.meta.authUrl" class="sign-in-button"
+					>Sign In</NuxtLink
+				>
+			</div>
 		</div>
 	</header>
 	<header id="site-header-mobile">
@@ -164,11 +166,17 @@ export default {
 
 #site-header {
 	display: flex;
-	background: var(--color-bg);
+	justify-content: center;
+	background-color: rgba($color: #191c2a, $alpha: 0.7);
+	// border-bottom: 1px solid gray;
+	backdrop-filter: blur(10px);
 	position: sticky;
 	top: 0;
-	width: 1280px;
-	margin: 0 auto;
+
+	#header-container {
+		display: flex;
+		width: 1280px;
+	}
 
 	@media screen and (max-width: 800px) {
 		display: none;
