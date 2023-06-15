@@ -2,13 +2,10 @@ export const useUserStore = defineStore('user', {
 	state: () => ({
 		id: null,
 		username: null,
-		discriminator: null,
 		avatar: null,
+		guilds: [],
 	}),
 	getters: {
-		authStore() {
-			return useAuthStore();
-		},
 		avatarUrl: (state) => {
 			return `https://cdn.discordapp.com/avatars/${state.id}/${state.avatar}.png`;
 		},
@@ -17,37 +14,36 @@ export const useUserStore = defineStore('user', {
 		clearStore() {
 			this.id = null;
 			this.username = null;
-			this.discriminator = null;
 			this.avatar = null;
+			this.guilds = [];
 		},
-		async getCurrentUser() {
-			const data = await fetch('https://discord.com/api/users/@me', {
+		async fetchUserData() {
+			const response = await fetch('https://discord.com/api/users/@me', {
 				headers: {
-					authorization: this.authStore.authHeader,
+					authorization: `Bearer ${useCookie('access-token').value}`,
 				},
 			})
 				.then((res) => res.json())
 				.catch((error) => console.error(error));
 
-			this.id = data.id;
-			this.username = data.username;
-			this.discriminator = data.discriminator;
-			this.avatar = data.avatar;
+			this.id = response.id;
+			this.username = response.username;
+			this.avatar = response.avatar;
 		},
-		async getCurrentUserGuilds() {
-			const data = await fetch('https://discord.com/api/users/@me/guilds', {
+		async fetchUserGuilds() {
+			const response = await fetch('https://discord.com/api/users/@me/guilds', {
 				headers: {
-					authorization: this.authStore.authHeader,
+					authorization: `Bearer ${useCookie('access-token').value}`,
 				},
 			})
-				.then((res = res.json()))
-				.catch(console.error(error));
+				.then((res) => res.json())
+				.catch((error) => console.error(error));
 
-			const filteredGuilds = data.filter((guild) => {
+			const managedGuilds = response.filter((guild) => {
 				(guild.permissions & 0x20) == 0x20;
 			});
 
-			for (const guild of filteredGuilds) {
+			for (const guild of managedGuilds) {
 				this.guilds.push({
 					id: guild.id,
 					name: guild.name,

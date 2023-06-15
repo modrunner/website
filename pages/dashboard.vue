@@ -1,62 +1,126 @@
 <template>
-	<div v-if="authStore.isAuthorized === false">yeet</div>
-	<div id="dashboard" v-else>
-		<section id="server-sidebar">
+	<div id="dashboard">
+		<section id="sidebar" class="rounded-container">
+			<h1>Your Servers</h1>
 			<input
-				id="server-search"
+				id="server-search-input"
 				type="text"
 				name="server-search"
 				placeholder="Search for a server"
 			/>
-			<div id="server-list" v-show="servers.length > 0">
+			<nav id="server-navlist-buttons" v-if="userGuilds.length > 0">
 				<!-- server items go here -->
-				<button v-for="server in servers" :key="server.id" class="server-item">
-					<img :src="server.icon" v-if="server.icon !== ''" />
+				<button
+					v-for="guild in userGuilds"
+					:key="guild.id"
+					@click="selectGuild(guild)"
+					class="server-nav-button"
+				>
+					<img
+						:src="`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`"
+						v-if="guild.icon !== ''"
+					/>
 					<div v-else class="image-placeholder"></div>
-					<span>{{ server.name }}</span>
+					<span>{{ guild.name }}</span>
 				</button>
-			</div>
+			</nav>
+			<p v-else>The servers that you manage will appear here.</p>
 		</section>
-		<section id="panels" v-show="selectedServer.id !== ''">
+		<section id="information-panels" v-if="selectedGuild !== ''">
 			<div id="server-name-title">
-				<img :src="selectedServer.icon" />
-				<h1>{{ selectedServer.name }}</h1>
+				<img
+					:src="`https://cdn.discordapp.com/icons/${selectedGuild.id}/${selectedGuild.icon}.webp`"
+				/>
+				<h1>{{ selectedGuild.name }}</h1>
 			</div>
 			<div id="navigation-bar">
-				<button>Tracked Projects</button>
-				<button>Bot Settings</button>
+				<button @click="selectedPanel = 0">Tracked Projects</button>
+				<button @click="selectedPanel = 1">Bot Settings</button>
+			</div>
+			<div
+				id="tracked-projects-panel"
+				class="rounded-container info-panel"
+				v-if="selectedPanel === 0"
+			>
+				<h1>Tracked Projects</h1>
+			</div>
+			<div
+				id="bot-settings-panel"
+				class="rounded-container info-panel"
+				v-else-if="selectedPanel === 1"
+			>
+				<h1>Bot Settings</h1>
+
+				<h2>General Settings</h2>
+				<p>Bot Nickname</p>
+				<input type="text" />
+				<p>Log Channel</p>
+				<input type="text" />
+
+				<h2>Tracked Projects Settings</h2>
+				<p>Maximum Characters for Changelogs</p>
+				<input type="text" />
+				<p>Notification Style</p>
+				<input type="text" />
+
+				<h2>Custom Style Editor</h2>
+				<textarea name="" id=""></textarea>
+				<p>
+					Only applies when the notification style is set to "Custom". Supports
+					Discord-style markdown.
+				</p>
+				<h3>Available Variables</h3>
+				<p><code>$project_name</code> - The name of the project</p>
+				<p><code>$project_id</code> - The ID of the project</p>
+				<p>
+					<code>$project_platform</code> - The name of the platform where the
+					project is hosted
+				</p>
+				<p><code>$version_name</code> - The name of the new version</p>
+				<p><code>$version_number</code> - The number of the new version</p>
+				<p><code>$version_id</code> - The ID of the new version</p>
+				<p>
+					<code>$version_changelog</code> - The changelog of the new version
+				</p>
+				<p>
+					<code>$version_date</code> - The timestamp at when the new version was
+					published
+				</p>
 			</div>
 		</section>
+		<p v-else>Select a server from the sidebar on the left to get started.</p>
 	</div>
 </template>
 
-<script>
-import { useAuthStore } from '~/stores/auth';
+<script setup>
+const { data: userGuilds } = await useFetch(
+	'https://discord.com/api/users/@me/guilds',
+	{
+		headers: { authorization: `Bearer ${useCookie('access-token').value}` },
+	}
+);
+</script>
 
+<script>
 export default {
 	setup(props, context) {
+		definePageMeta({
+			middleware: ['auth'],
+		});
+
 		const appConfig = useAppConfig();
-		const authStore = useAuthStore(context.$pinia);
-		return { appConfig, authStore };
+		return { appConfig };
 	},
 	data() {
 		return {
-			// temp
-			selectedServer: '',
-			servers: [],
+			selectedGuild: '',
+			selectedPanel: 0,
 		};
 	},
-	computed: {
-		authUrl() {
-			return `${this.appConfig.meta.authUrl}&state=${encodeURIComponent(
-				this.authStore.generateNonce()
-			)}`;
+	methods: {
+		selectGuild(guild) {
+			this.selectedGuild = guild;
 		},
-	},
-	mounted() {
-		if (!this.authStore.isAuthorized) {
-			location.href = this.authUrl;
-		}
 	},
 };
 </script>
@@ -74,26 +138,37 @@ export default {
 	width: 100%;
 	min-height: calc(100vh - 70px);
 
-	#server-sidebar {
+	.rounded-container {
+		background-color: var(--color-bg-dark);
+		border-radius: 10px;
+		padding: 1rem;
+	}
+
+	#sidebar {
 		display: flex;
 		flex-direction: column;
 		background-color: var(--color-bg-dark);
-		min-width: 250px;
+		min-width: 300px;
 		padding: 1rem;
+		margin: 1rem;
 
-		#server-search {
+		h1 {
+			margin: 0.5rem 0;
+		}
+
+		#server-search-input {
 			background-color: var(--color-bg);
 			border-radius: 10px;
 			font-family: var(--font-standard);
 		}
 
-		#server-list {
+		#server-navlist-buttons {
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
 			margin: 1rem 0;
 
-			.server-item {
+			.server-nav-button {
 				color: var(--color-text);
 				background: none;
 				display: flex;
@@ -110,28 +185,48 @@ export default {
 					background-color: rgba($color: #ffffff, $alpha: 0.1);
 					transform: scale(0.95);
 				}
+
+				img {
+					border-radius: 99999px;
+				}
 			}
 		}
 	}
 
-	#panels {
-		flex-basis: 500px;
-		margin: 0 1rem;
+	#information-panels {
+		// flex-basis: 600px;
+		width: 100%;
+		margin-top: 1rem;
+		margin-right: 1rem;
 
 		#server-name-title {
 			display: flex;
+			align-items: center;
+			gap: 1rem;
+
+			img {
+				border-radius: 99999px;
+			}
 		}
 
 		#navigation-bar {
 			display: flex;
-			gap: 1rem;
+			gap: 0.5rem;
 			background-color: var(--color-bg-dark);
 			border-radius: 10px;
 			padding: 0.5rem;
 
 			button {
 				border-radius: 10px;
-				padding: 0.5rem;
+				padding: 0.75rem;
+			}
+		}
+
+		.info-panel {
+			margin: 1rem 0;
+
+			h1 {
+				margin: 0;
 			}
 		}
 	}

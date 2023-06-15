@@ -10,6 +10,7 @@
 					/></NuxtLink>
 				</div>
 				<nav id="header-links">
+					<NuxtLink to="/dashboard">Dashboard</NuxtLink>
 					<NuxtLink to="/docs">Docs</NuxtLink>
 					<NuxtLink to="/blog">Blog</NuxtLink>
 				</nav>
@@ -20,15 +21,13 @@
 					<SunIcon v-if="theme === 'light'" />
 					<MoonIcon v-else />
 				</button>
-				<button v-if="authStore.isAuthorized">
+				<button v-if="useCookie('access-token').value">
 					<img
-						:src="userStore.avatarUrl"
-						:alt="`${userStore.username}#${userStore.discriminator}`"
+						:src="`https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`"
+						:alt="userData.username"
 					/>
 				</button>
-				<NuxtLink v-else :to="appConfig.meta.authUrl" class="sign-in-button"
-					>Sign In</NuxtLink
-				>
+				<NuxtLink v-else to="/login" class="sign-in-button">Sign In</NuxtLink>
 			</div>
 		</div>
 	</header>
@@ -46,9 +45,7 @@
 				>
 				<NuxtLink to="https://invite.modrunner.net">Add to Server</NuxtLink>
 				<button @click="changeTheme">Change Theme</button>
-				<NuxtLink :to="appConfig.meta.authUrl" class="sign-in-button"
-					>Sign In</NuxtLink
-				>
+				<NuxtLink to="/login" class="sign-in-button">Sign In</NuxtLink>
 			</div>
 		</div>
 		<div id="display-wrapper">
@@ -111,18 +108,16 @@
 	</footer>
 </template>
 
-<script>
-import { useAuthStore } from '~/stores/auth';
-import { useUserStore } from '~/stores/user';
+<script setup>
+const appConfig = useAppConfig();
 
+const { data: userData } = await useFetch('https://discord.com/api/users/@me', {
+	headers: { authorization: `Bearer ${useCookie('access-token').value}` },
+});
+</script>
+
+<script>
 export default {
-	setup(props, context) {
-		const appConfig = useAppConfig();
-		const config = useRuntimeConfig();
-		const authStore = useAuthStore(context.$pinia);
-		const userStore = useUserStore(context.$pinia);
-		return { appConfig, config, authStore, userStore };
-	},
 	data() {
 		return {
 			theme: 'dark',
@@ -131,16 +126,6 @@ export default {
 	},
 	async mounted() {
 		document.documentElement.classList.add(`dark-mode`);
-
-		if (location.search) {
-			const code = new URLSearchParams(location.search).get('code');
-			const state = new URLSearchParams(location.search).get('state');
-
-			if (code) {
-				await this.authStore.authorize(code, state);
-				history.replaceState({}, '', '/');
-			}
-		}
 	},
 	methods: {
 		changeTheme() {
@@ -168,7 +153,6 @@ export default {
 	display: flex;
 	justify-content: center;
 	background-color: rgba($color: #191c2a, $alpha: 0.7);
-	// border-bottom: 1px solid gray;
 	backdrop-filter: blur(10px);
 	position: sticky;
 	top: 0;
@@ -212,14 +196,19 @@ export default {
 		width: 100%;
 
 		button {
+			display: flex;
+			justify-content: center;
+			align-items: center;
 			color: var(--color-text);
 			background: none;
 			border-radius: 999999px;
+			box-sizing: border-box;
 			height: 2.25rem;
 			width: 2.25rem;
 
 			&:hover {
 				background-color: rgba($color: #ffffff, $alpha: 0.2);
+				border: 2px solid var(--color-brand);
 			}
 
 			svg {
@@ -237,6 +226,12 @@ export default {
 			&:hover {
 				background-color: rgba(10, 90, 114, 0.5);
 			}
+		}
+
+		img {
+			border-radius: 99999px;
+			height: 2rem;
+			width: 2rem;
 		}
 	}
 }

@@ -41,17 +41,25 @@ export const useAuthStore = defineStore('auth', {
 					client_secret: this.meta.clientSecret,
 					grant_type: 'authorization_code',
 					code,
-					redirect_uri: 'http://localhost:3000',
+					redirect_uri: 'http://localhost:3000/login',
 				}),
 			})
 				.then((res) => res.json())
 				.catch((error) => console.error(error));
 
-			this.accessToken = data.access_token;
-			this.expiresAt = Date.now() + data.expires_in * 1000;
-			this.refreshToken = data.refresh_token;
-			this.state = null;
-			this.tokenType = data.token_type;
+			const accessTokenCookie = useCookie('access-token', {
+				maxAge: data.expires_in,
+				secure: true,
+				sameSite: true,
+			});
+
+			accessTokenCookie.value = data.access_token;
+
+			// this.accessToken = data.access_token;
+			// this.expiresAt = Date.now() + data.expires_in * 1000;
+			// this.refreshToken = data.refresh_token;
+			// this.state = null;
+			// this.tokenType = data.token_type;
 		},
 
 		generateNonce() {

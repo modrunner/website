@@ -11,9 +11,7 @@
 				<NuxtLink to="https://invite.modrunner.net" class="landing-button"
 					>Add to Your Server</NuxtLink
 				>
-				<NuxtLink to="/dashboard" class="landing-button"
-					>View the Docs</NuxtLink
-				>
+				<NuxtLink to="/docs" class="landing-button">View the Docs</NuxtLink>
 			</div>
 		</div>
 	</section>
