@@ -34,58 +34,119 @@
 				<h1>{{ selectedGuild.name }}</h1>
 			</div>
 			<div id="navigation-bar">
-				<button @click="selectedPanel = 0">Tracked Projects</button>
-				<button @click="selectedPanel = 1">Bot Settings</button>
+				<button
+					@click="selectedTab = 0"
+					:class="{ selected: selectedTab === 0 }"
+				>
+					Tracked Projects
+				</button>
+				<button
+					@click="selectedTab = 1"
+					:class="{ selected: selectedTab === 1 }"
+				>
+					Bot Settings
+				</button>
 			</div>
 			<div
 				id="tracked-projects-panel"
 				class="rounded-container info-panel"
-				v-if="selectedPanel === 0"
+				v-if="selectedTab === 0"
 			>
 				<h1>Tracked Projects</h1>
 			</div>
 			<div
 				id="bot-settings-panel"
 				class="rounded-container info-panel"
-				v-else-if="selectedPanel === 1"
+				v-else-if="selectedTab === 1"
 			>
 				<h1>Bot Settings</h1>
+				<div id="cols">
+					<div id="left-col">
+						<h2>General Settings</h2>
+						<p>Bot Nickname</p>
+						<input type="text" />
+						<p>Log Channel</p>
+						<select name="" id=""></select>
 
-				<h2>General Settings</h2>
-				<p>Bot Nickname</p>
-				<input type="text" />
-				<p>Log Channel</p>
-				<input type="text" />
-
-				<h2>Tracked Projects Settings</h2>
-				<p>Maximum Characters for Changelogs</p>
-				<input type="text" />
-				<p>Notification Style</p>
-				<input type="text" />
-
-				<h2>Custom Style Editor</h2>
-				<textarea name="" id=""></textarea>
-				<p>
-					Only applies when the notification style is set to "Custom". Supports
-					Discord-style markdown.
-				</p>
-				<h3>Available Variables</h3>
-				<p><code>$project_name</code> - The name of the project</p>
-				<p><code>$project_id</code> - The ID of the project</p>
-				<p>
-					<code>$project_platform</code> - The name of the platform where the
-					project is hosted
-				</p>
-				<p><code>$version_name</code> - The name of the new version</p>
-				<p><code>$version_number</code> - The number of the new version</p>
-				<p><code>$version_id</code> - The ID of the new version</p>
-				<p>
-					<code>$version_changelog</code> - The changelog of the new version
-				</p>
-				<p>
-					<code>$version_date</code> - The timestamp at when the new version was
-					published
-				</p>
+						<h2>Tracked Projects Settings</h2>
+						<p>Maximum Characters for Changelogs</p>
+						<input
+							type="text"
+							:value="selectedGuild.settings.changelogLength"
+						/>
+						<p>Notification Style</p>
+						<select name="" id="">
+							<option
+								value=""
+								:selected="
+									selectedGuild.settings.notificationStyle === 'normal'
+										? true
+										: false
+								"
+							>
+								Normal
+							</option>
+							<option
+								value=""
+								:selected="
+									selectedGuild.settings.notificationStyle === 'compact'
+										? true
+										: false
+								"
+							>
+								Compact
+							</option>
+							<option
+								value=""
+								:selected="
+									selectedGuild.settings.notificationStyle === 'custom'
+										? true
+										: false
+								"
+							>
+								Custom
+							</option>
+							<option
+								value=""
+								:selected="
+									selectedGuild.settings.notificationStyle === 'ai'
+										? true
+										: false
+								"
+							>
+								AI Generated (Beta)
+							</option>
+						</select>
+					</div>
+					<div id="right-col">
+						<h2>Custom Style Editor</h2>
+						<textarea name="" id=""></textarea>
+						<p>
+							Only applies when the notification style is set to "Custom".
+							<NuxtLink
+								to="https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-"
+								>Supports Discord-style markdown.</NuxtLink
+							>
+						</p>
+						<h3>Available Variables</h3>
+						<p><code>$project_name</code> - The name of the project</p>
+						<p><code>$project_id</code> - The ID of the project</p>
+						<p>
+							<code>$project_platform</code> - The name of the platform where
+							the project is hosted
+						</p>
+						<p><code>$version_name</code> - The name of the new version</p>
+						<p><code>$version_number</code> - The number of the new version</p>
+						<p><code>$version_id</code> - The ID of the new version</p>
+						<p>
+							<code>$version_changelog</code> - The changelog of the new version
+						</p>
+						<p>
+							<code>$version_date</code> - The timestamp at when the new version
+							was published
+						</p>
+					</div>
+				</div>
 			</div>
 		</section>
 		<p v-else>Select a server from the sidebar on the left to get started.</p>
@@ -103,7 +164,7 @@ const { data: userGuilds } = await useFetch(
 
 <script>
 export default {
-	setup(props, context) {
+	setup() {
 		definePageMeta({
 			middleware: ['auth'],
 		});
@@ -114,12 +175,26 @@ export default {
 	data() {
 		return {
 			selectedGuild: '',
-			selectedPanel: 0,
+			selectedTab: 0,
 		};
 	},
 	methods: {
-		selectGuild(guild) {
-			this.selectedGuild = guild;
+		async selectGuild(guild) {
+			const response = await $fetch('/guild', {
+				query: { guildId: guild.id },
+			});
+
+			this.selectedGuild = {
+				id: guild.id,
+				name: guild.name,
+				icon: guild.icon,
+				trackedProjects: response.trackedProjects,
+				settings: {
+					changelogLength: response.changelogLength,
+					maxProjects: response.maxProjects,
+					notificationStyle: response.notificationStyle,
+				},
+			};
 		},
 	},
 };
@@ -217,8 +292,13 @@ export default {
 			padding: 0.5rem;
 
 			button {
+				background: none;
 				border-radius: 10px;
 				padding: 0.75rem;
+
+				&.selected {
+					background-color: #404149;
+				}
 			}
 		}
 
@@ -226,7 +306,34 @@ export default {
 			margin: 1rem 0;
 
 			h1 {
+				border-bottom: 1px solid var(--color-text-dark);
+				padding-bottom: 1rem;
 				margin: 0;
+			}
+		}
+
+		#bot-settings-panel {
+			#cols {
+				display: flex;
+				justify-content: space-between;
+			}
+
+			input,
+			select,
+			textarea {
+				background-color: var(--color-bg);
+				border: none;
+				border-radius: 10px;
+				font-family: var(--font-standard);
+				width: 200px;
+				height: 40px;
+				padding: 0.5rem;
+			}
+
+			textarea {
+				width: calc(100% - 2rem);
+				height: 400px;
+				padding: 1rem;
 			}
 		}
 	}

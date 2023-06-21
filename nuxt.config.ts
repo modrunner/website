@@ -76,6 +76,7 @@ export default defineNuxtConfig({
 		clientId: '',
 		clientSecret: '',
 		redirectUri: '',
+		xApiKey: '',
 	},
 	vite: {
 		plugins: [svgLoader()],

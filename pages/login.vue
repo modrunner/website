@@ -1,14 +1,14 @@
 <template></template>
 
 <script>
-import { useAuthStore } from '~/stores/auth';
+definePageMeta({
+	layout: false,
+});
 
 export default {
-	setup(props, context) {
+	setup() {
 		const appConfig = useAppConfig();
-		const runtimeConfig = useRuntimeConfig();
-		const authStore = useAuthStore(context.$pinia);
-		return { appConfig, authStore, runtimeConfig };
+		return { appConfig };
 	},
 	async beforeMount() {
 		const authCookie = useCookie('access-token');
