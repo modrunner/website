@@ -1,54 +1,94 @@
 <template>
 	<div id="doc-wrapper">
 		<nav id="navigation-sidebar">
-			<ContentList path="/docs" v-slot="{ list }">
-				<div v-for="doc in list" :key="doc._path">
-					<NuxtLink :to="doc._path">{{ doc.title }}</NuxtLink>
-				</div>
-			</ContentList>
+			<h1>Documentation</h1>
+			<NuxtLink to="/docs">Introduction</NuxtLink>
+			<NuxtLink to="/docs/faq">FAQ</NuxtLink>
+			<h2>Commands</h2>
+			<NuxtLink to="/docs/commands/search">/search</NuxtLink>
+			<NuxtLink to="/docs/commands/track">/track</NuxtLink>
+			<NuxtLink to="/docs/commands/untrack">/untrack</NuxtLink>
+			<NuxtLink to="/docs/commands/list">/list</NuxtLink>
+			<NuxtLink to="/docs/commands/settings">/settings</NuxtLink>
+			<h2>Guides</h2>
+			<NuxtLink to="/docs/guides/configuring-permissions"
+				>Configuring Permissions</NuxtLink
+			>
+			<NuxtLink to="/docs/guides/self-hosting">Self-Hosting</NuxtLink>
 		</nav>
 
-		<ContentDoc v-slot="{ doc }">
-			<ContentRenderer :value="doc" />
+		<div id="doc-content-wrapper">
+			<ContentDoc v-slot="{ doc }">
+				<ContentRenderer :value="doc" />
 
-			<div id="doc-outline-wrapper">
-				<nav id="doc-outline">
-					<div class="link" v-for="link in doc.body.toc.links" :key="link.id">
-						<NuxtLink :to="`#${link.id}`">{{ link.text }}</NuxtLink>
-						<NuxtLink
-							class="child-link"
-							v-if="link.children"
-							v-for="childLink of link.children"
-							:key="childLink.id"
-							:to="`#${childLink.id}`"
-							>{{ childLink.text }}</NuxtLink
-						>
-					</div>
-				</nav>
-			</div>
-		</ContentDoc>
+				<div id="doc-outline-wrapper">
+					<nav id="doc-outline">
+						<div class="link" v-for="link in doc.body.toc.links" :key="link.id">
+							<NuxtLink :to="`#${link.id}`">{{ link.text }}</NuxtLink>
+							<NuxtLink
+								class="child-link"
+								v-if="link.children"
+								v-for="childLink of link.children"
+								:key="childLink.id"
+								:to="`#${childLink.id}`"
+								>{{ childLink.text }}</NuxtLink
+							>
+						</div>
+					</nav>
+				</div>
+			</ContentDoc>
+		</div>
 	</div>
 </template>
 
 <style scoped lang="scss">
 #doc-wrapper {
 	display: flex;
-	gap: 7rem;
+	gap: 3rem;
 
 	#navigation-sidebar {
+		position: fixed;
 		background-color: var(--color-bg-dark);
-		min-width: 15rem;
+		border-radius: 10px;
+		display: flex;
+		flex-direction: column;
+		width: 16rem;
 		padding: 1rem;
+		margin: 1rem;
+
+		h1,
+		h2 {
+			margin: 0;
+		}
+
+		h2 {
+			font-size: 1.25rem;
+		}
+
+		a {
+			margin-left: 1rem;
+		}
+	}
+
+	#doc-content-wrapper {
+		margin: 0 22rem;
 	}
 
 	#doc-outline-wrapper {
-		min-width: 400px;
-		margin-top: 1rem;
-		margin-right: 1rem;
+		position: fixed;
+		top: 4rem;
+		right: 0;
+		width: 16rem;
+		padding: 1rem;
+		margin: 1rem;
 
 		#doc-outline {
 			border-left: 1px solid var(--color-text);
 			padding: 1rem;
+
+			a {
+				font-size: 0.8rem;
+			}
 
 			.link {
 				display: flex;
