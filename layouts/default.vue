@@ -7,6 +7,7 @@
 						><img
 							src="~/assets/images/logo_banner.png"
 							alt="The full-sized Modrunner logo banner"
+							class="logo"
 					/></NuxtLink>
 				</div>
 				<nav id="header-links">
@@ -69,6 +70,7 @@
 					<img
 						src="~/assets/images/logo_banner.png"
 						alt="The full-sized Modrunner logo banner"
+						class="logo"
 					/>
 				</NuxtLink>
 				<p>
@@ -332,7 +334,7 @@ export default {
 	}
 }
 
-img {
+.logo {
 	height: 3rem;
 }
 </style>

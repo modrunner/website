@@ -2,32 +2,32 @@
 
 If you want, you can self-host your own instance of Modrunner on a private VPS, just for you!
 
-:::note
+<div class="info">
 While this guide is written for those unfamiliar with hosting, Node or Linux, it is still recommended that you have a
 somewhat decent idea of these tools do before proceeding.
-:::
+</div>
 
 ## Creating a Discord application
 
 The first step is to create the application on Discord. Head to the [Discord Developer Portal](https://discord.com/developers).
 You'll land on the Applications page. Here's what mine looks like:
 
-![screenshot of the applications page on the discord dev portal](self_hosting/applications_page.png)
+![screenshot of the applications page on the discord dev portal](/images/docs/guides/self-hosting/0.png)
 
 If you've never created a Discord app before, this page will be empty.
 
 Click on the "New Application" button on the top left. Give your application a name, click the checkbox and click "Create".
 
-:::caution
+<div class="caution">
 Modrunner is licensed under the [Apache 2.0](https://github.com/smcmo/modrunner-bot/blob/main/LICENSE) license. This gives
 you permissions to modify, distribute and use Modrunner's source code for commercial purposes. However, it does NOT allow
 usage of the Modrunner branding and name in your derived works. Please do not use the name "Modrunner" or use any official
 branding, icons or art to represent your own work.
-:::
+</div>
 
 Ta-da! Your Discord app is created. Keep this tab handy, we'll be coming back to it later.
 
-![screenshot of the homepage of the discord app we just created](self_hosting/discord_application_home.png)
+![screenshot of the homepage of the discord app we just created](/images/docs/guides/self-hosting/1.png)
 
 ## Installing Node.js and npm
 
@@ -83,11 +83,11 @@ You can also upload the files to the server using File Transfer Protocol. For th
 Head to [Modrunner's GitHub page](https://github.com/smcmo/modrunner-bot) and click "Code", then "Download ZIP". Unzip
 the file on your computer once the download is complete.
 
-![screenshot of the download .zip option on github](self_hosting/ftp_zip_download.png)
+![screenshot of the download .zip option on github](/images/docs/guides/self-hosting/2.png)
 
 Open up FileZilla and enter the IP address, username, password and port into the fields at the top and click "Quickconnect".
 
-![screenshot of the left and right file panels in filezilla](self_hosting/filezilla_panels.png)
+![screenshot of the left and right file panels in filezilla](/images/docs/guides/self-hosting/3.png)
 
 The panel on the left will show your computer's files, and the right panel will show the files present on your VPS. Yours
 will likely not look the exact same as mine, but the process will still be the same. In the left panel, navigate to where
@@ -116,12 +116,12 @@ section on [swapping out Doppler for Dotenv](#swapping-out-doppler-for-dotenv).
 Head to [Doppler](https://dashboard.doppler.com/login) and sign up using your method of choice. You'll be brought to the
 workspace homepage (yours most likely will have no projects listed):
 
-![screenshot of the Doppler workspace homepage](self_hosting/doppler_homepage.png)
+![screenshot of the Doppler workspace homepage](/images/docs/guides/self-hosting/4.png)
 
 Click the plus next to Projects. Give it a name and description, and click "Create". You'll be brought to the project's
 environments page:
 
-![screenshot of Doppler's project environments page](self_hosting/doppler_envs.png)
+![screenshot of Doppler's project environments page](/images/docs/guides/self-hosting/5.png)
 
 Click the `prd` box under Production. Click "Add First Secret". Now we can start adding all the secrets that Modrunner
 needs to function.
@@ -130,16 +130,16 @@ needs to function.
 
 Head back to the Discord Developer Portal and navigate to the "Bot" tab, then click "Add Bot".
 
-![screenshot of the icon, username and secret token field in the discor dev portal](self_hosting/secret_token_button.png)
+![screenshot of the icon, username and secret token field in the discor dev portal](/images/docs/guides/self-hosting/6.png)
 
 Under the username field, you'll see the "Reset Token" button. Click it, and Discord will generate a security token for
 your bot to use to access the Discord API. Copy the token and head back to Doppler.
 
-:::caution
+<div class="caution">
 Make sure never to share this token publicly. Otherwise, others may be able to hijack your bot. Keep it secret, keep it safe!
-:::
+</div>
 
-![screenshot of the doppler add secret fields](self_hosting/doppler_add_secret.png)
+![screenshot of the doppler add secret fields](/images/docs/guides/self-hosting/7.png)
 
 You'll see a pair of fields, NAME and VALUE. In the name field, enter `DISCORD_TOKEN` and paste the token you copied
 into the value field next to it.
@@ -157,23 +157,23 @@ In Doppler, add a new secret. Set the name to `LOGGING_LEVEL` and the value to `
 In order for Modrunner to be able to access the CurseForge API, we will need an API key. Head to [Eternal](https://console.curseforge.com/), CurseForge's
 dev console service and sign up for an account, if you don't have one already.
 
-![screenshot of enternal, curseforge's dev console](self_hosting/cf_console.png)
+![screenshot of enternal, curseforge's dev console](/images/docs/guides/self-hosting/8.png)
 
 Once you're in, navigate to the "API keys" tab and copy the key next to your username. Head back to Doppler, add a new
 secret, name it `CF_API_KEY` and paste in the key you copied for the value.
 
-:::caution
+<div class="caution">
 Be sure to never share your API key publicly. Otherwise, others may use your key to make requests on your behalf, and you
 don't want that!
-:::
+</div>
 
-:::info
+<div class="info">
 This key's intended use case is primarily for content creators to upload project data to CurseForge programmatically, but
 we're using it to retrieve information about projects on CurseForge, which is also okay.
 
 However, if you reuse this key for multiple projects you are likely to get rate limited by CurseForge. We recommend that
 you submit an application to CurseForge for a dedicated project API key, so you can use your personal key for other things.
-:::
+</div>
 
 ### Installing Doppler
 
@@ -186,13 +186,13 @@ Once you've done that, verify doppler was installed correctly using `doppler --v
 Now we need to create a service token on Doppler, so we can give our VPS permissions to read our secrets from Doppler.
 Head to Doppler and navigate to the "Access" tab.
 
-![screenshot of the service tokens screen on Doppler](self_hosting/doppler_service_tokens.png)
+![screenshot of the service tokens screen on Doppler](/images/docs/guides/self-hosting/9.png)
 
 Under "Service Token", click "Generate". Give it a name, then click "Generate Service Token". Copy the token.
 
-:::caution
+<div class="caution">
 Make sure never to share any service tokens publicly. Otherwise, others may be able to access your secrets in Doppler!
-:::
+</div>
 
 Head back to the terminal. Enter the following commands:
 
@@ -261,10 +261,10 @@ Many still prefer the simplicity of a system like [Dotenv](https://www.dotenv.or
 saving secrets in Doppler, you can store them locally on your VPS in a `.env` file. Luckily, with a few small tweaks you
 can run Modrunner using Dotenv.
 
-:::info
+<div class="info">
 It is recommended to have a basic-level knowledge of JavaScript/Node.js, git and local development environments before
 continuing with this section.
-:::
+</div>
 
 To make Dotenv work with the bot, we will need to make some minor changes to the bot's code itself. Fork the modrunner-bot
 repository on GitHub and open it up in a development environment of your choice. The easiest way would be to press "." on
@@ -287,9 +287,9 @@ DISCORD_TOKEN="YOUR BOT'S TOKEN"
 LOGGING_LEVEL="info"
 ```
 
-:::danger
+<div class="danger">
 Make sure not to commit your `.env` file into source control, or your secrets will be exposed on GitHub for the world to see!
-:::
+</div>
 
 Now we need to import our values into each JS file that requires them by adding the following to the top of the file:
 

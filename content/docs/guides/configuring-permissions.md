@@ -17,22 +17,22 @@ The first section allows you to restrict command usage to certain members or cer
 
 Let's say that I have a "admin" role on my server and I want members with that role to be able to use Modrunner's commands, but not anyone else. First thing we do is disable command usage for everyone by toggling it off:
 
-![Disable for Everyone](configuring_permissions/disableforeveryone.png)
+![Disable for Everyone](/images/docs/guides/configuring-permissions/0.png)
 
 Then we want to add our "admin" role to be allowed to use Modrunner's commands. Click "Add Roles or Members". We'll check the box next to "Guildmasters", our admin role, then click add.
 
-![Roles and Members Button](configuring_permissions/rolesandmembers.png)
-![Add Admin Role](configuring_permissions/selectadminrole.png)
+![Roles and Members Button](/images/docs/guides/configuring-permissions/1.png)
+![Add Admin Role](/images/docs/guides/configuring-permissions/2.png)
 
 Now we can see that our "Guildmasters" role has permissions to use Modrunner's commands, and only this role.
 
-![Role Addded Successfully](configuring_permissions/rolesuccessfullyadded.png)
+![Role Addded Successfully](/images/docs/guides/configuring-permissions/3.png)
 
 ## Channel-based permissions
 
 The process is similar for restricting usage to specific channels. Say for example, we have a `#bot-commands` channel in our server and we only want commands run here, to keep `#general` nice and tidy. We can achieve this by disabling usage in all channels, and adding our bot commands channel (called `#terminal` here) to be allowed.
 
-![Channel Permissions](configuring_permissions/channelpermissions.png)
+![Channel Permissions](/images/docs/guides/configuring-permissions/4.png)
 
 ## Command-based permissions
 
@@ -40,9 +40,9 @@ This is where things get interesting. You can restrict usage of specific command
 
 Let's suppose we want to restrict usage of the `/list` command to our moderator role, and only in our `#staff-terminal` channel. First we start by clicking the command name, then disabling the command usage from all channels and members:
 
-![Select Command](configuring_permissions/selectcommand.png)
-![Disable All Access](configuring_permissions/disableallaccess.png)
+![Select Command](/images/docs/guides/configuring-permissions/5.png)
+![Disable All Access](/images/docs/guides/configuring-permissions/6.png)
 
 Now we just add our moderator role (Magistrates) and staff channel (`#staff-terminal`) to be allowed, and we're set!
 
-![Add Staff role and Channel](configuring_permissions/addstaffroleandchannel.png)
+![Add Staff role and Channel](/images/docs/guides/configuring-permissions/7.png)

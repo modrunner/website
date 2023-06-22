@@ -41,7 +41,7 @@
 	</div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 #doc-wrapper {
 	display: flex;
 	gap: 3rem;
@@ -72,6 +72,26 @@
 
 	#doc-content-wrapper {
 		margin: 0 22rem;
+
+		a {
+			color: var(--color-text);
+		}
+
+		img {
+			width: 100%;
+		}
+
+		div.info {
+			background-color: gray;
+		}
+
+		div.caution {
+			background-color: yellow;
+		}
+
+		div.danger {
+			background-color: red;
+		}
 	}
 
 	#doc-outline-wrapper {
