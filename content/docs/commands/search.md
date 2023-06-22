@@ -14,19 +14,19 @@ Search for projects on Modrinth and CurseForge and receive an embed with some ba
 
 - `query` (required) - the search term (name of the project, usually)
 
-:::info
+::admonition{type="info"}
 
 This command only works for Minecraft projects on CurseForge.
 
-:::
+::
 
-:::info
+::admonition{type="info"}
 
 It is a known issue that CurseForge's search engine kinda sucks. If you cannot find the project you are looking for, try using the `View More Results` button and if it still isn't there, then try using the website instead.
 
 I'm looking into ways to improve the quality of search results but this problem is largely out of my hands unfortunately.
 
-:::
+::
 
 ### Modrinth
 

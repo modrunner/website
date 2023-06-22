@@ -2,10 +2,12 @@
 
 If you want, you can self-host your own instance of Modrunner on a private VPS, just for you!
 
-<div class="info">
+::admonition{type="note"}
+
 While this guide is written for those unfamiliar with hosting, Node or Linux, it is still recommended that you have a
 somewhat decent idea of these tools do before proceeding.
-</div>
+
+::
 
 ## Creating a Discord application
 
@@ -18,12 +20,14 @@ If you've never created a Discord app before, this page will be empty.
 
 Click on the "New Application" button on the top left. Give your application a name, click the checkbox and click "Create".
 
-<div class="caution">
+::admonition{type="caution"}
+
 Modrunner is licensed under the [Apache 2.0](https://github.com/smcmo/modrunner-bot/blob/main/LICENSE) license. This gives
 you permissions to modify, distribute and use Modrunner's source code for commercial purposes. However, it does NOT allow
 usage of the Modrunner branding and name in your derived works. Please do not use the name "Modrunner" or use any official
 branding, icons or art to represent your own work.
-</div>
+
+::
 
 Ta-da! Your Discord app is created. Keep this tab handy, we'll be coming back to it later.
 
@@ -135,9 +139,11 @@ Head back to the Discord Developer Portal and navigate to the "Bot" tab, then cl
 Under the username field, you'll see the "Reset Token" button. Click it, and Discord will generate a security token for
 your bot to use to access the Discord API. Copy the token and head back to Doppler.
 
-<div class="caution">
+::admonition{type="caution"}
+
 Make sure never to share this token publicly. Otherwise, others may be able to hijack your bot. Keep it secret, keep it safe!
-</div>
+
+::
 
 ![screenshot of the doppler add secret fields](/images/docs/guides/self-hosting/7.png)
 
@@ -162,18 +168,22 @@ dev console service and sign up for an account, if you don't have one already.
 Once you're in, navigate to the "API keys" tab and copy the key next to your username. Head back to Doppler, add a new
 secret, name it `CF_API_KEY` and paste in the key you copied for the value.
 
-<div class="caution">
+::admonition{type="caution"}
+
 Be sure to never share your API key publicly. Otherwise, others may use your key to make requests on your behalf, and you
 don't want that!
-</div>
 
-<div class="info">
+::
+
+::admonition{type="info"}
+
 This key's intended use case is primarily for content creators to upload project data to CurseForge programmatically, but
 we're using it to retrieve information about projects on CurseForge, which is also okay.
 
 However, if you reuse this key for multiple projects you are likely to get rate limited by CurseForge. We recommend that
 you submit an application to CurseForge for a dedicated project API key, so you can use your personal key for other things.
-</div>
+
+::
 
 ### Installing Doppler
 
@@ -190,9 +200,11 @@ Head to Doppler and navigate to the "Access" tab.
 
 Under "Service Token", click "Generate". Give it a name, then click "Generate Service Token". Copy the token.
 
-<div class="caution">
+::admonition{type="caution"}
+
 Make sure never to share any service tokens publicly. Otherwise, others may be able to access your secrets in Doppler!
-</div>
+
+::
 
 Head back to the terminal. Enter the following commands:
 
@@ -261,10 +273,12 @@ Many still prefer the simplicity of a system like [Dotenv](https://www.dotenv.or
 saving secrets in Doppler, you can store them locally on your VPS in a `.env` file. Luckily, with a few small tweaks you
 can run Modrunner using Dotenv.
 
-<div class="info">
+::admonition{type="info"}
+
 It is recommended to have a basic-level knowledge of JavaScript/Node.js, git and local development environments before
 continuing with this section.
-</div>
+
+::
 
 To make Dotenv work with the bot, we will need to make some minor changes to the bot's code itself. Fork the modrunner-bot
 repository on GitHub and open it up in a development environment of your choice. The easiest way would be to press "." on
@@ -279,7 +293,7 @@ npm install dotenv --save
 
 Now create a `.env` file in the root directory. Let's add the required secrets to it:
 
-```dotenv
+```shell
 CF_API_KEY="YOUR CURSEFORGE API KEY"
 DOPPLER_ENVIRONMENT="prd"
 DISCORD_APPLICATION_ID="YOUR BOT'S APP ID"
@@ -287,9 +301,11 @@ DISCORD_TOKEN="YOUR BOT'S TOKEN"
 LOGGING_LEVEL="info"
 ```
 
-<div class="danger">
+::admonition{type="danger"}
+
 Make sure not to commit your `.env` file into source control, or your secrets will be exposed on GitHub for the world to see!
-</div>
+
+::
 
 Now we need to import our values into each JS file that requires them by adding the following to the top of the file:
 

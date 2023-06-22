@@ -73,24 +73,14 @@
 	#doc-content-wrapper {
 		margin: 0 22rem;
 
-		a {
+		h1 a,
+		h2 a,
+		h3 a {
 			color: var(--color-text);
 		}
 
 		img {
 			width: 100%;
-		}
-
-		div.info {
-			background-color: gray;
-		}
-
-		div.caution {
-			background-color: yellow;
-		}
-
-		div.danger {
-			background-color: red;
 		}
 	}
 
@@ -107,7 +97,12 @@
 			padding: 1rem;
 
 			a {
+				color: var(--color-text);
 				font-size: 0.8rem;
+
+				&:hover {
+					color: var(--color-brand);
+				}
 			}
 
 			.link {

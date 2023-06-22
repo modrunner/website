@@ -69,6 +69,11 @@ export default defineNuxtConfig({
 	},
 	components: ['~/components/icons'],
 	modules: ['@nuxt/content', '@pinia/nuxt'],
+	content: {
+		highlight: {
+			theme: 'material-default',
+		},
+	},
 	pinia: {
 		autoImports: ['defineStore'],
 	},

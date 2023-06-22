@@ -16,16 +16,16 @@ notification is sent into a specified channel in Discord, optionally with a role
   the channel the command was used in.
 - `role` (optional) - a role that you want Modrunner to ping when posting an update notification for this project
 
-:::tip
+::admonition{type="tip"}
 
 You can get a project's ID from its project page on the Modrinth or CurseForge website, or by using the
 [Search](../commands/search) command.
 
-:::
+::
 
-:::tip
+::admonition{type="tip"}
 
 You can add more than one role to notify running the command again with the same project ID and channel, and specifying
 a different role.
 
-:::
+::
