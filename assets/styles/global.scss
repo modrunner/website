@@ -89,7 +89,7 @@ h3 {
 	color: var(--color-text);
 }
 
-input {
+input[type='text'] {
 	border-radius: var(--size-rounded-sm);
 	box-sizing: border-box;
 	border: 2px solid transparent;
@@ -100,7 +100,7 @@ pre {
 	font-weight: var(--font-weight-regular);
 }
 
-input,
+input[type='text'],
 textarea {
 	background: var(--color-button-bg);
 	color: var(--color-text);

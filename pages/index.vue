@@ -25,15 +25,15 @@
 	<section class="landing-section" id="stats-section">
 		<div id="statistics">
 			<div class="statistic">
-				<h1>70+</h1>
+				<h1>{{ stats.servers ?? -1 }}</h1>
 				<p>Servers Across Discord</p>
 			</div>
 			<div class="statistic">
-				<h1>500+</h1>
+				<h1>{{ stats.projects ?? -1 }}</h1>
 				<p>Modding Projects Tracked</p>
 			</div>
 			<div class="statistic">
-				<h1>99.99%</h1>
+				<h1>{{ (stats.uptime * 100).toFixed(2) ?? -1 }}%</h1>
 				<p>Historical Uptime</p>
 			</div>
 		</div>
@@ -108,6 +108,16 @@
 useHead({
 	title: 'The Ultimate Resource for Modding Communities',
 });
+
+let stats = { servers: 0, projects: 0, uptime: 0 };
+const { data } = await useFetch('/stats');
+if (data.value) {
+	stats = {
+		servers: data.value.servers,
+		projects: data.value.projects,
+		uptime: data.value.uptime,
+	};
+}
 </script>
 
 <script>

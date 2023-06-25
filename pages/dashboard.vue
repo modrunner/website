@@ -8,6 +8,15 @@
 				name="server-search"
 				placeholder="Search for a server"
 			/>
+			<div id="checkbox-container">
+				<input
+					type="checkbox"
+					id="show-managed-guilds-checkbox"
+					name="show-managed-guilds-checkbox"
+					checked="true"
+				/>
+				Show Only Managed Guilds
+			</div>
 			<nav id="server-navlist-buttons" v-if="userGuilds.length > 0">
 				<!-- server items go here -->
 				<button
@@ -52,14 +61,44 @@
 				class="rounded-container info-panel"
 				v-if="selectedTab === 0"
 			>
-				<h1>Tracked Projects</h1>
+				<div id="channels">
+					<div
+						v-for="channel of selectedGuild.channels"
+						:key="channel"
+						class="channel-container"
+					>
+						<div class="title">
+							<h1>#{{ channel.name }}</h1>
+							<h2>{{ channel.projects.length }} PROJECTS</h2>
+						</div>
+						<div class="body">
+							<div class="headings">
+								<span>Name</span>
+								<span>Platform</span>
+								<span>Id</span>
+								<span>Last Updated</span>
+								<span>Notification Roles</span>
+							</div>
+							<div
+								v-for="project of channel.projects"
+								:key="project"
+								class="projects"
+							>
+								<p>{{ project.name }}</p>
+								<p>{{ project.platform }}</p>
+								<p>{{ project.id }}</p>
+								<p>{{ new Date(project.dateUpdated).toLocaleDateString() }}</p>
+								<p>TODO</p>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div
 				id="bot-settings-panel"
 				class="rounded-container info-panel"
 				v-else-if="selectedTab === 1"
 			>
-				<h1>Bot Settings</h1>
 				<div id="cols">
 					<div id="left-col">
 						<h2>General Settings</h2>
@@ -188,7 +227,7 @@ export default {
 				id: guild.id,
 				name: guild.name,
 				icon: guild.icon,
-				trackedProjects: response.trackedProjects,
+				channels: response.channels,
 				settings: {
 					changelogLength: response.changelogLength,
 					maxProjects: response.maxProjects,
@@ -237,6 +276,21 @@ export default {
 			font-family: var(--font-standard);
 		}
 
+		#checkbox-container {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			font-size: 0.75rem;
+			margin-top: 1rem;
+
+			#show-managed-guilds-checkbox {
+				background-color: rebeccapurple;
+				height: 1rem;
+				width: 1rem;
+				padding: 0;
+			}
+		}
+
 		#server-navlist-buttons {
 			display: flex;
 			flex-direction: column;
@@ -263,6 +317,7 @@ export default {
 
 				img {
 					border-radius: 99999px;
+					height: 2.5rem;
 				}
 			}
 		}
@@ -309,6 +364,58 @@ export default {
 				border-bottom: 1px solid var(--color-text-dark);
 				padding-bottom: 1rem;
 				margin: 0;
+			}
+		}
+
+		#tracked-projects-panel {
+			#channels {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+
+				.channel-container {
+					background-color: var(--color-bg);
+					padding: 0.75rem;
+
+					.title {
+						display: flex;
+						align-items: center;
+						gap: 0.5rem;
+
+						h1,
+						h2 {
+							border: none;
+							margin: 0;
+							padding: 0;
+						}
+
+						h1 {
+							font-size: 1.25rem;
+						}
+
+						h2 {
+							color: var(--color-text-dark);
+							font-size: 0.75rem;
+						}
+					}
+
+					.body {
+						p {
+							margin: 0.5rem 0 0 0;
+						}
+						.headings {
+							display: grid;
+							grid-template-columns: 0.75fr 0.5fr 0.5fr 0.5fr 2fr;
+							border-bottom: 1px solid var(--color-text-dark);
+							padding-bottom: 0.5rem;
+						}
+
+						.projects {
+							display: grid;
+							grid-template-columns: 0.75fr 0.5fr 0.5fr 0.5fr 2fr;
+						}
+					}
+				}
 			}
 		}
 

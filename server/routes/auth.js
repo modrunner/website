@@ -2,7 +2,7 @@ export default defineEventHandler(async (event) => {
 	const runtimeConfig = useRuntimeConfig();
 	const query = getQuery(event);
 
-	const response = await fetch('https://discord.com/api/oauth2/token', {
+	return await fetch('https://discord.com/api/oauth2/token', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded',
@@ -16,7 +16,5 @@ export default defineEventHandler(async (event) => {
 		}),
 	})
 		.then((res) => res.json())
-		.catch((error) => console.error(error));
-
-	return response;
+		.catch((error) => console.error('/server/routes/auth.js -', error));
 });
