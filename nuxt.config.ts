@@ -68,7 +68,7 @@ export default defineNuxtConfig({
 		},
 	},
 	components: ['~/components/icons'],
-	modules: ['@nuxt/content', '@pinia/nuxt'],
+	modules: ['@nuxt/content', '@pinia/nuxt', 'floating-vue/nuxt'],
 	content: {
 		highlight: {
 			theme: 'material-default',

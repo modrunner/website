@@ -13,6 +13,17 @@
 				>
 				<NuxtLink to="/docs" class="landing-button">View the Docs</NuxtLink>
 			</div>
+			<section id="supported-platforms">
+				<h3>Supported Platforms</h3>
+				<div>
+					<ModrinthIcon v-tooltip="'Modrinth'" />
+					<img
+						src="~/assets/images/external/curseforge.png"
+						alt=""
+						v-tooltip="'CurseForge'"
+					/>
+				</div>
+			</section>
 		</div>
 	</section>
 
@@ -138,7 +149,6 @@ export default {};
 .landing-section {
 	display: flex;
 	justify-content: center;
-	margin-bottom: 6.5rem;
 
 	#landing-text {
 		width: 960px;
@@ -173,6 +183,24 @@ export default {};
 				&:hover {
 					background-color: var(--color-brand-dark);
 				}
+			}
+		}
+
+		#supported-platforms {
+			margin: 2rem;
+
+			div {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 1rem;
+			}
+
+			img,
+			svg {
+				color: #1bd96a;
+				height: 2rem;
+				width: 2rem;
 			}
 		}
 	}

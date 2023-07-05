@@ -99,7 +99,12 @@
 						<h2>General Settings</h2>
 						<p>Bot Nickname</p>
 						<input type="text" />
-						<p>Log Channel</p>
+						<div>
+							<p>Log Channel</p>
+							<InfoIcon
+								v-tooltip="'Used for system messages and news about Modrunner.'"
+							/>
+						</div>
 						<select name="" id=""></select>
 
 						<h2>Tracked Projects Settings</h2>
@@ -437,6 +442,12 @@ export default defineNuxtComponent({
 			#cols {
 				display: flex;
 				justify-content: space-between;
+
+				#left-col div {
+					display: flex;
+					align-items: center;
+					gap: 0.5rem;
+				}
 			}
 
 			input,
