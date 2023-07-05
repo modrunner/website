@@ -13,22 +13,19 @@
 					type="checkbox"
 					id="show-managed-guilds-checkbox"
 					name="show-managed-guilds-checkbox"
-					checked="true"
+					v-model="showOnlyManagedGuilds"
 				/>
 				Show Only Managed Guilds
 			</div>
-			<nav id="server-navlist-buttons" v-if="userGuilds.length > 0">
+			<nav id="server-navlist-buttons" v-if="computedUserGuilds.length > 0">
 				<!-- server items go here -->
 				<button
-					v-for="guild in userGuilds"
+					v-for="guild in computedUserGuilds"
 					:key="guild.id"
 					@click="selectGuild(guild)"
 					class="server-nav-button"
 				>
-					<img
-						:src="`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`"
-						v-if="guild.icon !== ''"
-					/>
+					<img :src="computedGuildIcon(guild)" v-if="guild.icon !== ''" />
 					<div v-else class="image-placeholder"></div>
 					<span>{{ guild.name }}</span>
 				</button>
@@ -37,9 +34,7 @@
 		</section>
 		<section id="information-panels" v-if="selectedGuild !== ''">
 			<div id="server-name-title">
-				<img
-					:src="`https://cdn.discordapp.com/icons/${selectedGuild.id}/${selectedGuild.icon}.webp`"
-				/>
+				<img :src="computedGuildIcon(selectedGuild)" />
 				<h1>{{ selectedGuild.name }}</h1>
 			</div>
 			<div id="navigation-bar">
@@ -192,32 +187,49 @@
 	</div>
 </template>
 
-<script setup>
-const { data: userGuilds } = await useFetch(
-	'https://discord.com/api/users/@me/guilds',
-	{
-		headers: { authorization: `Bearer ${useCookie('access-token').value}` },
-	}
-);
-</script>
-
 <script>
-export default {
-	setup() {
+export default defineNuxtComponent({
+	async setup() {
 		definePageMeta({
 			middleware: ['auth'],
 		});
 
+		const { data: userGuilds } = await useFetch(
+			'https://discord.com/api/users/@me/guilds',
+			{
+				headers: { authorization: `Bearer ${useCookie('access-token').value}` },
+			}
+		);
+
 		const appConfig = useAppConfig();
-		return { appConfig };
+		return { appConfig, userGuilds };
 	},
 	data() {
 		return {
 			selectedGuild: '',
 			selectedTab: 0,
+			showOnlyManagedGuilds: true,
 		};
 	},
+	computed: {
+		computedUserGuilds() {
+			if (this.showOnlyManagedGuilds) {
+				return this.userGuilds.filter((guild) => {
+					return (guild.permissions & 0x20) == 0x20;
+				});
+			} else {
+				return this.userGuilds;
+			}
+		},
+	},
 	methods: {
+		computedGuildIcon(guild) {
+			if (guild.icon) {
+				return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`;
+			} else {
+				return 'https://cdn.discordapp.com/avatars/978413985722404924/dd5ed95724a0946f97f4917ae978dd96.webp';
+			}
+		},
 		async selectGuild(guild) {
 			const response = await $fetch('/guild', {
 				query: { guildId: guild.id },
@@ -236,7 +248,7 @@ export default {
 			};
 		},
 	},
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -336,6 +348,8 @@ export default {
 
 			img {
 				border-radius: 99999px;
+				height: 4rem;
+				width: 4rem;
 			}
 		}
 
