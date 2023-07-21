@@ -1,14 +1,15 @@
 <template></template>
 
 <script>
-definePageMeta({
-	layout: false,
-});
-
-export default {
+export default defineNuxtComponent({
 	setup() {
+		definePageMeta({
+			layout: false,
+		});
+
 		const appConfig = useAppConfig();
-		return { appConfig };
+		const runtimeConfig = useRuntimeConfig();
+		return { runtimeConfig, appConfig };
 	},
 	async beforeMount() {
 		const authCookie = useCookie('access-token');
@@ -26,8 +27,15 @@ export default {
 			authCookie.value = response['access_token'];
 			await navigateTo('/dashboard');
 		} else {
-			await navigateTo(this.appConfig.meta.authUrl, { external: true });
+			await navigateTo(
+				`https://discord.com/api/oauth2/authorize?client_id=${
+					this.runtimeConfig.public.discordClientId
+				}&redirect_uri=${encodeURI(
+					`${this.runtimeConfig.public.baseUrl}/login`
+				)}&response_type=code&scope=identify`,
+				{ external: true }
+			);
 		}
 	},
-};
+});
 </script>

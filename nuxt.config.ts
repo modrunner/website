@@ -78,12 +78,39 @@ export default defineNuxtConfig({
 		autoImports: ['defineStore'],
 	},
 	runtimeConfig: {
-		clientId: '',
-		clientSecret: '',
-		redirectUri: '',
-		xApiKey: '',
+		apiKey: '',
+		apiUrl: '',
+		discordClientSecret: '',
+		public: {
+			owner: 'modrunner',
+			slug: 'website',
+			branch: 'main',
+			hash: 'unknown',
+			baseUrl: getDomain(),
+			discordClientId: getDiscordClientId(),
+		},
 	},
 	vite: {
 		plugins: [svgLoader()],
 	},
 });
+
+function getDomain() {
+	if (process.env.ENVIRONMENT === 'prd') {
+		return 'https://modrunner.net';
+	} else if (process.env.ENVIRONMENT === 'stg') {
+		return 'https://staging.modrunner.net';
+	} else {
+		return 'http://localhost:3000';
+	}
+}
+
+function getDiscordClientId() {
+	if (process.env.ENVIRONMENT === 'prd') {
+		return '978413985722404924';
+	} else if (process.env.ENVIRONMENT === 'stg') {
+		return '1037064329469632593';
+	} else {
+		return '968164973467541574';
+	}
+}

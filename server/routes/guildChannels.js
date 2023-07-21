@@ -1,6 +1,6 @@
 export default defineEventHandler(async (event) => {
 	return await fetch(
-		`${useRuntimeConfig().apiUrl}/guilds/${getQuery(event).guildId}`,
+		`${useRuntimeConfig().apiUrl}/guilds/${getQuery(event).guildId}/channels`,
 		{
 			headers: {
 				'x-api-key': useRuntimeConfig().apiKey,
@@ -8,5 +8,5 @@ export default defineEventHandler(async (event) => {
 		}
 	)
 		.then((res) => res.json())
-		.catch((error) => console.log('/server/routes/guild.js -', error));
+		.catch((error) => console.log('/server/routes/guildChannels.js -', error));
 });
