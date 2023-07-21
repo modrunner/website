@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-	return await fetch('http://localhost:3001/stats', {
+	return await fetch(`${useRuntimeConfig().apiUrl}/stats`, {
 		headers: {
 			'x-api-key': useRuntimeConfig().apiKey,
 		},
