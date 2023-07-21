@@ -3,6 +3,7 @@
 		<section id="sidebar" class="rounded-container">
 			<h1>Your Servers</h1>
 			<input
+				v-model.trim="searchInput"
 				id="server-search-input"
 				type="text"
 				name="server-search"
@@ -21,9 +22,11 @@
 				<!-- server items go here -->
 				<button
 					v-for="guild in computedUserGuilds"
+					v-show="new RegExp(`${searchInput}`, 'i').test(guild.name)"
 					:key="guild.id"
 					@click="selectGuild(guild)"
 					class="server-nav-button"
+					:class="{ selected: selectedGuild.id === guild.id }"
 				>
 					<img :src="computedGuildIcon(guild)" v-if="guild.icon !== ''" />
 					<div v-else class="image-placeholder"></div>
@@ -37,155 +40,183 @@
 				<img :src="computedGuildIcon(selectedGuild)" />
 				<h1>{{ selectedGuild.name }}</h1>
 			</div>
-			<div id="navigation-bar">
-				<button
-					@click="selectedTab = 0"
-					:class="{ selected: selectedTab === 0 }"
-				>
-					Tracked Projects
-				</button>
-				<button
-					@click="selectedTab = 1"
-					:class="{ selected: selectedTab === 1 }"
-				>
-					Bot Settings
-				</button>
-			</div>
-			<div
-				id="tracked-projects-panel"
-				class="rounded-container info-panel"
-				v-if="selectedTab === 0"
-			>
-				<div id="channels">
-					<div
-						v-for="channel of selectedGuild.channels"
-						:key="channel"
-						class="channel-container"
+			<div v-if="selectedGuild.isBotPresent">
+				<div id="navigation-bar">
+					<button
+						@click="selectedTab = 0"
+						:class="{ selected: selectedTab === 0 }"
 					>
-						<div class="title">
-							<h1>#{{ channel.name }}</h1>
-							<h2>{{ channel.projects.length }} PROJECTS</h2>
-						</div>
-						<div class="body">
-							<div class="headings">
-								<span>Name</span>
-								<span>Platform</span>
-								<span>Id</span>
-								<span>Last Updated</span>
-								<span>Notification Roles</span>
-							</div>
+						Tracked Projects
+					</button>
+					<button
+						@click="selectedTab = 1"
+						:class="{ selected: selectedTab === 1 }"
+					>
+						Bot Settings
+					</button>
+				</div>
+				<div
+					id="tracked-projects-panel"
+					class="rounded-container info-panel"
+					v-if="selectedTab === 0"
+				>
+					<Suspense>
+						<div id="channels">
 							<div
-								v-for="project of channel.projects"
-								:key="project"
-								class="projects"
+								v-for="channel of selectedGuild.projectChannels"
+								v-if="selectedGuild.projectChannels.length > 0"
+								:key="channel"
+								class="channel-container"
 							>
-								<p>{{ project.name }}</p>
-								<p>{{ project.platform }}</p>
-								<p>{{ project.id }}</p>
-								<p>{{ new Date(project.dateUpdated).toLocaleDateString() }}</p>
-								<p>TODO</p>
+								<div class="title">
+									<h1>#{{ channel.name }}</h1>
+									<h2>{{ channel.projects.length }} PROJECTS</h2>
+								</div>
+								<div class="body">
+									<div class="headings">
+										<span>Name</span>
+										<span>Platform</span>
+										<span>Id</span>
+										<span>Last Updated</span>
+										<span>Notification Roles</span>
+									</div>
+									<div
+										v-for="project of channel.projects"
+										:key="project"
+										class="projects"
+									>
+										<p>{{ project.name }}</p>
+										<p>{{ project.platform }}</p>
+										<p>{{ project.id }}</p>
+										<p>
+											{{ new Date(project.dateUpdated).toLocaleDateString() }}
+										</p>
+										<p>TODO</p>
+									</div>
+								</div>
 							</div>
+							<div v-else>
+								You aren't currently tracking any projects in this server.
+							</div>
+						</div>
+						<template id="channels" #fallback>Loading projects...</template>
+					</Suspense>
+				</div>
+				<div
+					id="bot-settings-panel"
+					class="rounded-container info-panel"
+					v-else-if="selectedTab === 1"
+				>
+					<div id="cols">
+						<div id="left-col">
+							<h2>General Settings</h2>
+							<p>Bot Nickname</p>
+							<input type="text" />
+							<div>
+								<p>Log Channel</p>
+								<InfoIcon
+									v-tooltip="
+										'Used for system messages and news about Modrunner.'
+									"
+								/>
+							</div>
+							<select name="" id="">
+								<option
+									v-for="channel of selectedGuild.channels"
+									:key="channel"
+									:value="channel.id"
+								>
+									#{{ channel.name }}
+								</option>
+							</select>
+
+							<h2>Tracked Projects Settings</h2>
+							<p>Maximum Characters for Changelogs</p>
+							<input
+								type="text"
+								:value="selectedGuild.settings.changelogLength"
+							/>
+							<p>Notification Style</p>
+							<select name="" id="">
+								<option
+									value=""
+									:selected="
+										selectedGuild.settings.notificationStyle === 'normal'
+											? true
+											: false
+									"
+								>
+									Normal
+								</option>
+								<option
+									value=""
+									:selected="
+										selectedGuild.settings.notificationStyle === 'compact'
+											? true
+											: false
+									"
+								>
+									Compact
+								</option>
+								<option
+									value=""
+									:selected="
+										selectedGuild.settings.notificationStyle === 'custom'
+											? true
+											: false
+									"
+								>
+									Custom
+								</option>
+								<option
+									value=""
+									:selected="
+										selectedGuild.settings.notificationStyle === 'ai'
+											? true
+											: false
+									"
+								>
+									AI Generated (Beta)
+								</option>
+							</select>
+						</div>
+						<div id="right-col">
+							<h2>Custom Style Editor</h2>
+							<textarea name="" id=""></textarea>
+							<p>
+								Only applies when the notification style is set to "Custom".
+								<NuxtLink
+									to="https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-"
+									>Supports Discord-style markdown.</NuxtLink
+								>
+							</p>
+							<h3>Available Variables</h3>
+							<p><code>$project_name</code> - The name of the project</p>
+							<p><code>$project_id</code> - The ID of the project</p>
+							<p>
+								<code>$project_platform</code> - The name of the platform where
+								the project is hosted
+							</p>
+							<p><code>$version_name</code> - The name of the new version</p>
+							<p>
+								<code>$version_number</code> - The number of the new version
+							</p>
+							<p><code>$version_id</code> - The ID of the new version</p>
+							<p>
+								<code>$version_changelog</code> - The changelog of the new
+								version
+							</p>
+							<p>
+								<code>$version_date</code> - The timestamp at when the new
+								version was published
+							</p>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div
-				id="bot-settings-panel"
-				class="rounded-container info-panel"
-				v-else-if="selectedTab === 1"
-			>
-				<div id="cols">
-					<div id="left-col">
-						<h2>General Settings</h2>
-						<p>Bot Nickname</p>
-						<input type="text" />
-						<div>
-							<p>Log Channel</p>
-							<InfoIcon
-								v-tooltip="'Used for system messages and news about Modrunner.'"
-							/>
-						</div>
-						<select name="" id=""></select>
-
-						<h2>Tracked Projects Settings</h2>
-						<p>Maximum Characters for Changelogs</p>
-						<input
-							type="text"
-							:value="selectedGuild.settings.changelogLength"
-						/>
-						<p>Notification Style</p>
-						<select name="" id="">
-							<option
-								value=""
-								:selected="
-									selectedGuild.settings.notificationStyle === 'normal'
-										? true
-										: false
-								"
-							>
-								Normal
-							</option>
-							<option
-								value=""
-								:selected="
-									selectedGuild.settings.notificationStyle === 'compact'
-										? true
-										: false
-								"
-							>
-								Compact
-							</option>
-							<option
-								value=""
-								:selected="
-									selectedGuild.settings.notificationStyle === 'custom'
-										? true
-										: false
-								"
-							>
-								Custom
-							</option>
-							<option
-								value=""
-								:selected="
-									selectedGuild.settings.notificationStyle === 'ai'
-										? true
-										: false
-								"
-							>
-								AI Generated (Beta)
-							</option>
-						</select>
-					</div>
-					<div id="right-col">
-						<h2>Custom Style Editor</h2>
-						<textarea name="" id=""></textarea>
-						<p>
-							Only applies when the notification style is set to "Custom".
-							<NuxtLink
-								to="https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-"
-								>Supports Discord-style markdown.</NuxtLink
-							>
-						</p>
-						<h3>Available Variables</h3>
-						<p><code>$project_name</code> - The name of the project</p>
-						<p><code>$project_id</code> - The ID of the project</p>
-						<p>
-							<code>$project_platform</code> - The name of the platform where
-							the project is hosted
-						</p>
-						<p><code>$version_name</code> - The name of the new version</p>
-						<p><code>$version_number</code> - The number of the new version</p>
-						<p><code>$version_id</code> - The ID of the new version</p>
-						<p>
-							<code>$version_changelog</code> - The changelog of the new version
-						</p>
-						<p>
-							<code>$version_date</code> - The timestamp at when the new version
-							was published
-						</p>
-					</div>
-				</div>
+			<div v-else class="rounded-container info-panel">
+				Modrunner is not currently present in this server.
+				<NuxtLink to="/invite"> Get started by inviting it. </NuxtLink>
 			</div>
 		</section>
 		<p v-else>Select a server from the sidebar on the left to get started.</p>
@@ -206,6 +237,10 @@ export default defineNuxtComponent({
 			}
 		);
 
+		userGuilds.value.sort((a, b) => {
+			return a.name.localeCompare(b.name);
+		});
+
 		const appConfig = useAppConfig();
 		return { appConfig, userGuilds };
 	},
@@ -213,6 +248,7 @@ export default defineNuxtComponent({
 		return {
 			selectedGuild: '',
 			selectedTab: 0,
+			searchInput: '',
 			showOnlyManagedGuilds: true,
 		};
 	},
@@ -236,21 +272,36 @@ export default defineNuxtComponent({
 			}
 		},
 		async selectGuild(guild) {
-			const response = await $fetch('/guild', {
+			const guildData = await $fetch('/guild', {
 				query: { guildId: guild.id },
 			});
 
-			this.selectedGuild = {
-				id: guild.id,
-				name: guild.name,
-				icon: guild.icon,
-				channels: response.channels,
-				settings: {
-					changelogLength: response.changelogLength,
-					maxProjects: response.maxProjects,
-					notificationStyle: response.notificationStyle,
-				},
-			};
+			if (guildData.isBotPresent) {
+				const guildChannels = await $fetch('/guildChannels', {
+					query: { guildId: guild.id },
+				});
+
+				this.selectedGuild = {
+					id: guild.id,
+					name: guild.name,
+					icon: guild.icon,
+					channels: guildChannels,
+					projectChannels: guildData.channels,
+					isBotPresent: true,
+					settings: {
+						changelogLength: guildData.changelogLength,
+						maxProjects: guildData.maxProjects,
+						notificationStyle: guildData.notificationStyle,
+					},
+				};
+			} else {
+				this.selectedGuild = {
+					id: guild.id,
+					name: guild.name,
+					icon: guild.icon,
+					isBotPresent: false,
+				};
+			}
 		},
 	},
 });
@@ -336,6 +387,10 @@ export default defineNuxtComponent({
 					border-radius: 99999px;
 					height: 2.5rem;
 				}
+
+				&.selected {
+					background-color: rgba($color: #ffffff, $alpha: 0.2);
+				}
 			}
 		}
 	}
@@ -353,8 +408,8 @@ export default defineNuxtComponent({
 
 			img {
 				border-radius: 99999px;
-				height: 4rem;
-				width: 4rem;
+				height: 3rem;
+				width: 3rem;
 			}
 		}
 
