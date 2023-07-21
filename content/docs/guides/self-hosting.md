@@ -22,7 +22,7 @@ Click on the "New Application" button on the top left. Give your application a n
 
 ::admonition{type="caution"}
 
-Modrunner is licensed under the [Apache 2.0](https://github.com/smcmo/modrunner-bot/blob/main/LICENSE) license. This gives
+Modrunner is licensed under the [Apache 2.0](https://github.com/modrunner/discord-bot/blob/main/LICENSE) license. This gives
 you permissions to modify, distribute and use Modrunner's source code for commercial purposes. However, it does NOT allow
 usage of the Modrunner branding and name in your derived works. Please do not use the name "Modrunner" or use any official
 branding, icons or art to represent your own work.
@@ -74,7 +74,7 @@ Then verify that Node and npm installed correctly using `node -v` and `npm -v`
 Using the terminal, move to the directory you want to clone Modrunner's code into, then run the command
 
 ```shell
-git clone https://github.com/smcmo/modrunner-bot.git
+git clone https://github.com/modrunner/discord-bot.git
 ```
 
 This will download the latest changes from GitHub and install them on the VPS.
@@ -84,7 +84,7 @@ This will download the latest changes from GitHub and install them on the VPS.
 You can also upload the files to the server using File Transfer Protocol. For this you will need an FTP client like
 [FileZilla](https://filezilla-project.org/download.php?show_all=1) (examples will be shown using FileZilla).
 
-Head to [Modrunner's GitHub page](https://github.com/smcmo/modrunner-bot) and click "Code", then "Download ZIP". Unzip
+Head to [Modrunner's GitHub page](https://github.com/modrunner/discord-bot) and click "Code", then "Download ZIP". Unzip
 the file on your computer once the download is complete.
 
 ![screenshot of the download .zip option on github](/images/docs/guides/self-hosting/2.png)
