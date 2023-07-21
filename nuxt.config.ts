@@ -84,8 +84,8 @@ export default defineNuxtConfig({
 		public: {
 			owner: 'modrunner',
 			slug: 'website',
-			branch: 'main',
-			hash: 'unknown',
+			branch: process.env.CF_PAGES_BRANCH,
+			hash: process.env.CF_PAGES_COMMIT_SHA,
 			baseUrl: getDomain(),
 			discordClientId: getDiscordClientId(),
 		},

@@ -89,6 +89,9 @@
 						{{ runtimeConfig.public.hash }}
 					</NuxtLink>
 				</p>
+				<p>
+					{{ runtimeConfig.public.baseUrl }}
+				</p>
 				<p>&copy; {{ new Date().getFullYear() }} Modrunner</p>
 			</div>
 			<nav class="link-list">
