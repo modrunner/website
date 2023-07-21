@@ -92,4 +92,4 @@ We will update this Privacy Policy from time to time. We will always indicate th
 
 For any questions, comments or concerns about this policy, please reach out to us at [contact@modrunner.net](mailto:contact@modrunner.net).
 
-You can also contact us in our official Discord server, [CyberMechanics Guild](https://discord.modrunner.net/).
+You can also contact us in our official Discord server, [CyberMechanics Guild](https://discord.gg/fm88jhzEbt/).

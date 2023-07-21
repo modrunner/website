@@ -17,7 +17,7 @@
 				</nav>
 			</div>
 			<div id="header-user-controls">
-				<NuxtLink to="https://invite.modrunner.net">Add to Server</NuxtLink>
+				<NuxtLink to="/invite">Add to Server</NuxtLink>
 				<button @click="changeTheme">
 					<SunIcon v-if="theme === 'light'" />
 					<MoonIcon v-else />
@@ -80,9 +80,14 @@
 					>.
 				</p>
 				<p>
-					modrunner/website<br />main@<NuxtLink to="/" class="anchor-link"
-						>12345</NuxtLink
+					{{ runtimeConfig.public.owner }}/{{ runtimeConfig.public.slug }}
+					<br />
+					{{ runtimeConfig.public.branch }}@<NuxtLink
+						to="/"
+						class="anchor-link"
 					>
+						{{ runtimeConfig.public.hash }}
+					</NuxtLink>
 				</p>
 				<p>&copy; {{ new Date().getFullYear() }} Modrunner</p>
 			</div>
@@ -110,16 +115,20 @@
 	</footer>
 </template>
 
-<script setup>
-const appConfig = useAppConfig();
-
-const { data: userData } = await useFetch('https://discord.com/api/users/@me', {
-	headers: { authorization: `Bearer ${useCookie('access-token').value}` },
-});
-</script>
-
 <script>
-export default {
+export default defineNuxtComponent({
+	async setup() {
+		const { data: userData } = await useFetch(
+			'https://discord.com/api/users/@me',
+			{
+				headers: { authorization: `Bearer ${useCookie('access-token').value}` },
+			}
+		);
+
+		const appConfig = useAppConfig();
+		const runtimeConfig = useRuntimeConfig();
+		return { appConfig, runtimeConfig, userData };
+	},
 	data() {
 		return {
 			theme: 'dark',
@@ -145,7 +154,7 @@ export default {
 			}&state=${encodeURIComponent(this.authStore.generateNonce())}`;
 		},
 	},
-};
+});
 </script>
 
 <style lang="scss">
@@ -154,10 +163,11 @@ export default {
 #site-header {
 	display: flex;
 	justify-content: center;
-	background-color: rgba($color: #191c2a, $alpha: 0.7);
+	background-color: rgb(var(--color-bg-dark) / 0.7);
 	backdrop-filter: blur(10px);
 	position: sticky;
 	top: 0;
+	padding: 0.5rem 0;
 
 	#header-container {
 		display: flex;
