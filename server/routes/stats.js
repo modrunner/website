@@ -5,5 +5,16 @@ export default defineEventHandler(async (event) => {
 		},
 	})
 		.then((res) => res.json())
-		.catch((error) => console.log('/server/routes/stats.js -', error));
+		.catch((error) =>
+			logger.error(
+				`Error at route /server/routes/stats.js - ${error.message}`,
+				{
+					error: error,
+					url: `${useRuntimeConfig().apiUrl}/stats`,
+					headers: {
+						'x-api-key': useRuntimeConfig().apiKey,
+					},
+				}
+			)
+		);
 });
