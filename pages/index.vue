@@ -8,7 +8,7 @@
 				share and follow modding projects on some of the most popular platforms.
 			</h2>
 			<div id="landing-buttons-container">
-				<NuxtLink to="https://invite.modrunner.net" class="landing-button"
+				<NuxtLink to="/invite" class="landing-button"
 					>Add to Your Server</NuxtLink
 				>
 				<NuxtLink to="/docs" class="landing-button">View the Docs</NuxtLink>
@@ -53,14 +53,17 @@
 	<section class="landing-section">
 		<div id="feature-1">
 			<div class="feature-container feature-text">
-				<h1>Feature 1</h1>
+				<h1>Share Projects</h1>
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-					minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-					aliquip ex ea commodo consequat. Duis aute irure dolor in
-					reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-					pariatur.
+					<strong>
+						The easiest way to find and share projects in Discord.
+					</strong>
+					Use Modrunner's commands built into Discord to simplify the process of
+					retrieving information on your favorite modding projects.
+				</p>
+				<p>
+					Skip the arduous process of opening up your browser and copy-pasting
+					links into a text channel.
 				</p>
 			</div>
 			<div class="feature-container feature-img">
@@ -75,14 +78,14 @@
 				<img src="~/assets/images/logo.png" alt="" />
 			</div>
 			<div class="feature-container feature-text">
-				<h1>Feature 2</h1>
+				<h1>Monitor Updates</h1>
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-					minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-					aliquip ex ea commodo consequat. Duis aute irure dolor in
-					reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-					pariatur.
+					<strong>
+						Know exactly when your favorite projects recieve updates.
+					</strong>
+					Tracked projects are watched day and night for new file uploads, and
+					Modrunner sends you notifications in Discord as soon as they're
+					available for download.
 				</p>
 			</div>
 		</div>
@@ -91,14 +94,11 @@
 	<section class="landing-section">
 		<div id="feature-3">
 			<div class="feature-container feature-text">
-				<h1>Feature 3</h1>
+				<h1>Customize Everything</h1>
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-					minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-					aliquip ex ea commodo consequat. Duis aute irure dolor in
-					reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-					pariatur.
+					Make Modrunner your own by customizing numerous features like
+					changelog length and notification style.
+					<strong>Tailor the bot to suit your personal preferences.</strong>
 				</p>
 			</div>
 			<div class="feature-container feature-img">
@@ -110,7 +110,7 @@
 	<section class="landing-section">
 		<div id="call-to-action">
 			<h1>Are You Ready to Level Up Your Modding Community Today?</h1>
-			<NuxtLink to="/dashboard">Get Started</NuxtLink>
+			<NuxtLink to="/dashboard" class="landing-button">Get Started</NuxtLink>
 		</div>
 	</section>
 </template>
@@ -156,7 +156,7 @@ export default {};
 
 		h1 {
 			font-size: 4rem;
-			margin-bottom: 1rem;
+			margin: 1rem 0;
 		}
 
 		h2 {
@@ -206,6 +206,8 @@ export default {};
 	}
 
 	#landing-img {
+		margin-bottom: 4rem;
+
 		img {
 			width: 1280px;
 			height: 720px;
@@ -250,10 +252,15 @@ export default {};
 		.feature-text {
 			display: flex;
 			flex-direction: column;
+			justify-content: center;
 
 			h1 {
-				font-size: var(--font-size-2extralarge);
+				font-size: var(--font-size-3extralarge);
 				margin: 0;
+			}
+
+			p {
+				font-size: var(--font-size-large);
 			}
 		}
 
@@ -271,6 +278,7 @@ export default {};
 		align-items: center;
 		text-align: center;
 		width: 720px;
+		margin-bottom: 5rem;
 
 		h1 {
 			font-size: var(--font-size-2extralarge);
