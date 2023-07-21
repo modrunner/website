@@ -1,6 +1,6 @@
 import { Logtail } from '@logtail/node';
 
-const logtail = new Logtail(process.env.LOGTAIL_TOKEN);
+const logtail = new Logtail(useRuntimeConfig().logtailToken);
 
 export const logger = {
 	info(data) {
