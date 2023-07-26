@@ -81,7 +81,6 @@ export default defineNuxtConfig({
 		apiKey: '',
 		apiUrl: '',
 		discordClientSecret: '',
-		logtailToken: '',
 		public: {
 			owner: 'modrunner',
 			slug: 'website',

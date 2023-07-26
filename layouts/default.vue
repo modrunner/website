@@ -1,4 +1,9 @@
 <template>
+	<section id="experimental-banner" v-if="showExperimentalBanner">
+		This website is in an experimental state and is a work in progress. Many
+		things are unfinished, need polishing or may not work correctly!
+		<XIcon @click="showExperimentalBanner = false" id="close-button" />
+	</section>
 	<header id="site-header">
 		<div id="header-container">
 			<div id="header-nav">
@@ -136,6 +141,7 @@ export default defineNuxtComponent({
 		return {
 			theme: 'dark',
 			showMobileMenu: false,
+			showExperimentalBanner: true,
 		};
 	},
 	async mounted() {
@@ -162,6 +168,19 @@ export default defineNuxtComponent({
 
 <style lang="scss">
 @import '~/assets/styles/global.scss';
+
+#experimental-banner {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	background-color: red;
+	padding: 0.5rem;
+
+	#close-button {
+		cursor: pointer;
+	}
+}
 
 #site-header {
 	display: flex;
