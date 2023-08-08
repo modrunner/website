@@ -18,7 +18,7 @@ export default defineNuxtComponent({
 
 		if (params.get('code') /* && params.get('state') */) {
 			// get access token from Discord
-			const response = await $fetch('/auth', {
+			const response = await $fetch('/api/auth', {
 				query: { code: params.get('code') },
 			});
 

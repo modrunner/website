@@ -121,7 +121,7 @@ useHead({
 });
 
 let stats = { servers: 0, projects: 0, uptime: 0 };
-const { data } = await useFetch('/stats');
+const { data } = await useFetch('/api/stats');
 if (data.value) {
 	stats = {
 		servers: data.value.servers,

@@ -272,12 +272,12 @@ export default defineNuxtComponent({
 			}
 		},
 		async selectGuild(guild) {
-			const guildData = await $fetch('/guild', {
+			const guildData = await $fetch('/api/guild', {
 				query: { guildId: guild.id },
 			});
 
 			if (guildData.isBotPresent) {
-				const guildChannels = await $fetch('/guildChannels', {
+				const guildChannels = await $fetch('/api/guildChannels', {
 					query: { guildId: guild.id },
 				});
 
