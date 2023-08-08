@@ -13,5 +13,5 @@ export default defineEventHandler(async (event) => {
 		}),
 	})
 		.then((res) => res.json())
-		.catch((error) => console.error('/server/routes/auth.js -', error));
+		.catch((error) => console.error('/server/api/auth.js -', error));
 });

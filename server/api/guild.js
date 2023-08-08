@@ -8,5 +8,5 @@ export default defineEventHandler(async (event) => {
 		}
 	)
 		.then((res) => res.json())
-		.catch((error) => console.log('/server/routes/guild.js -', error));
+		.catch((error) => console.log('/server/api/guild.js -', error));
 });
