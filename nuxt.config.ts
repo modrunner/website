@@ -87,7 +87,7 @@ export default defineNuxtConfig({
 			slug: 'website',
 			branch: process.env.CF_PAGES_BRANCH ?? 'unknown',
 			hash: process.env.CF_PAGES_COMMIT_SHA ?? 'unknown',
-			baseUrl: process.env.CF_PAGES_URL ?? 'http://localhost:3000',
+			baseUrl: getDomain(),
 		},
 	},
 	vite: {
