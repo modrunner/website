@@ -35,7 +35,7 @@ export default defineNuxtComponent({
 					this.runtimeConfig.public.discordClientId
 				}&redirect_uri=${`${encodeURIComponent(
 					this.runtimeConfig.public.baseUrl
-				)}/login`}&response_type=code&scope=identify`,
+				)}/login`}&response_type=code&scope=identify%20guilds`,
 				{ external: true }
 			);
 		}
