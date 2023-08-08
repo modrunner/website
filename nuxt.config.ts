@@ -78,11 +78,11 @@ export default defineNuxtConfig({
 		autoImports: ['defineStore'],
 	},
 	runtimeConfig: {
-		discordClientSecret: '',
-		apiKey: '',
-		apiUrl: '',
+		discordClientSecret: process.env.NUXT_DISCORD_CLIENT_SECRET ?? '',
+		apiKey: process.env.NUXT_API_KEY ?? '',
+		apiUrl: process.env.NUXT_API_URL ?? '',
 		public: {
-			discordClientId: '',
+			discordClientId: process.env.NUXT_PUBLIC_DISCORD_CLIENT_ID ?? '',
 			owner: 'modrunner',
 			slug: 'website',
 			branch: process.env.CF_PAGES_BRANCH ?? 'unknown',
