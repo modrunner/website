@@ -14,9 +14,11 @@ export default defineEventHandler(async (event) => {
 			},
 		});
 
-		const data = await response.json();
+		console.log('Requested statistics from the backend:');
+		console.log(`- Status: ${response.status} ${response.statusText}`);
+		console.log(`- URL: ${response.url}`);
 
-		console.log('Requested stats: ', data);
+		const data = await response.json();
 
 		return data;
 	} catch (error) {
