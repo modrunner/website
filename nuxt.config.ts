@@ -78,16 +78,16 @@ export default defineNuxtConfig({
 		autoImports: ['defineStore'],
 	},
 	runtimeConfig: {
+		discordClientSecret: '',
 		apiKey: '',
 		apiUrl: '',
-		discordClientSecret: '',
 		public: {
+			discordClientId: '',
 			owner: 'modrunner',
 			slug: 'website',
-			branch: process.env.CF_PAGES_BRANCH,
-			hash: process.env.CF_PAGES_COMMIT_SHA,
-			baseUrl: getDomain(),
-			discordClientId: getDiscordClientId(),
+			branch: process.env.CF_PAGES_BRANCH ?? 'unknown',
+			hash: process.env.CF_PAGES_COMMIT_SHA ?? 'unknown',
+			baseUrl: process.env.CF_PAGES_URL ?? 'http://localhost:3000',
 		},
 	},
 	vite: {
@@ -102,15 +102,5 @@ function getDomain() {
 		return 'https://staging.modrunner.net';
 	} else {
 		return 'http://localhost:3000';
-	}
-}
-
-function getDiscordClientId() {
-	if (process.env.ENVIRONMENT === 'prd') {
-		return '978413985722404924';
-	} else if (process.env.ENVIRONMENT === 'stg') {
-		return '1037064329469632593';
-	} else {
-		return '968164973467541574';
 	}
 }

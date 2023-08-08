@@ -3,17 +3,14 @@
 <script>
 export default defineNuxtComponent({
 	setup() {
-		definePageMeta({
-			layout: false,
-		});
+		definePageMeta({ layout: false });
 
-		const appConfig = useAppConfig();
 		const runtimeConfig = useRuntimeConfig();
-		return { runtimeConfig, appConfig };
+
+		return { runtimeConfig };
 	},
 	async beforeMount() {
-		const authCookie = useCookie('access-token');
-		if (authCookie.value) {
+		if (useCookie('access-token').value) {
 			return navigateTo('/dashboard');
 		}
 
@@ -24,15 +21,21 @@ export default defineNuxtComponent({
 			const response = await $fetch('/auth', {
 				query: { code: params.get('code') },
 			});
-			authCookie.value = response['access_token'];
+
+			useCookie('access-token', {
+				maxAge: response['expires_in'],
+				secure: true,
+				sameSite: true,
+			}).value = response['access_token'];
+
 			await navigateTo('/dashboard');
 		} else {
 			await navigateTo(
 				`https://discord.com/api/oauth2/authorize?client_id=${
 					this.runtimeConfig.public.discordClientId
-				}&redirect_uri=${encodeURI(
-					`${this.runtimeConfig.public.baseUrl}/login`
-				)}&response_type=code&scope=identify`,
+				}&redirect_uri=${`${encodeURIComponent(
+					this.runtimeConfig.public.baseUrl
+				)}/login`}&response_type=code&scope=identify`,
 				{ external: true }
 			);
 		}

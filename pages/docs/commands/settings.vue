@@ -1,3 +1,3 @@
 <template>
-	<NuxtLayout name="doc" :headings="[]" />
+	<NuxtLayout name="doc" />
 </template>
