@@ -4,6 +4,16 @@ export default defineEventHandler(async (event) => {
 			'x-api-key': useRuntimeConfig().apiKey,
 		},
 	})
-		.then(async (res) => await res.json())
-		.catch((error) => console.log('/server/api/stats.js -', error));
+		.then((res) => {
+			console.log(
+				`Fetched statistics:\nStatus: ${res.status} ${res.statusText}\nURL: ${res.url}`
+			);
+			return res;
+		})
+		.then(async (res) => {
+			return await res.json();
+		})
+		.catch((error) => {
+			console.log('/server/api/stats.js -', error);
+		});
 });
