@@ -14,21 +14,10 @@ const route = useRoute()
 
 // We've recieved an auth code from Discord
 if (route.query.code) {
-	const { data, error } = await useFetch('https://discord.com/api/v10/oauth2/token', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-		body: new URLSearchParams({
-			client_id: config.public.discordClientId,
-			client_secret: config.discordClientSecret,
-			grant_type: 'authorization_code',
-			code: route.query.code,
-			redirect_uri: `${config.public.baseUrl}/login`,
-		}),
-	})
+	const { data, error } = await useFetch('/api/auth', { query: { code: route.query.code } })
 
 	// TODO maybe an error page or something
 	if (error.value) {
-		console.log(error.value)
 		await navigateTo('/')
 	}
 
