@@ -1,6 +1,4 @@
-<template>
-	<p>{{ auth.user }}</p>
-</template>
+<template></template>
 
 <script setup>
 definePageMeta({ layout: false })
@@ -9,7 +7,7 @@ useHead({ title: 'Log In' })
 const auth = await useAuth()
 
 // User is already logged in
-if (auth.value.user.id) await navigateTo('/')
+if (auth.value.user.id) await navigateTo('/dashboard')
 
 const config = useRuntimeConfig()
 const route = useRoute()
@@ -29,7 +27,10 @@ if (route.query.code) {
 	})
 
 	// TODO maybe an error page or something
-	if (error.value) await navigateTo('/')
+	if (error.value) {
+		console.log(error.value)
+		await navigateTo('/')
+	}
 
 	const authCookie = useCookie('auth', {
 		maxAge: data.value.expires_in,
@@ -46,5 +47,7 @@ if (route.query.code) {
 	await navigateTo(getAuthUrl(), { external: true })
 }
 
-await navigateTo('/')
+onBeforeMount(async () => {
+	await navigateTo('/dashboard')
+})
 </script>
