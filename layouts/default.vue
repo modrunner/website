@@ -1,19 +1,13 @@
 <template>
 	<section id="experimental-banner" v-if="showExperimentalBanner">
-		This website is in an experimental state and is a work in progress. Many
-		things are unfinished, need polishing or may not work correctly!
+		This website is in an experimental state and is a work in progress. Many things are unfinished, need polishing or may not work correctly!
 		<XIcon @click="showExperimentalBanner = false" id="close-button" />
 	</section>
 	<header id="site-header">
 		<div id="header-container">
 			<div id="header-nav">
 				<div>
-					<NuxtLink to="/"
-						><img
-							src="~/assets/images/logo_banner.png"
-							alt="The full-sized Modrunner logo banner"
-							class="logo"
-					/></NuxtLink>
+					<NuxtLink to="/"><img src="~/assets/images/logo_banner.png" alt="The full-sized Modrunner logo banner" class="logo" /></NuxtLink>
 				</div>
 				<nav id="header-links">
 					<NuxtLink to="/dashboard">Dashboard</NuxtLink>
@@ -27,11 +21,8 @@
 					<SunIcon v-if="theme === 'light'" />
 					<MoonIcon v-else />
 				</button>
-				<button v-if="useCookie('access-token').value">
-					<img
-						:src="`https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`"
-						:alt="userData.username"
-					/>
+				<button v-if="auth.user.id">
+					<img :src="`https://cdn.discordapp.com/avatars/${auth.user.id}/${auth.user.avatar}.png`" :alt="auth.user.username" />
 				</button>
 				<NuxtLink v-else to="/login" class="sign-in-button">Sign In</NuxtLink>
 			</div>
@@ -40,15 +31,9 @@
 	<header id="site-header-mobile">
 		<div id="menu-buttons" v-show="showMobileMenu === true">
 			<div id="wrapper">
-				<NuxtLink to="/dashboard" @click="showMobileMenu = !showMobileMenu"
-					>Dashboard</NuxtLink
-				>
-				<NuxtLink to="/docs" @click="showMobileMenu = !showMobileMenu"
-					>Docs</NuxtLink
-				>
-				<NuxtLink to="/blog" @click="showMobileMenu = !showMobileMenu"
-					>Blog</NuxtLink
-				>
+				<NuxtLink to="/dashboard" @click="showMobileMenu = !showMobileMenu">Dashboard</NuxtLink>
+				<NuxtLink to="/docs" @click="showMobileMenu = !showMobileMenu">Docs</NuxtLink>
+				<NuxtLink to="/blog" @click="showMobileMenu = !showMobileMenu">Blog</NuxtLink>
 				<NuxtLink to="https://invite.modrunner.net">Add to Server</NuxtLink>
 				<button @click="changeTheme">Change Theme</button>
 				<NuxtLink to="/login" class="sign-in-button">Sign In</NuxtLink>
@@ -72,30 +57,21 @@
 		<section id="footer-wrapper">
 			<div>
 				<NuxtLink to="/">
-					<img
-						src="~/assets/images/logo_banner.png"
-						alt="The full-sized Modrunner logo banner"
-						class="logo"
-					/>
+					<img src="~/assets/images/logo_banner.png" alt="The full-sized Modrunner logo banner" class="logo" />
 				</NuxtLink>
 				<p>
 					Modrunner is
-					<NuxtLink :to="appConfig.links.github" class="anchor-link"
-						>open source</NuxtLink
-					>.
+					<NuxtLink :to="appConfig.links.github" class="anchor-link">open source</NuxtLink>.
 				</p>
 				<p>
 					{{ runtimeConfig.public.owner }}/{{ runtimeConfig.public.slug }}
 					<br />
 					{{ runtimeConfig.public.branch }}@<NuxtLink
-						to="/"
+						:to="`https://github.com/${runtimeConfig.public.owner}/${runtimeConfig.public.slug}/tree/${runtimeConfig.public.hash}`"
 						class="anchor-link"
 					>
-						{{ runtimeConfig.public.hash }}
+						{{ runtimeConfig.public.hash.substring(0, 7) }}
 					</NuxtLink>
-				</p>
-				<p>
-					{{ runtimeConfig.public.baseUrl }}
 				</p>
 				<p>&copy; {{ new Date().getFullYear() }} Modrunner</p>
 			</div>
@@ -126,44 +102,36 @@
 <script>
 export default defineNuxtComponent({
 	async setup() {
-		const { data: userData } = await useFetch(
-			'https://discord.com/api/users/@me',
-			{
-				headers: { authorization: `Bearer ${useCookie('access-token').value}` },
-			}
-		);
-
-		const appConfig = useAppConfig();
-		const runtimeConfig = useRuntimeConfig();
-		return { appConfig, runtimeConfig, userData };
+		const auth = await useAuth()
+		const appConfig = useAppConfig()
+		const runtimeConfig = useRuntimeConfig()
+		return { auth, appConfig, runtimeConfig }
 	},
 	data() {
 		return {
 			theme: 'dark',
 			showMobileMenu: false,
 			showExperimentalBanner: true,
-		};
+		}
 	},
 	async mounted() {
-		document.documentElement.classList.add(`dark-mode`);
+		document.documentElement.classList.add(`dark-mode`)
 	},
 	methods: {
 		changeTheme() {
 			if (this.theme === 'dark') {
-				this.theme = 'light';
-				document.documentElement.classList.replace('dark-mode', 'light-mode');
+				this.theme = 'light'
+				document.documentElement.classList.replace('dark-mode', 'light-mode')
 			} else {
-				this.theme = 'dark';
-				document.documentElement.classList.replace('light-mode', 'dark-mode');
+				this.theme = 'dark'
+				document.documentElement.classList.replace('light-mode', 'dark-mode')
 			}
 		},
 		login() {
-			location.href = `${
-				this.appConfig.meta.authUrl
-			}&state=${encodeURIComponent(this.authStore.generateNonce())}`;
+			location.href = `${this.appConfig.meta.authUrl}&state=${encodeURIComponent(this.authStore.generateNonce())}`
 		},
 	},
-});
+})
 </script>
 
 <style lang="scss">

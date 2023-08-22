@@ -12,6 +12,6 @@ export default defineEventHandler(async (event) => {
 			redirect_uri: `${useRuntimeConfig().public.baseUrl}/login`,
 		}),
 	})
-		.then((res) => res.json())
-		.catch((error) => console.error('/server/api/auth.js -', error));
+		.then(async (res) => await res.json())
+		.catch(() => {});
 });

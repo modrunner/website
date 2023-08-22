@@ -1,11 +1,18 @@
 <template>
 	<NuxtLayout>
 		<div id="error-page">
-			<h1>404</h1>
-			<p>Not Found</p>
+			<h2>{{ error.statusCode }} {{ error.statusMessage }}</h2>
+			<p>{{ error.message }}</p>
+			<button @click="handleError">Return Home</button>
 		</div>
 	</NuxtLayout>
 </template>
+
+<script setup>
+const props = defineProps(['error'])
+
+const handleError = () => clearError({ redirect: '/' })
+</script>
 
 <style lang="scss" scoped>
 #error-page {

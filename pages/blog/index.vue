@@ -5,5 +5,5 @@
 <script setup>
 useHead({
 	title: 'Blog',
-});
+})
 </script>

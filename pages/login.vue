@@ -1,44 +1,50 @@
-<template></template>
+<template>
+	<p>{{ auth.user }}</p>
+</template>
 
-<script>
-export default defineNuxtComponent({
-	setup() {
-		definePageMeta({ layout: false });
+<script setup>
+definePageMeta({ layout: false })
+useHead({ title: 'Log In' })
 
-		const runtimeConfig = useRuntimeConfig();
+const auth = await useAuth()
 
-		return { runtimeConfig };
-	},
-	async beforeMount() {
-		if (useCookie('access-token').value) {
-			return navigateTo('/dashboard');
-		}
+// User is already logged in
+if (auth.value.user.id) await navigateTo('/')
 
-		const params = new URLSearchParams(location.search);
+const config = useRuntimeConfig()
+const route = useRoute()
 
-		if (params.get('code') /* && params.get('state') */) {
-			// get access token from Discord
-			const response = await $fetch('/api/auth', {
-				query: { code: params.get('code') },
-			});
+// We've recieved an auth code from Discord
+if (route.query.code) {
+	const { data, error } = await useFetch('https://discord.com/api/v10/oauth2/token', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		body: new URLSearchParams({
+			client_id: config.public.discordClientId,
+			client_secret: config.discordClientSecret,
+			grant_type: 'authorization_code',
+			code: route.query.code,
+			redirect_uri: `${config.public.baseUrl}/login`,
+		}),
+	})
 
-			useCookie('access-token', {
-				maxAge: response['expires_in'],
-				secure: true,
-				sameSite: true,
-			}).value = response['access_token'];
+	// TODO maybe an error page or something
+	if (error.value) await navigateTo('/')
 
-			await navigateTo('/dashboard');
-		} else {
-			await navigateTo(
-				`https://discord.com/api/oauth2/authorize?client_id=${
-					this.runtimeConfig.public.discordClientId
-				}&redirect_uri=${`${encodeURIComponent(
-					this.runtimeConfig.public.baseUrl
-				)}/login`}&response_type=code&scope=identify%20guilds`,
-				{ external: true }
-			);
-		}
-	},
-});
+	const authCookie = useCookie('auth', {
+		maxAge: data.value.expires_in,
+		secure: true,
+		sameSite: 'strict',
+	})
+
+	authCookie.value = {
+		accessToken: data.value.access_token,
+		tokenType: data.value.token_type,
+	}
+} else {
+	// We need to redirect to Discord
+	await navigateTo(getAuthUrl(), { external: true })
+}
+
+await navigateTo('/')
 </script>

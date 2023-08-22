@@ -7,6 +7,6 @@ export default defineEventHandler(async (event) => {
 			},
 		}
 	)
-		.then((res) => res.json())
-		.catch((error) => console.log('/server/api/guild.js -', error));
+		.then(async (res) => await res.json())
+		.catch((error) => console.log(error));
 });

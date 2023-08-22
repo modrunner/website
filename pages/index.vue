@@ -3,25 +3,18 @@
 		<div id="landing-text">
 			<h1>The Ultimate Resource for Modding Communities</h1>
 			<h2>
-				Modrunner levels up your Discord communities by providing a free and
-				easy to use Discord bot that allows both creators and users to find,
-				share and follow modding projects on some of the most popular platforms.
+				Modrunner levels up your Discord communities by providing a free and easy to use Discord bot that allows both creators and users to find, share and
+				follow modding projects on some of the most popular platforms.
 			</h2>
 			<div id="landing-buttons-container">
-				<NuxtLink to="/invite" class="landing-button"
-					>Add to Your Server</NuxtLink
-				>
+				<NuxtLink to="/invite" class="landing-button">Add to Your Server</NuxtLink>
 				<NuxtLink to="/docs" class="landing-button">View the Docs</NuxtLink>
 			</div>
 			<section id="supported-platforms">
 				<h3>Supported Platforms</h3>
 				<div>
 					<ModrinthIcon v-tooltip="'Modrinth'" />
-					<img
-						src="~/assets/images/external/curseforge.png"
-						alt=""
-						v-tooltip="'CurseForge'"
-					/>
+					<img src="~/assets/images/external/curseforge.png" alt="" v-tooltip="'CurseForge'" />
 				</div>
 			</section>
 		</div>
@@ -55,16 +48,10 @@
 			<div class="feature-container feature-text">
 				<h1>Share Projects</h1>
 				<p>
-					<strong>
-						The easiest way to find and share projects in Discord.
-					</strong>
-					Use Modrunner's commands built into Discord to simplify the process of
-					retrieving information on your favorite modding projects.
+					<strong> The easiest way to find and share projects in Discord. </strong>
+					Use Modrunner's commands built into Discord to simplify the process of retrieving information on your favorite modding projects.
 				</p>
-				<p>
-					Skip the arduous process of opening up your browser and copy-pasting
-					links into a text channel.
-				</p>
+				<p>Skip the arduous process of opening up your browser and copy-pasting links into a text channel.</p>
 			</div>
 			<div class="feature-container feature-img">
 				<img src="~/assets/images/logo.png" alt="" />
@@ -80,12 +67,9 @@
 			<div class="feature-container feature-text">
 				<h1>Monitor Updates</h1>
 				<p>
-					<strong>
-						Know exactly when your favorite projects recieve updates.
-					</strong>
-					Tracked projects are watched day and night for new file uploads, and
-					Modrunner sends you notifications in Discord as soon as they're
-					available for download.
+					<strong> Know exactly when your favorite projects recieve updates. </strong>
+					Tracked projects are watched day and night for new file uploads, and Modrunner sends you notifications in Discord as soon as they're available for
+					download.
 				</p>
 			</div>
 		</div>
@@ -96,8 +80,7 @@
 			<div class="feature-container feature-text">
 				<h1>Customize Everything</h1>
 				<p>
-					Make Modrunner your own by customizing numerous features like
-					changelog length and notification style.
+					Make Modrunner your own by customizing numerous features like changelog length and notification style.
 					<strong>Tailor the bot to suit your personal preferences.</strong>
 				</p>
 			</div>
@@ -118,21 +101,20 @@
 <script setup>
 useHead({
 	title: 'The Ultimate Resource for Modding Communities',
-});
+})
 
-let stats = { servers: 0, projects: 0, uptime: 0 };
-const { data } = await useFetch('/api/stats');
-if (data.value) {
+let { data: stats, error } = await useFetch('/api/stats')
+if (error.value) {
 	stats = {
-		servers: data.value.servers,
-		projects: data.value.projects,
-		uptime: data.value.uptime,
-	};
+		servers: '-',
+		projects: '-',
+		uptime: 0,
+	}
 }
 </script>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style lang="scss" scoped>

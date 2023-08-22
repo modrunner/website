@@ -7,7 +7,7 @@
 <script setup>
 useHead({
 	titleTemplate: (titleChunk) => {
-		return titleChunk ? `${titleChunk} • Modrunner` : 'Modrunner';
+		return titleChunk ? `${titleChunk} • Modrunner` : 'Modrunner'
 	},
-});
+})
 </script>

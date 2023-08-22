@@ -1,19 +1,11 @@
 export default defineEventHandler(async (event) => {
-	return await fetch(`${useRuntimeConfig().apiUrl}/stats`, {
+	const config = useRuntimeConfig();
+
+	return await fetch(`${config.apiUrl}/stats`, {
 		headers: {
-			'x-api-key': useRuntimeConfig().apiKey,
+			'x-api-key': config.apiKey,
 		},
 	})
-		.then((res) => {
-			console.log(
-				`Fetched statistics:\nStatus: ${res.status} ${res.statusText}\nURL: ${res.url}`
-			);
-			return res;
-		})
-		.then(async (res) => {
-			return await res.json();
-		})
-		.catch((error) => {
-			console.log('/server/api/stats.js -', error);
-		});
+		.then(async (res) => await res.json())
+		.catch(() => {});
 });
