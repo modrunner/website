@@ -1,3 +1,8 @@
+---
+title: Configuring Permissions
+layout: doc
+---
+
 # Configuring Permissions
 
 Most bots typically use a "admin" or "manager" role to determine which server members get to use certain privileged commands on a bot. Modrunner does not use this method; instead it uses Discord's own built-in command permissions system. This is not as simple as a role-based permission system to set up but is significantly more flexible.

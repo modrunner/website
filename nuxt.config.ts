@@ -69,6 +69,7 @@ export default defineNuxtConfig({
 	},
 	modules: ['@nuxt/content', '@pinia/nuxt', 'floating-vue/nuxt'],
 	content: {
+		documentDriven: true,
 		highlight: {
 			theme: 'material-default',
 		},

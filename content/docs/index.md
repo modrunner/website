@@ -1,5 +1,6 @@
 ---
 title: Introduction
+layout: doc
 ---
 
 # Introduction
@@ -30,8 +31,6 @@ Then invite the bot to join your server by using [this link](https://invite.modr
 - **Customizable settings**
 
   - Make Modrunner your own - customize settings like notification style and changelog length (so your notifications don't look like CVS receipts!)
-
-
 
 ## Staying Informed
 

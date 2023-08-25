@@ -8,7 +8,8 @@
 			</h2>
 			<div id="landing-buttons-container">
 				<NuxtLink to="/invite" class="landing-button">Add to Your Server</NuxtLink>
-				<NuxtLink to="/docs" class="landing-button">View the Docs</NuxtLink>
+				<!-- link needs to be treated as an external otherwise Nuxt won't load the page properly -->
+				<NuxtLink to="/docs" class="landing-button" external>View the Docs</NuxtLink>
 			</div>
 			<section id="supported-platforms">
 				<h3>Supported Platforms</h3>

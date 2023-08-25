@@ -1,44 +1,39 @@
 <template>
-	<div id="doc-wrapper">
-		<nav id="navigation-sidebar">
-			<h1>Documentation</h1>
-			<NuxtLink to="/docs">Introduction</NuxtLink>
-			<NuxtLink to="/docs/faq">FAQ</NuxtLink>
-			<h2>Commands</h2>
-			<NuxtLink to="/docs/commands/search">/search</NuxtLink>
-			<NuxtLink to="/docs/commands/track">/track</NuxtLink>
-			<NuxtLink to="/docs/commands/untrack">/untrack</NuxtLink>
-			<NuxtLink to="/docs/commands/list">/list</NuxtLink>
-			<NuxtLink to="/docs/commands/settings">/settings</NuxtLink>
-			<h2>Guides</h2>
-			<NuxtLink to="/docs/guides/configuring-permissions"
-				>Configuring Permissions</NuxtLink
-			>
-			<NuxtLink to="/docs/guides/self-hosting">Self-Hosting</NuxtLink>
-		</nav>
+	<NuxtLayout name="default">
+		<div id="doc-wrapper">
+			<nav id="navigation-sidebar">
+				<h1>Documentation</h1>
+				<NuxtLink to="/docs">Introduction</NuxtLink>
+				<NuxtLink to="/docs/faq">FAQ</NuxtLink>
+				<h2>Commands</h2>
+				<NuxtLink to="/docs/commands/search">/search</NuxtLink>
+				<NuxtLink to="/docs/commands/track">/track</NuxtLink>
+				<NuxtLink to="/docs/commands/untrack">/untrack</NuxtLink>
+				<NuxtLink to="/docs/commands/list">/list</NuxtLink>
+				<NuxtLink to="/docs/commands/settings">/settings</NuxtLink>
+				<h2>Guides</h2>
+				<NuxtLink to="/docs/guides/configuring-permissions">Configuring Permissions</NuxtLink>
+				<NuxtLink to="/docs/guides/self-hosting">Self-Hosting</NuxtLink>
+			</nav>
 
-		<div id="doc-content-wrapper">
-			<ContentDoc v-slot="{ doc }">
-				<ContentRenderer :value="doc" />
+			<div id="doc-content-wrapper">
+				<ContentDoc v-slot="{ doc }">
+					<ContentRenderer :value="doc" />
 
-				<div id="doc-outline-wrapper">
-					<nav id="doc-outline">
-						<div class="link" v-for="link in doc.body.toc.links" :key="link.id">
-							<NuxtLink :to="`#${link.id}`">{{ link.text }}</NuxtLink>
-							<NuxtLink
-								class="child-link"
-								v-if="link.children"
-								v-for="childLink of link.children"
-								:key="childLink.id"
-								:to="`#${childLink.id}`"
-								>{{ childLink.text }}</NuxtLink
-							>
-						</div>
-					</nav>
-				</div>
-			</ContentDoc>
+					<div id="doc-outline-wrapper">
+						<nav id="doc-outline">
+							<div class="link" v-for="link in doc.body.toc.links" :key="link.id">
+								<NuxtLink :to="`#${link.id}`">{{ link.text }}</NuxtLink>
+								<NuxtLink class="child-link" v-if="link.children" v-for="childLink of link.children" :key="childLink.id" :to="`#${childLink.id}`">{{
+									childLink.text
+								}}</NuxtLink>
+							</div>
+						</nav>
+					</div>
+				</ContentDoc>
+			</div>
 		</div>
-	</div>
+	</NuxtLayout>
 </template>
 
 <style lang="scss">

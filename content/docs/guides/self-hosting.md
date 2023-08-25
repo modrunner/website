@@ -1,3 +1,8 @@
+---
+title: Self Hosting
+layout: doc
+---
+
 # Self-Hosting
 
 If you want, you can self-host your own instance of Modrunner on a private VPS, just for you!
@@ -310,7 +315,7 @@ Make sure not to commit your `.env` file into source control, or your secrets wi
 Now we need to import our values into each JS file that requires them by adding the following to the top of the file:
 
 ```js
-require('dotenv').config();
+require('dotenv').config()
 ```
 
 Currently, these files will require secrets:

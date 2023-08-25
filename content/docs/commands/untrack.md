@@ -1,5 +1,6 @@
 ---
-sidebar_position: 3
+title: Untrack Command
+layout: doc
 ---
 
 # Untrack

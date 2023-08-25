@@ -1,5 +1,6 @@
 ---
-sidebar_position: 4
+title: List Command
+layout: doc
 ---
 
 # List
