@@ -121,7 +121,7 @@
 import MenuIcon from '~/assets/images/utils/menu.svg'
 import MoonIcon from '~/assets/images/utils/moon.svg'
 import LogOutIcon from '~/assets/images/utils/log-out.svg'
-import SunIcon from '~/assets/images/external/sun.svg'
+import SunIcon from '~/assets/images/utils/sun.svg'
 import XIcon from '~/assets/images/utils/x.svg'
 
 const auth = await useAuth()
