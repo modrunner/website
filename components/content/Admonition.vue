@@ -26,7 +26,13 @@
 </template>
 
 <script setup>
-defineProps(['type']);
+import AlertIcon from '~/assets/images/utils/alert.svg'
+import BulbIcon from '~/assets/images/utils/bulb.svg'
+import ExclaimationIcon from '~/assets/images/utils/exclaimation.svg'
+import FlameIcon from '~/assets/images/utils/flame.svg'
+import InfoIcon from '~/assets/images/utils/info.svg'
+
+defineProps(['type'])
 </script>
 
 <style lang="scss">

@@ -122,87 +122,69 @@
 	</div>
 </template>
 
-<script>
-export default defineNuxtComponent({
-	async setup() {
-		definePageMeta({
-			middleware: ['auth'],
-		})
+<script setup>
+definePageMeta({ middleware: ['auth'] })
 
-		const auth = await useAuth()
+const auth = await useAuth()
 
-		const { data: userGuilds } = await useFetch('https://discord.com/api/users/@me/guilds', {
-			headers: auth.value.headers,
-		})
-
-		userGuilds.value.sort((a, b) => {
-			return a.name.localeCompare(b.name)
-		})
-
-		const appConfig = useAppConfig()
-		return { appConfig, userGuilds }
-	},
-	data() {
-		return {
-			selectedGuild: '',
-			selectedTab: 0,
-			searchInput: '',
-			showOnlyManagedGuilds: true,
-		}
-	},
-	computed: {
-		computedUserGuilds() {
-			if (this.showOnlyManagedGuilds) {
-				return this.userGuilds.filter((guild) => {
-					return (guild.permissions & 0x20) == 0x20
-				})
-			} else {
-				return this.userGuilds
-			}
-		},
-	},
-	methods: {
-		computedGuildIcon(guild) {
-			if (guild.icon) {
-				return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`
-			} else {
-				return 'https://cdn.discordapp.com/avatars/978413985722404924/dd5ed95724a0946f97f4917ae978dd96.webp'
-			}
-		},
-		async selectGuild(guild) {
-			const guildData = await $fetch('/api/guild', {
-				query: { guildId: guild.id },
-			})
-
-			if (guildData.isBotPresent) {
-				const guildChannels = await $fetch('/api/guildChannels', {
-					query: { guildId: guild.id },
-				})
-
-				this.selectedGuild = {
-					id: guild.id,
-					name: guild.name,
-					icon: guild.icon,
-					channels: guildChannels,
-					projectChannels: guildData.channels,
-					isBotPresent: true,
-					settings: {
-						changelogLength: guildData.changelogLength,
-						maxProjects: guildData.maxProjects,
-						notificationStyle: guildData.notificationStyle,
-					},
-				}
-			} else {
-				this.selectedGuild = {
-					id: guild.id,
-					name: guild.name,
-					icon: guild.icon,
-					isBotPresent: false,
-				}
-			}
-		},
-	},
+const { data: userGuilds } = await useFetch('https://discord.com/api/users/@me/guilds', {
+	headers: auth.value.headers,
 })
+userGuilds.value.sort((a, b) => {
+	return a.name.localeCompare(b.name)
+})
+
+const selectedGuild = ref('')
+const selectedTab = ref(0)
+const searchInput = ref('')
+const showOnlyManagedGuilds = ref(true)
+
+const computedUserGuilds = computed(() => {
+	if (showOnlyManagedGuilds.value) {
+		return userGuilds.value.filter((guild) => {
+			return (guild.permissions & 0x20) == 0x20
+		})
+	} else {
+		return userGuilds
+	}
+})
+
+function computedGuildIcon() {
+	if (guild.icon) {
+		return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`
+	} else {
+		return 'https://cdn.discordapp.com/avatars/978413985722404924/dd5ed95724a0946f97f4917ae978dd96.webp'
+	}
+}
+
+async function selectGuild(guild) {
+	const guildData = await $fetch('/api/guild', { query: { guildId: guild.id } })
+
+	if (guildData.isBotPresent) {
+		const guildChannels = await $fetch('/api/guildChannels', { query: { guildId: guild.id } })
+
+		selectedGuild.value = {
+			id: guild.id,
+			name: guild.name,
+			icon: guild.icon,
+			channels: guildChannels,
+			projectChannels: guildData.channels,
+			isBotPresent: true,
+			settings: {
+				changelogLength: guildData.changelogLength,
+				maxProjects: guildData.maxProjects,
+				notificationStyle: guildData.notificationStyle,
+			},
+		}
+	} else {
+		selectedGuild.value = {
+			id: guild.id,
+			name: guild.name,
+			icon: guild.icon,
+			isBotPresent: false,
+		}
+	}
+}
 </script>
 
 <style lang="scss" scoped>

@@ -3,7 +3,5 @@
 </template>
 
 <script setup>
-useHead({
-	title: 'Blog',
-})
+useHead({ title: 'Blog' })
 </script>

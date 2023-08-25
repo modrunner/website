@@ -5,7 +5,5 @@
 </template>
 
 <script setup>
-useHead({
-	title: 'About',
-});
+useHead({ title: 'About' })
 </script>

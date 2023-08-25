@@ -3,29 +3,47 @@
 		This website is in an experimental state and is a work in progress. Many things are unfinished, need polishing or may not work correctly!
 		<XIcon @click="showExperimentalBanner = false" id="close-button" />
 	</section>
-	<header id="site-header">
-		<div id="header-container">
-			<div id="header-nav">
+	<header class="desktop">
+		<div class="container">
+			<section class="navigation">
 				<div>
 					<NuxtLink to="/"><img src="~/assets/images/logo_banner.png" alt="The full-sized Modrunner logo banner" class="logo" /></NuxtLink>
 				</div>
-				<nav id="header-links">
-					<NuxtLink to="/dashboard">Dashboard</NuxtLink>
-					<NuxtLink to="/docs">Docs</NuxtLink>
-					<NuxtLink to="/blog">Blog</NuxtLink>
+				<nav>
+					<NuxtLink class="link" to="/dashboard">Dashboard</NuxtLink>
+					<NuxtLink class="link" to="/docs">Docs</NuxtLink>
+					<NuxtLink class="link" to="/blog">Blog</NuxtLink>
 				</nav>
-			</div>
-			<div id="header-user-controls">
+			</section>
+			<section class="user-controls">
 				<NuxtLink to="/invite">Add to Server</NuxtLink>
-				<button @click="changeTheme">
+				<button class="control-button button-transparent" title="Switch theme" @click="changeTheme">
 					<SunIcon v-if="theme === 'light'" />
 					<MoonIcon v-else />
 				</button>
-				<button v-if="auth.user.id">
-					<img :src="`https://cdn.discordapp.com/avatars/${auth.user.id}/${auth.user.avatar}.png`" :alt="auth.user.username" />
-				</button>
+				<div
+					v-if="auth.user.id"
+					class="dropdown"
+					:class="{ closed: !isDropdownOpen }"
+					tabindex="0"
+					@mouseover="isDropdownOpen = true"
+					@focus="isDropdownOpen = true"
+					@mouseleave="isDropdownOpen = false"
+				>
+					<button class="control" value="Profile Dropdown">
+						<img class="user-icon" :src="`https://cdn.discordapp.com/avatars/${auth.user.id}/${auth.user.avatar}.png`" :alt="auth.user.username" />
+					</button>
+					<div class="content card">
+						<div class="username">{{ auth.user.username }}</div>
+						<hr class="divider" />
+						<button class="item button-transparent" @click="logoutUser()">
+							<LogOutIcon class="icon" />
+							<span class="dropdown-item__text">Log out</span>
+						</button>
+					</div>
+				</div>
 				<NuxtLink v-else to="/login" class="sign-in-button">Sign In</NuxtLink>
-			</div>
+			</section>
 		</div>
 	</header>
 	<header id="site-header-mobile">
@@ -99,39 +117,35 @@
 	</footer>
 </template>
 
-<script>
-export default defineNuxtComponent({
-	async setup() {
-		const auth = await useAuth()
-		const appConfig = useAppConfig()
-		const runtimeConfig = useRuntimeConfig()
-		return { auth, appConfig, runtimeConfig }
-	},
-	data() {
-		return {
-			theme: 'dark',
-			showMobileMenu: false,
-			showExperimentalBanner: true,
-		}
-	},
-	async mounted() {
-		document.documentElement.classList.add(`dark-mode`)
-	},
-	methods: {
-		changeTheme() {
-			if (this.theme === 'dark') {
-				this.theme = 'light'
-				document.documentElement.classList.replace('dark-mode', 'light-mode')
-			} else {
-				this.theme = 'dark'
-				document.documentElement.classList.replace('light-mode', 'dark-mode')
-			}
-		},
-		login() {
-			location.href = `${this.appConfig.meta.authUrl}&state=${encodeURIComponent(this.authStore.generateNonce())}`
-		},
-	},
+<script setup>
+import MenuIcon from '~/assets/images/utils/menu.svg'
+import MoonIcon from '~/assets/images/utils/moon.svg'
+import LogOutIcon from '~/assets/images/utils/log-out.svg'
+import SunIcon from '~/assets/images/external/sun.svg'
+import XIcon from '~/assets/images/utils/x.svg'
+
+const auth = await useAuth()
+const appConfig = useAppConfig()
+const runtimeConfig = useRuntimeConfig()
+
+const theme = ref('dark')
+const showMobileMenu = ref(false)
+const showExperimentalBanner = ref(true)
+const isDropdownOpen = ref(false)
+
+onMounted(() => {
+	document.documentElement.classList.add(`dark-mode`)
 })
+
+function changeTheme() {
+	if (theme.value === 'dark') {
+		theme.value = 'light'
+		document.documentElement.classList.replace('dark-mode', 'light-mode')
+	} else {
+		theme.value = 'dark'
+		document.documentElement.classList.replace('light-mode', 'dark-mode')
+	}
+}
 </script>
 
 <style lang="scss">
@@ -150,7 +164,7 @@ export default defineNuxtComponent({
 	}
 }
 
-#site-header {
+header.desktop {
 	display: flex;
 	justify-content: center;
 	background-color: rgb(var(--color-bg-dark) / 0.7);
@@ -159,7 +173,7 @@ export default defineNuxtComponent({
 	top: 0;
 	padding: 0.5rem 0;
 
-	#header-container {
+	div.container {
 		display: flex;
 		width: 1280px;
 	}
@@ -168,14 +182,14 @@ export default defineNuxtComponent({
 		display: none;
 	}
 
-	#header-nav {
+	section.navigation {
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
 		gap: 2rem;
 		padding: 0.5rem;
 
-		#header-links {
+		nav {
 			display: flex;
 			gap: 2rem;
 		}
@@ -189,7 +203,7 @@ export default defineNuxtComponent({
 		}
 	}
 
-	#header-user-controls {
+	section.user-controls {
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
@@ -197,26 +211,93 @@ export default defineNuxtComponent({
 		margin: 0 2rem;
 		width: 100%;
 
-		button {
-			display: flex;
-			justify-content: center;
-			align-items: center;
+		.control-button {
 			color: var(--color-text);
-			background: none;
-			border-radius: 999999px;
+			border: 2px solid transparent;
+			border-radius: 2rem;
 			box-sizing: border-box;
-			height: 2.25rem;
-			width: 2.25rem;
-
-			&:hover {
-				background-color: rgba($color: #ffffff, $alpha: 0.2);
-				border: 2px solid var(--color-brand);
-			}
+			display: flex;
+			padding: 0.5rem;
+			transition: filter 0.1s ease-in-out;
 
 			svg {
-				height: 100%;
-				width: 100%;
+				height: 1.25rem;
+				width: 1.25rem;
 			}
+		}
+
+		.dropdown {
+			position: relative;
+
+			.control {
+				align-items: center;
+				background: none;
+				display: flex;
+				justify-content: center;
+				padding: 0;
+
+				.user-icon {
+					border-radius: 2rem;
+					height: 2rem;
+					width: 2rem;
+					outline: 2px solid var(--color-bg-light);
+					transition: outline-color 0.1s ease-in-out;
+				}
+			}
+
+			.content {
+				border: 1px solid var(--color-divider-dark);
+				margin: 0.5rem 0 0 0;
+				max-width: 25rem;
+				min-width: 12rem;
+				opacity: 0;
+				padding: 1rem;
+				position: absolute;
+				right: -1rem;
+				transform: scaleY(0.9);
+				transform-origin: top;
+				transition: all 0.1s ease-in-out 0.05s, color 0s ease-in-out 0s, background-color 0s ease-in-out 0s, border-color 0s ease-in-out 0s;
+				visibility: hidden;
+				width: max-content;
+				z-index: 1;
+				box-shadow: var(--shadow-floating);
+
+				.divider {
+					background-color: var(--color-divider-dark);
+					border: none;
+					color: var(--color-divider-dark);
+					height: 1px;
+					margin: 0.5rem 0;
+				}
+
+				.item {
+					align-items: center;
+					border-radius: 0.5rem;
+					box-sizing: border-box;
+					color: inherit;
+					display: flex;
+					padding: 0.5rem 0.75rem;
+					width: 100%;
+
+					.icon {
+						margin-right: 0.5rem;
+						height: 20px;
+						width: 20px;
+					}
+				}
+			}
+		}
+
+		.dropdown:hover .user-icon {
+			outline-color: var(--color-brand);
+		}
+
+		.dropdown:hover:not(.closed) .content,
+		.dropdown:focus:not(.closed) .content,
+		.dropdown:focus-within:not(.closed) .content {
+			opacity: 1;
+			transform: scaleY(1);
+			visibility: visible;
 		}
 
 		.sign-in-button {
@@ -228,12 +309,6 @@ export default defineNuxtComponent({
 			&:hover {
 				background-color: rgba(10, 90, 114, 0.5);
 			}
-		}
-
-		img {
-			border-radius: 99999px;
-			height: 2rem;
-			width: 2rem;
 		}
 	}
 }

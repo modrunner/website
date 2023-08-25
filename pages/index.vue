@@ -99,9 +99,9 @@
 </template>
 
 <script setup>
-useHead({
-	title: 'The Ultimate Resource for Modding Communities',
-})
+import ModrinthIcon from '~/assets/images/external/modrinth.svg'
+
+useHead({ title: 'The Ultimate Resource for Modding Communities' })
 
 let { data: stats, error } = await useFetch('/api/stats')
 if (error.value) {
@@ -111,10 +111,6 @@ if (error.value) {
 		uptime: 0,
 	}
 }
-</script>
-
-<script>
-export default {}
 </script>
 
 <style lang="scss" scoped>

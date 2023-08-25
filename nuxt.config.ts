@@ -1,4 +1,4 @@
-import svgLoader from 'vite-svg-loader';
+import svgLoader from 'vite-svg-loader'
 
 export default defineNuxtConfig({
 	app: {
@@ -67,7 +67,6 @@ export default defineNuxtConfig({
 			link: [{ rel: 'icon', href: './favicon.ico' }],
 		},
 	},
-	components: ['~/components/icons'],
 	modules: ['@nuxt/content', '@pinia/nuxt', 'floating-vue/nuxt'],
 	content: {
 		highlight: {
@@ -93,14 +92,14 @@ export default defineNuxtConfig({
 	vite: {
 		plugins: [svgLoader()],
 	},
-});
+})
 
 function getDomain() {
 	if (process.env.ENVIRONMENT === 'prd') {
-		return 'https://modrunner.net';
+		return 'https://modrunner.net'
 	} else if (process.env.ENVIRONMENT === 'stg') {
-		return 'https://staging.modrunner.net';
+		return 'https://staging.modrunner.net'
 	} else {
-		return 'http://localhost:3000';
+		return 'http://localhost:3000'
 	}
 }

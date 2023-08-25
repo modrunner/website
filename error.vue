@@ -1,10 +1,10 @@
 <template>
 	<NuxtLayout>
-		<div id="error-page">
+		<section class="error">
 			<h2>{{ error.statusCode }} {{ error.statusMessage }}</h2>
 			<p>{{ error.message }}</p>
 			<button @click="handleError">Return Home</button>
-		</div>
+		</section>
 	</NuxtLayout>
 </template>
 
@@ -15,7 +15,7 @@ const handleError = () => clearError({ redirect: '/' })
 </script>
 
 <style lang="scss" scoped>
-#error-page {
+section.error {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
