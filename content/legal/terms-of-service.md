@@ -1,5 +1,6 @@
 ---
 title: Terms of Service
+layout: markdown-page
 ---
 
 # MODRUNNER TERMS OF SERVICE

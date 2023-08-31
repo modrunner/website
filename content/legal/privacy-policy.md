@@ -1,5 +1,6 @@
 ---
 title: Privacy Policy
+layout: markdown-page
 ---
 
 # MODRUNNER PRIVACY POLICY

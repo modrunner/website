@@ -1,5 +1,6 @@
 ---
 title: About
+layout: markdown-page
 ---
 
 # What is Modrunner?

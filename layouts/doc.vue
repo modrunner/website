@@ -77,6 +77,10 @@
 		img {
 			width: 100%;
 		}
+
+		p {
+			margin-left: 1rem;
+		}
 	}
 
 	#doc-outline-wrapper {
