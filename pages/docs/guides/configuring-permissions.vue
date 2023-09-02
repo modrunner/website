@@ -1,5 +1,5 @@
 <template>
-	<NuxtLayout name="markdown-page">
+	<NuxtLayout name="doc">
 		<ContentDoc />
 	</NuxtLayout>
 </template>

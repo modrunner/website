@@ -5,5 +5,5 @@ export default defineEventHandler(async (event) => {
 		headers: {
 			'x-api-key': config.apiKey,
 		},
-	}).catch((error) => console.error('Error while fetching bot statistics from the backend:', error.data))
+	}).catch((error) => console.error('Error while fetching bot statistics from the backend:', error))
 })

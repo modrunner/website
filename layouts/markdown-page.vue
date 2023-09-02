@@ -1,9 +1,7 @@
 <template>
-	<NuxtLayout name="default">
-		<section class="document">
-			<ContentDoc />
-		</section>
-	</NuxtLayout>
+	<section class="document">
+		<ContentDoc />
+	</section>
 </template>
 
 <style lang="scss">

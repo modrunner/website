@@ -8,8 +8,7 @@
 			</h2>
 			<div id="landing-buttons-container">
 				<NuxtLink to="/invite" class="landing-button">Add to Your Server</NuxtLink>
-				<!-- link needs to be treated as an external otherwise Nuxt won't load the page properly -->
-				<NuxtLink to="/docs" class="landing-button" external>View the Docs</NuxtLink>
+				<NuxtLink to="/docs" class="landing-button">View the Docs</NuxtLink>
 			</div>
 			<section id="supported-platforms">
 				<h3>Supported Platforms</h3>
@@ -30,15 +29,15 @@
 	<section class="landing-section" id="stats-section">
 		<div id="statistics">
 			<div class="statistic">
-				<h1>{{ stats.servers ?? -1 }}</h1>
+				<h1>{{ pending ? '-' : stats.servers }}</h1>
 				<p>Servers Across Discord</p>
 			</div>
 			<div class="statistic">
-				<h1>{{ stats.projects ?? -1 }}</h1>
+				<h1>{{ pending ? '-' : stats.projects }}</h1>
 				<p>Modding Projects Tracked</p>
 			</div>
 			<div class="statistic">
-				<h1>{{ (stats.uptime * 100).toFixed(2) ?? -1 }}%</h1>
+				<h1>{{ pending ? '-' : (stats.uptime * 100).toFixed(2) }}%</h1>
 				<p>Historical Uptime</p>
 			</div>
 		</div>
@@ -104,14 +103,7 @@ import ModrinthIcon from '~/assets/images/external/modrinth.svg'
 
 useHead({ title: 'The Ultimate Resource for Modding Communities' })
 
-let { data: stats, error } = await useFetch('/api/stats')
-if (error.value) {
-	stats = {
-		servers: '-',
-		projects: '-',
-		uptime: 0,
-	}
-}
+const { data: stats, pending, error } = await useFetch('/api/stats')
 </script>
 
 <style lang="scss" scoped>

@@ -11,8 +11,7 @@
 				</div>
 				<nav>
 					<NuxtLink class="link" to="/dashboard">Dashboard</NuxtLink>
-					<!-- link needs to be treated as an external otherwise Nuxt won't load the page properly -->
-					<NuxtLink class="link" to="/docs" external>Docs</NuxtLink>
+					<NuxtLink class="link" to="/docs">Docs</NuxtLink>
 					<NuxtLink class="link" to="/blog">Blog</NuxtLink>
 				</nav>
 			</section>

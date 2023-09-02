@@ -7,10 +7,10 @@
 				<input type="checkbox" id="show-managed-guilds-checkbox" name="show-managed-guilds-checkbox" v-model="showOnlyManagedGuilds" />
 				Show Only Managed Guilds
 			</div>
-			<nav id="server-navlist-buttons" v-if="computedUserGuilds.length > 0">
+			<nav id="server-navlist-buttons" v-if="!awaitingGuildData">
 				<!-- server items go here -->
 				<button
-					v-for="guild in computedUserGuilds"
+					v-for="guild in userGuilds"
 					v-show="new RegExp(`${searchInput}`, 'i').test(guild.name)"
 					:key="guild.id"
 					@click="selectGuild(guild)"
@@ -123,15 +123,18 @@
 </template>
 
 <script setup>
+import InfoIcon from '~/assets/images/utils/info.svg'
+
 definePageMeta({ middleware: ['auth'] })
 
 const auth = await useAuth()
 
-const { data: userGuilds } = await useFetch('https://discord.com/api/users/@me/guilds', {
+const {
+	data,
+	pending: awaitingGuildData,
+	error,
+} = await useFetch('https://discord.com/api/users/@me/guilds', {
 	headers: auth.value.headers,
-})
-userGuilds.value.sort((a, b) => {
-	return a.name.localeCompare(b.name)
 })
 
 const selectedGuild = ref('')
@@ -139,17 +142,23 @@ const selectedTab = ref(0)
 const searchInput = ref('')
 const showOnlyManagedGuilds = ref(true)
 
-const computedUserGuilds = computed(() => {
-	if (showOnlyManagedGuilds.value) {
-		return userGuilds.value.filter((guild) => {
+const userGuilds = computed(() => {
+	const guilds = data.value
+
+	guilds.sort((a, b) => {
+		return a.name.localeCompare(b.name)
+	})
+
+	if (showOnlyManagedGuilds.value === true) {
+		return guilds.filter((guild) => {
 			return (guild.permissions & 0x20) == 0x20
 		})
 	} else {
-		return userGuilds
+		return guilds
 	}
 })
 
-function computedGuildIcon() {
+function computedGuildIcon(guild) {
 	if (guild.icon) {
 		return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`
 	} else {
