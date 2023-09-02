@@ -2,16 +2,15 @@
 	<section class="post">
 		<ContentDoc v-slot="{ doc }">
 			<h1 class="post-title">{{ doc.title }}</h1>
-
-			<img :src="doc.thumbnail" alt="" />
-
+			<img v-if="doc.thumbnail" :src="doc.thumbnail" alt="" />
 			<div class="post-meta">
 				<img class="post-author-avatar" :src="authorData(doc.author).avatar" alt="" />
 				<div>
 					<span class="post-author">
-						<NuxtLink class="post-author-name" :to="authorData(doc.author).github">{{ authorData(doc.author).name }}</NuxtLink> - {{ authorData(doc.author).role }}
+						<NuxtLink class="post-author-name" :to="authorData(doc.author).github">{{ authorData(doc.author).name }}</NuxtLink> -
+						{{ authorData(doc.author).role }}
 					</span>
-					<span class="post-date">{{ new Date(doc.date).toDateString() }}</span>
+					<i class="post-date">{{ new Date(doc.date).toDateString() }}</i>
 				</div>
 			</div>
 			<hr />
@@ -63,8 +62,9 @@ section.post {
 		gap: 1rem;
 		margin: 1rem 0;
 
-		img {
+		img.post-author-avatar {
 			border-radius: 50%;
+			box-shadow: none;
 			height: 3.5rem;
 		}
 
