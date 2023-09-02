@@ -67,12 +67,13 @@ export default defineNuxtConfig({
 			link: [{ rel: 'icon', href: './favicon.ico' }],
 		},
 	},
-	modules: ['@nuxt/content', '@pinia/nuxt', 'floating-vue/nuxt'],
 	content: {
 		highlight: {
 			theme: 'material-default',
 		},
 	},
+	css: ['~/assets/styles/components.scss', '~/assets/styles/fonts.scss', '~/assets/styles/global.scss', '~/assets/styles/layout.scss'],
+	modules: ['@nuxt/content', '@pinia/nuxt', 'floating-vue/nuxt'],
 	pinia: {
 		autoImports: ['defineStore'],
 	},

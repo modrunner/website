@@ -149,8 +149,6 @@ function changeTheme() {
 </script>
 
 <style lang="scss">
-@import '~/assets/styles/global.scss';
-
 #experimental-banner {
 	display: flex;
 	justify-content: center;

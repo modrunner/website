@@ -177,10 +177,6 @@ pre {
 	font-family: var(--font-mono);
 }
 
-@import '~/assets/styles/components.scss';
-@import '~/assets/styles/fonts.scss';
-@import '~/assets/styles/layout.scss';
-
 button:focus-visible,
 a:focus-visible,
 [tabindex='0']:focus-visible {
