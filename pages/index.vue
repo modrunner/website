@@ -29,15 +29,15 @@
 	<section class="landing-section" id="stats-section">
 		<div id="statistics">
 			<div class="statistic">
-				<h1>{{ pending ? '-' : stats.servers }}</h1>
+				<h1>{{ pending || error ? '-' : stats.servers }}</h1>
 				<p>Servers Across Discord</p>
 			</div>
 			<div class="statistic">
-				<h1>{{ pending ? '-' : stats.projects }}</h1>
+				<h1>{{ pending || error ? '-' : stats.projects }}</h1>
 				<p>Modding Projects Tracked</p>
 			</div>
 			<div class="statistic">
-				<h1>{{ pending ? '-' : (stats.uptime * 100).toFixed(2) }}%</h1>
+				<h1>{{ pending || error ? '-' : (stats.uptime * 100).toFixed(2) }}%</h1>
 				<p>Historical Uptime</p>
 			</div>
 		</div>
