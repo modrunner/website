@@ -19,7 +19,7 @@ somewhat decent idea of these tools do before proceeding.
 The first step is to create the application on Discord. Head to the [Discord Developer Portal](https://discord.com/developers).
 You'll land on the Applications page. Here's what mine looks like:
 
-![screenshot of the applications page on the discord dev portal](/images/docs/guides/self-hosting/0.png)
+![screenshot of the applications page on the discord dev portal](/img/docs/guides/self-hosting/0.png)
 
 If you've never created a Discord app before, this page will be empty.
 
@@ -36,7 +36,7 @@ branding, icons or art to represent your own work.
 
 Ta-da! Your Discord app is created. Keep this tab handy, we'll be coming back to it later.
 
-![screenshot of the homepage of the discord app we just created](/images/docs/guides/self-hosting/1.png)
+![screenshot of the homepage of the discord app we just created](/img/docs/guides/self-hosting/1.png)
 
 ## Installing Node.js and npm
 
@@ -92,11 +92,11 @@ You can also upload the files to the server using File Transfer Protocol. For th
 Head to [Modrunner's GitHub page](https://github.com/modrunner/discord-bot) and click "Code", then "Download ZIP". Unzip
 the file on your computer once the download is complete.
 
-![screenshot of the download .zip option on github](/images/docs/guides/self-hosting/2.png)
+![screenshot of the download .zip option on github](/img/docs/guides/self-hosting/2.png)
 
 Open up FileZilla and enter the IP address, username, password and port into the fields at the top and click "Quickconnect".
 
-![screenshot of the left and right file panels in filezilla](/images/docs/guides/self-hosting/3.png)
+![screenshot of the left and right file panels in filezilla](/img/docs/guides/self-hosting/3.png)
 
 The panel on the left will show your computer's files, and the right panel will show the files present on your VPS. Yours
 will likely not look the exact same as mine, but the process will still be the same. In the left panel, navigate to where
@@ -125,12 +125,12 @@ section on [swapping out Doppler for Dotenv](#swapping-out-doppler-for-dotenv).
 Head to [Doppler](https://dashboard.doppler.com/login) and sign up using your method of choice. You'll be brought to the
 workspace homepage (yours most likely will have no projects listed):
 
-![screenshot of the Doppler workspace homepage](/images/docs/guides/self-hosting/4.png)
+![screenshot of the Doppler workspace homepage](/img/docs/guides/self-hosting/4.png)
 
 Click the plus next to Projects. Give it a name and description, and click "Create". You'll be brought to the project's
 environments page:
 
-![screenshot of Doppler's project environments page](/images/docs/guides/self-hosting/5.png)
+![screenshot of Doppler's project environments page](/img/docs/guides/self-hosting/5.png)
 
 Click the `prd` box under Production. Click "Add First Secret". Now we can start adding all the secrets that Modrunner
 needs to function.
@@ -139,7 +139,7 @@ needs to function.
 
 Head back to the Discord Developer Portal and navigate to the "Bot" tab, then click "Add Bot".
 
-![screenshot of the icon, username and secret token field in the discor dev portal](/images/docs/guides/self-hosting/6.png)
+![screenshot of the icon, username and secret token field in the discor dev portal](/img/docs/guides/self-hosting/6.png)
 
 Under the username field, you'll see the "Reset Token" button. Click it, and Discord will generate a security token for
 your bot to use to access the Discord API. Copy the token and head back to Doppler.
@@ -150,7 +150,7 @@ Make sure never to share this token publicly. Otherwise, others may be able to h
 
 ::
 
-![screenshot of the doppler add secret fields](/images/docs/guides/self-hosting/7.png)
+![screenshot of the doppler add secret fields](/img/docs/guides/self-hosting/7.png)
 
 You'll see a pair of fields, NAME and VALUE. In the name field, enter `DISCORD_TOKEN` and paste the token you copied
 into the value field next to it.
@@ -168,7 +168,7 @@ In Doppler, add a new secret. Set the name to `LOGGING_LEVEL` and the value to `
 In order for Modrunner to be able to access the CurseForge API, we will need an API key. Head to [Eternal](https://console.curseforge.com/), CurseForge's
 dev console service and sign up for an account, if you don't have one already.
 
-![screenshot of enternal, curseforge's dev console](/images/docs/guides/self-hosting/8.png)
+![screenshot of enternal, curseforge's dev console](/img/docs/guides/self-hosting/8.png)
 
 Once you're in, navigate to the "API keys" tab and copy the key next to your username. Head back to Doppler, add a new
 secret, name it `CF_API_KEY` and paste in the key you copied for the value.
@@ -201,7 +201,7 @@ Once you've done that, verify doppler was installed correctly using `doppler --v
 Now we need to create a service token on Doppler, so we can give our VPS permissions to read our secrets from Doppler.
 Head to Doppler and navigate to the "Access" tab.
 
-![screenshot of the service tokens screen on Doppler](/images/docs/guides/self-hosting/9.png)
+![screenshot of the service tokens screen on Doppler](/img/docs/guides/self-hosting/9.png)
 
 Under "Service Token", click "Generate". Give it a name, then click "Generate Service Token". Copy the token.
 

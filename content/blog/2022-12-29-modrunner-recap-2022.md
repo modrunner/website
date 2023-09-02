@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Modrunner End-of-Year Recap
 description: A look at the history of Modrunner and its accomplishments for 2022
 authors: beansquared
