@@ -52,10 +52,10 @@
 									</div>
 									<div v-for="project of channel.projects" :key="project" class="projects">
 										<p>{{ project.name }}</p>
-										<p>{{ project.platform }}</p>
+										<p>{{ capitalize(project.platform) }}</p>
 										<p>{{ project.id }}</p>
 										<p>
-											{{ new Date(project.dateUpdated).toLocaleDateString() }}
+											{{ new Date(project.dateUpdated).toDateString() }}
 										</p>
 										<p>TODO</p>
 									</div>
@@ -126,6 +126,7 @@
 import InfoIcon from '~/assets/images/utils/info.svg'
 
 definePageMeta({ middleware: ['auth'] })
+useHead({ title: 'Dashboard' })
 
 const auth = await useAuth()
 
@@ -193,6 +194,10 @@ async function selectGuild(guild) {
 			isBotPresent: false,
 		}
 	}
+}
+
+function capitalize(string) {
+	return string.replace(string.charAt(0), String.fromCharCode(string.charCodeAt(0) - 32))
 }
 </script>
 
@@ -344,6 +349,7 @@ async function selectGuild(guild) {
 						display: flex;
 						align-items: center;
 						gap: 0.5rem;
+						margin-bottom: 0.5rem;
 
 						h1,
 						h2 {

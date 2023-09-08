@@ -11,8 +11,8 @@ export const useAuth = async () => {
 
 	const authCookie = useCookie('auth')
 	if (authCookie.value) {
-		auth.value.accessToken = authCookie.value.accessToken
-		auth.value.headers = { authorization: `${authCookie.value.tokenType} ${authCookie.value.accessToken}` }
+		auth.value.accessToken = authCookie.value
+		auth.value.headers = { authorization: `Bearer ${authCookie.value}` }
 
 		if (!auth.value.user.id) {
 			const { id, username, avatar } = await $fetch('https://discord.com/api/users/@me', { headers: auth.value.headers })

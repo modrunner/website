@@ -124,7 +124,7 @@ import LogOutIcon from '~/assets/images/utils/log-out.svg'
 import SunIcon from '~/assets/images/utils/sun.svg'
 import XIcon from '~/assets/images/utils/x.svg'
 
-const auth = await useAuth()
+let auth = await useAuth()
 const appConfig = useAppConfig()
 const runtimeConfig = useRuntimeConfig()
 
@@ -145,6 +145,21 @@ function changeTheme() {
 		theme.value = 'dark'
 		document.documentElement.classList.replace('light-mode', 'dark-mode')
 	}
+}
+
+function logoutUser() {
+	auth = {
+		accessToken: '',
+		headers: {},
+		user: {
+			id: '',
+			username: '',
+			avatar: '',
+		},
+	}
+	const authCookie = useCookie('auth')
+	authCookie.value = null
+	return navigateTo('/', { external: true })
 }
 </script>
 

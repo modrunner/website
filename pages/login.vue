@@ -9,7 +9,6 @@ const auth = await useAuth()
 // User is already logged in
 if (auth.value.user.id) await navigateTo('/dashboard')
 
-const config = useRuntimeConfig()
 const route = useRoute()
 
 // We've recieved an auth code from Discord
@@ -27,10 +26,7 @@ if (route.query.code) {
 		sameSite: 'strict',
 	})
 
-	authCookie.value = {
-		accessToken: data.value.access_token,
-		tokenType: data.value.token_type,
-	}
+	authCookie.value = data.value.access_token
 } else {
 	// We need to redirect to Discord
 	await navigateTo(getAuthUrl(), { external: true })
