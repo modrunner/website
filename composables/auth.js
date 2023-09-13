@@ -28,5 +28,5 @@ export const getAuthUrl = () => {
 	const config = useRuntimeConfig()
 	return `https://discord.com/api/oauth2/authorize?client_id=${config.public.discordClientId}&redirect_uri=${`${encodeURIComponent(
 		config.public.baseUrl
-	)}/login`}&response_type=code&scope=identify%20guilds`
+	)}/login`}&response_type=code&scope=identify%20guilds&prompt=none`
 }

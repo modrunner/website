@@ -73,7 +73,7 @@ export default defineNuxtConfig({
 		},
 	},
 	css: ['~/assets/styles/components.scss', '~/assets/styles/fonts.scss', '~/assets/styles/global.scss', '~/assets/styles/layout.scss'],
-	modules: ['@nuxt/content', '@pinia/nuxt', 'floating-vue/nuxt'],
+	modules: ['@nuxt/content', 'floating-vue/nuxt'],
 	pinia: {
 		autoImports: ['defineStore'],
 	},

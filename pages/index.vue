@@ -13,16 +13,10 @@
 			<section id="supported-platforms">
 				<h3>Supported Platforms</h3>
 				<div>
-					<ModrinthIcon v-tooltip="'Modrinth'" />
 					<img src="~/assets/images/external/curseforge.png" alt="" v-tooltip="'CurseForge'" />
+					<ModrinthIcon v-tooltip="'Modrinth'" />
 				</div>
 			</section>
-		</div>
-	</section>
-
-	<section class="landing-section">
-		<div id="landing-img">
-			<img src="~/assets/images/logo.png" alt="" />
 		</div>
 	</section>
 

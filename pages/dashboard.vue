@@ -50,14 +50,25 @@
 										<span>Last Updated</span>
 										<span>Notification Roles</span>
 									</div>
-									<div v-for="project of channel.projects" :key="project" class="projects">
-										<p>{{ project.name }}</p>
-										<p>{{ capitalize(project.platform) }}</p>
-										<p>{{ project.id }}</p>
-										<p>
-											{{ new Date(project.dateUpdated).toDateString() }}
-										</p>
-										<p>TODO</p>
+									<div class="projects-container">
+										<button
+											v-for="project of channel.projects"
+											:key="project"
+											class="project button-transparent"
+											@click="openProjectEditModal(project, channel)"
+										>
+											<p>{{ project.name }}</p>
+											<p>{{ capitalize(project.platform) }}</p>
+											<p>{{ project.id }}</p>
+											<p>
+												{{ new Date(project.dateUpdated).toDateString() }}
+											</p>
+											<p>
+												<span class="role-id" v-for="roleId of project.roleIds" :style="`color: ${selectedGuild.roles.find((role) => role.id === roleId).color};`">
+													{{ selectedGuild.roles.find((role) => role.id === roleId).name }}
+												</span>
+											</p>
+										</button>
 									</div>
 								</div>
 							</div>
@@ -119,6 +130,69 @@
 			</div>
 		</section>
 		<p v-else>Select a server from the sidebar on the left to get started.</p>
+
+		<div id="edit-project-modal" v-show="showProjectEditModal">
+			<div class="modal-container">
+				<h1>Edit tracked project</h1>
+				<div class="modal-content">
+					<div class="modal-content-grid">
+						<div>
+							<label for="project-name">Project name</label>
+							<input type="text" name="project-name" :value="editingProjectData.name" disabled />
+						</div>
+
+						<div>
+							<label for="project-id">Project ID</label>
+							<input type="text" name="project-id" :value="editingProjectData.id" disabled />
+						</div>
+
+						<div>
+							<label for="project-platform">Project platform</label>
+							<input type="text" name="project-platform" :value="capitalize(editingProjectData.platform)" disabled />
+						</div>
+
+						<div>
+							<label for="project-channel">Channel</label>
+							<select name="project-channel">
+								<option
+									v-for="channel of selectedGuild.channels"
+									:key="channel"
+									:value="channel.id"
+									:selected="channel.id === editingProjectData.channel.id ? true : false"
+								>
+									#{{ channel.name }}
+								</option>
+							</select>
+						</div>
+
+						<div>
+							<label for="project-roles">Notification Roles</label>
+							<select name="project-roles" multiple>
+								<option
+									v-for="role of selectedGuild.roles"
+									:style="`color: ${role.color};`"
+									:key="role"
+									:value="role.id"
+									:selected="editingProjectData.roleIds.includes(role.id) ? true : false"
+								>
+									<div>{{ role.name }}</div>
+								</option>
+							</select>
+							<span>Hold CTRL to select multiple roles.</span>
+						</div>
+					</div>
+					<div class="modal-buttons">
+						<div class="left-buttons">
+							<button class="button-danger" @click="">UNTRACK</button>
+						</div>
+						<div class="right-buttons">
+							<button class="button-primary" @click="">SAVE CHANGES</button>
+							<button class="button-secondary" @click="showProjectEditModal = false">CLOSE</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -142,6 +216,14 @@ const selectedGuild = ref('')
 const selectedTab = ref(0)
 const searchInput = ref('')
 const showOnlyManagedGuilds = ref(true)
+const showProjectEditModal = ref(false)
+const editingProjectData = ref({
+	name: '',
+	id: '',
+	platform: '',
+	channel: '',
+	roleIds: [],
+})
 
 const userGuilds = computed(() => {
 	const guilds = data.value
@@ -178,6 +260,7 @@ async function selectGuild(guild) {
 			name: guild.name,
 			icon: guild.icon,
 			channels: guildChannels,
+			roles: guildData.roles,
 			projectChannels: guildData.channels,
 			isBotPresent: true,
 			settings: {
@@ -197,7 +280,20 @@ async function selectGuild(guild) {
 }
 
 function capitalize(string) {
-	return string.replace(string.charAt(0), String.fromCharCode(string.charCodeAt(0) - 32))
+	if (string) return string.replace(string.charAt(0), String.fromCharCode(string.charCodeAt(0) - 32))
+	return 'null'
+}
+
+function openProjectEditModal(project, channel) {
+	editingProjectData.value = {
+		name: project.name,
+		id: project.id,
+		platform: project.platform,
+		channel: channel,
+		roleIds: project.roleIds ?? [],
+	}
+
+	showProjectEditModal.value = true
 }
 </script>
 
@@ -379,9 +475,27 @@ function capitalize(string) {
 							padding-bottom: 0.5rem;
 						}
 
-						.projects {
-							display: grid;
-							grid-template-columns: 0.75fr 0.5fr 0.5fr 0.5fr 2fr;
+						.projects-container {
+							display: flex;
+							flex-direction: column;
+							gap: 0.25rem;
+							margin-top: 0.75rem;
+
+							.project {
+								display: grid;
+								grid-template-columns: 0.75fr 0.5fr 0.5fr 0.5fr 2fr;
+								padding: 0.5rem;
+								border-radius: 0.5rem;
+
+								> * {
+									margin: 0;
+									text-align: start;
+								}
+
+								.role-id {
+									margin: 0 0.5rem 0 0;
+								}
+							}
 						}
 					}
 				}
@@ -416,6 +530,72 @@ function capitalize(string) {
 				width: calc(100% - 2rem);
 				height: 400px;
 				padding: 1rem;
+			}
+		}
+	}
+}
+
+#edit-project-modal {
+	backdrop-filter: blur(5px);
+	position: absolute;
+	min-height: calc(100vh - 70px);
+	width: 100vw;
+
+	div.modal-container {
+		background-color: var(--color-bg-dark);
+		border-radius: 1rem;
+		box-shadow: 1px 1px 20px 2px rgb(0, 0, 0);
+		max-width: 800px;
+		margin: 10vh auto;
+		padding: 0.5rem;
+
+		> h1 {
+			background-color: var(--color-bg);
+			border-radius: 0.5rem;
+			font-size: var(--font-size-large);
+			margin: 0;
+			padding: 1rem;
+		}
+
+		div.modal-content {
+			background-color: var(--color-bg);
+			border-radius: 0.5rem;
+			margin: 0.5rem 0 0 0;
+			padding: 1rem;
+
+			div.modal-content-grid {
+				display: grid;
+				gap: 1rem;
+				grid-template-columns: 1fr 1fr;
+
+				> div {
+					display: flex;
+					flex-direction: column;
+					gap: 0.5rem;
+				}
+
+				span {
+					font-size: var(--font-size-extrasmall);
+					margin: 0;
+				}
+			}
+
+			div.modal-buttons {
+				display: flex;
+				justify-content: space-between;
+				margin: 1rem 0 0 0;
+
+				div.left-buttons {
+					display: flex;
+					gap: 0.5rem;
+					justify-content: start;
+				}
+
+				div.right-buttons {
+					display: flex;
+					gap: 0.5rem;
+					justify-content: end;
+				}
 			}
 		}
 	}
