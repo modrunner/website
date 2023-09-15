@@ -64,7 +64,11 @@
 												{{ new Date(project.dateUpdated).toDateString() }}
 											</p>
 											<p>
-												<span class="role-id" v-for="roleId of project.roleIds" :style="`color: ${selectedGuild.roles.find((role) => role.id === roleId).color};`">
+												<span
+													class="role-id"
+													v-for="roleId of project.roleIds"
+													:style="`color: ${selectedGuild.roles.find((role) => role.id === roleId).color};`"
+												>
 													{{ selectedGuild.roles.find((role) => role.id === roleId).name }}
 												</span>
 											</p>
@@ -153,7 +157,7 @@
 
 						<div>
 							<label for="project-channel">Channel</label>
-							<select name="project-channel">
+							<select name="project-channel" v-model.lazy="newProjectData.channelId">
 								<option
 									v-for="channel of selectedGuild.channels"
 									:key="channel"
@@ -167,7 +171,7 @@
 
 						<div>
 							<label for="project-roles">Notification Roles</label>
-							<select name="project-roles" multiple>
+							<select name="project-roles" multiple v-model.lazy="newProjectData.roleIds">
 								<option
 									v-for="role of selectedGuild.roles"
 									:style="`color: ${role.color};`"
@@ -183,11 +187,11 @@
 					</div>
 					<div class="modal-buttons">
 						<div class="left-buttons">
-							<button class="button-danger" @click="">UNTRACK</button>
+							<button class="button-danger" @click="untrackProject()" :disabled="disableProjectEditModalButtons">UNTRACK</button>
 						</div>
 						<div class="right-buttons">
-							<button class="button-primary" @click="">SAVE CHANGES</button>
-							<button class="button-secondary" @click="showProjectEditModal = false">CLOSE</button>
+							<button class="button-primary" @click="editProject()" :disabled="disableProjectEditModalButtons">SAVE CHANGES</button>
+							<button class="button-secondary" @click="showProjectEditModal = false" :disabled="disableProjectEditModalButtons">CLOSE</button>
 						</div>
 					</div>
 				</div>
@@ -217,12 +221,22 @@ const selectedTab = ref(0)
 const searchInput = ref('')
 const showOnlyManagedGuilds = ref(true)
 const showProjectEditModal = ref(false)
+const disableProjectEditModalButtons = ref(false)
 const editingProjectData = ref({
 	name: '',
 	id: '',
 	platform: '',
 	channel: '',
 	roleIds: [],
+})
+const newProjectData = ref({
+	channelId: '',
+	roleIds: [],
+})
+
+watch(editingProjectData, (newData, oldData) => {
+	newProjectData.value.channelId = newData.channel.id
+	newProjectData.value.roleIds = newData.roleIds
 })
 
 const userGuilds = computed(() => {
@@ -294,6 +308,56 @@ function openProjectEditModal(project, channel) {
 	}
 
 	showProjectEditModal.value = true
+}
+
+async function untrackProject() {
+	disableProjectEditModalButtons.value = true
+
+	await $fetch('/api/untrackProject', {
+		method: 'DELETE',
+		body: {
+			projectId: editingProjectData.value.id,
+			channelId: editingProjectData.value.channel.id,
+			guildId: selectedGuild.value.id,
+		},
+	})
+
+	await selectGuild({
+		id: selectedGuild.value.id,
+		name: selectedGuild.value.name,
+		icon: selectedGuild.value.icon,
+	})
+
+	showProjectEditModal.value = false
+	disableProjectEditModalButtons.value = false
+}
+
+async function editProject() {
+	disableProjectEditModalButtons.value = true
+
+	await $fetch('/api/editProject', {
+		method: 'PATCH',
+		body: {
+			oldProject: {
+				projectId: editingProjectData.value.id,
+				channelId: editingProjectData.value.channel.id,
+				guildId: selectedGuild.value.id,
+			},
+			newProject: {
+				channelId: newProjectData.value.channelId,
+				roleIds: newProjectData.value.roleIds,
+			},
+		},
+	})
+
+	await selectGuild({
+		id: selectedGuild.value.id,
+		name: selectedGuild.value.name,
+		icon: selectedGuild.value.icon,
+	})
+
+	showProjectEditModal.value = false
+	disableProjectEditModalButtons.value = false
 }
 </script>
 
@@ -594,7 +658,7 @@ function openProjectEditModal(project, channel) {
 				div.right-buttons {
 					display: flex;
 					gap: 0.5rem;
-					justify-content: end;
+					justify-content: flex-end;
 				}
 			}
 		}
