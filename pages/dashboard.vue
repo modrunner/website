@@ -85,30 +85,28 @@
 					<div id="cols">
 						<div id="left-col">
 							<h2>General Settings</h2>
-							<p>Bot Nickname</p>
-							<input type="text" />
 							<div>
 								<p>Log Channel</p>
 								<InfoIcon v-tooltip="'Used for system messages and news about Modrunner.'" />
 							</div>
-							<select name="" id="">
+							<select disabled>
 								<option v-for="channel of selectedGuild.channels" :key="channel" :value="channel.id">#{{ channel.name }}</option>
 							</select>
 
 							<h2>Tracked Projects Settings</h2>
 							<p>Maximum Characters for Changelogs</p>
-							<input type="text" :value="selectedGuild.settings.changelogLength" />
+							<input type="text" :value="selectedGuild.settings.changelogLength" @focusout="saveMaxChars($event)" />
 							<p>Notification Style</p>
-							<select name="" id="">
-								<option value="" :selected="selectedGuild.settings.notificationStyle === 'normal' ? true : false">Normal</option>
-								<option value="" :selected="selectedGuild.settings.notificationStyle === 'compact' ? true : false">Compact</option>
-								<option value="" :selected="selectedGuild.settings.notificationStyle === 'custom' ? true : false">Custom</option>
-								<option value="" :selected="selectedGuild.settings.notificationStyle === 'ai' ? true : false">AI Generated (Beta)</option>
+							<select @change="saveNotificationStyle($event)">
+								<option value="normal" :selected="selectedGuild.settings.notificationStyle === 'normal' ? true : false">Normal</option>
+								<option value="compact" :selected="selectedGuild.settings.notificationStyle === 'compact' ? true : false">Compact</option>
+								<option value="custom" :selected="selectedGuild.settings.notificationStyle === 'custom' ? true : false">Custom</option>
+								<option value="ai" :selected="selectedGuild.settings.notificationStyle === 'ai' ? true : false">AI Generated (Beta)</option>
 							</select>
 						</div>
 						<div id="right-col">
 							<h2>Custom Style Editor</h2>
-							<textarea name="" id=""></textarea>
+							<textarea disabled></textarea>
 							<p>
 								Only applies when the notification style is set to "Custom".
 								<NuxtLink to="https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-"
@@ -358,6 +356,24 @@ async function editProject() {
 
 	showProjectEditModal.value = false
 	disableProjectEditModalButtons.value = false
+}
+
+async function saveMaxChars(event) {
+	await $fetch('/api/editGuild', {
+		method: 'PATCH',
+		query: { guildId: selectedGuild.value.id },
+		body: {
+			changelogLength: event.target.value,
+		},
+	})
+}
+
+async function saveNotificationStyle(event) {
+	await $fetch('/api/editGuild', {
+		method: 'PATCH',
+		query: { guildId: selectedGuild.value.id },
+		body: { notificationStyle: event.target.value },
+	})
 }
 </script>
 
@@ -652,7 +668,7 @@ async function editProject() {
 				div.left-buttons {
 					display: flex;
 					gap: 0.5rem;
-					justify-content: start;
+					justify-content: flex-start;
 				}
 
 				div.right-buttons {
