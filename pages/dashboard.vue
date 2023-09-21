@@ -84,14 +84,14 @@
 				<div id="bot-settings-panel" class="rounded-container info-panel" v-else-if="selectedTab === 1">
 					<div id="cols">
 						<div id="left-col">
-							<h2>General Settings</h2>
+							<!--<h2>General Settings</h2>
 							<div>
 								<p>Log Channel</p>
 								<InfoIcon v-tooltip="'Used for system messages and news about Modrunner.'" />
 							</div>
 							<select disabled>
 								<option v-for="channel of selectedGuild.channels" :key="channel" :value="channel.id">#{{ channel.name }}</option>
-							</select>
+							</select>-->
 
 							<h2>Tracked Projects Settings</h2>
 							<p>Maximum Characters for Changelogs</p>
@@ -100,12 +100,12 @@
 							<select @change="saveNotificationStyle($event)">
 								<option value="normal" :selected="selectedGuild.settings.notificationStyle === 'normal' ? true : false">Normal</option>
 								<option value="compact" :selected="selectedGuild.settings.notificationStyle === 'compact' ? true : false">Compact</option>
-								<option value="custom" :selected="selectedGuild.settings.notificationStyle === 'custom' ? true : false">Custom</option>
+								<!--<option value="custom" :selected="selectedGuild.settings.notificationStyle === 'custom' ? true : false">Custom</option>-->
 								<option value="ai" :selected="selectedGuild.settings.notificationStyle === 'ai' ? true : false">AI Generated (Beta)</option>
 							</select>
 						</div>
 						<div id="right-col">
-							<h2>Custom Style Editor</h2>
+							<!--<h2>Custom Style Editor</h2>
 							<textarea disabled></textarea>
 							<p>
 								Only applies when the notification style is set to "Custom".
@@ -121,7 +121,7 @@
 							<p><code>$version_number</code> - The number of the new version</p>
 							<p><code>$version_id</code> - The ID of the new version</p>
 							<p><code>$version_changelog</code> - The changelog of the new version</p>
-							<p><code>$version_date</code> - The timestamp at when the new version was published</p>
+							<p><code>$version_date</code> - The timestamp at when the new version was published</p>-->
 						</div>
 					</div>
 				</div>

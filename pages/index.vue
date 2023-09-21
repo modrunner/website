@@ -48,7 +48,7 @@
 				<p>Skip the arduous process of opening up your browser and copy-pasting links into a text channel.</p>
 			</div>
 			<div class="feature-container feature-img">
-				<img src="~/assets/images/logo.png" alt="" />
+				<img src="/img/search.png" alt="" />
 			</div>
 		</div>
 	</section>
@@ -56,7 +56,7 @@
 	<section class="landing-section" id="feature-2-section">
 		<div id="feature-2">
 			<div class="feature-container feature-img">
-				<img src="~/assets/images/logo.png" alt="" />
+				<img src="/img/monitor.png" alt="" />
 			</div>
 			<div class="feature-container feature-text">
 				<h1>Monitor Updates</h1>
@@ -79,7 +79,7 @@
 				</p>
 			</div>
 			<div class="feature-container feature-img">
-				<img src="~/assets/images/logo.png" alt="" />
+				<img src="/img/settings.png" alt="" />
 			</div>
 		</div>
 	</section>

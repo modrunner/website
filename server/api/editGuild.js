@@ -2,7 +2,6 @@ export default defineEventHandler(async (event) => {
 	const config = useRuntimeConfig()
 	const body = await readBody(event)
 	const query = getQuery(event)
-	console.log(query.guildId)
 
 	return await $fetch(`${config.apiUrl}/guilds/${query.guildId}`, {
 		method: 'PATCH',

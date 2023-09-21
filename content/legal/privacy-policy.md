@@ -22,9 +22,9 @@ It's important that you read this entire policy, but here's a summary to get you
 
 Modrunner was created to better fulfill a purpose that not many other bots do particularly well: offer search and update tracking services for your favorite Minecraft projects hosted on some of the most popular websites for finding Minecraft community content.
 
-Our "services" has the same meaning as defined in the [Terms of Service](/legal/terms). They include the Modrunner Discord bot application, which can be accessed within the official Discord app, available on mobile, web, or desktop. We also have a website, offering easy access to additional information about our services.
+Our "services" has the same meaning as defined in the [Terms of Service](/legal/terms-of-service). They include the Modrunner Discord bot application, which can be accessed within the official Discord app, available on mobile, web, or desktop. We also have a website, offering easy access to additional information about our services.
 
-As explained in our [Terms of Service](/legal/terms), we allow users to interact with our services only within Discord "servers", which are often public spaces. While you cannot create content using our services, your search queries and the names of the projects you access using our services can be accessed by people you may not know.
+As explained in our [Terms of Service](/legal/terms-of-service), we allow users to interact with our services only within Discord "servers", which are often public spaces. While you cannot create content using our services, your search queries and the names of the projects you access using our services can be accessed by people you may not know.
 
 Our services are free to use, and we do not charge money for access to them. We will never sell or share your personal information to third parties.
 

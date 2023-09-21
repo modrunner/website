@@ -111,7 +111,7 @@
 				<NuxtLink :to="appConfig.links.discord">Discord</NuxtLink>
 				<NuxtLink :to="appConfig.links.email">Email</NuxtLink>
 				<NuxtLink :to="appConfig.links.mastodon">Mastodon</NuxtLink>
-				<NuxtLink :to="appConfig.links.twitter">Twitter</NuxtLink>
+				<!--<NuxtLink :to="appConfig.links.twitter">Twitter</NuxtLink>-->
 			</nav>
 		</section>
 	</footer>
@@ -130,7 +130,7 @@ const runtimeConfig = useRuntimeConfig()
 
 const theme = ref('dark')
 const showMobileMenu = ref(false)
-const showExperimentalBanner = ref(true)
+const showExperimentalBanner = ref(false)
 const isDropdownOpen = ref(false)
 
 onMounted(() => {
