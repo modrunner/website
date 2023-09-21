@@ -97,7 +97,7 @@ export default defineNuxtConfig({
 
 function getDomain() {
 	if (process.env.ENVIRONMENT === 'prd') {
-		return 'https://modrunner.net'
+		return 'https://beta.modrunner.net'
 	} else if (process.env.ENVIRONMENT === 'stg') {
 		return 'https://staging.modrunner.net'
 	} else {
