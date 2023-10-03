@@ -458,6 +458,10 @@ async function saveNotificationStyle(event) {
 					height: 2.5rem;
 				}
 
+				span {
+					overflow: hidden;
+				}
+
 				&.selected {
 					background-color: rgba($color: #ffffff, $alpha: 0.2);
 				}
