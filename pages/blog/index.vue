@@ -1,49 +1,61 @@
 <template>
-	<ContentList path="/blog">
-		<template #default="{ list }">
-			<section class="post-grid">
-				<div v-for="article in list" :key="article._path">
-					<NuxtLink :to="article._path">
-						<div class="post">
-							<img v-if="article.thumbnail" :src="article.thumbnail" alt="" />
-							<h2>{{ article.title }}</h2>
-							<i>{{ new Date(article.date).toDateString() }}</i>
-							<p>{{ article.description }}</p>
-						</div>
-					</NuxtLink>
+	<section class="post-grid">
+		<h1>Latest Blog Posts</h1>
+		<div v-for="article in posts" :key="article._path">
+			<NuxtLink :to="article._path">
+				<div class="post">
+					<img v-if="article.thumbnail" :src="article.thumbnail" alt="" />
+					<div class="text">
+						<h2>{{ article.title }}</h2>
+						<i>{{ new Date(article.date).toDateString() }}</i>
+						<p>{{ article.description }}</p>
+					</div>
 				</div>
-			</section>
-		</template>
-		<template #not-found>
-			<p style="text-align: center">No articles found.</p>
-		</template>
-	</ContentList>
+			</NuxtLink>
+		</div>
+	</section>
 </template>
 
 <script setup>
 useHead({ title: 'Blog' })
+
+const posts = await queryContent('blog').sort({ title: 1 }).find()
 </script>
 
 <style scoped lang="scss">
 section.post-grid {
-	display: grid;
+	display: flex;
+	flex-direction: column;
 	gap: 1rem;
-	grid-template-columns: 1fr 1fr 1fr;
 	max-width: 1280px;
-	margin: 3rem auto 0 auto;
+	margin: 0 auto 0 auto;
+
+	h1 {
+		font-size: var(--font-size-2extralarge);
+		margin-bottom: 0.5rem;
+	}
 
 	a {
 		color: var(--color-text);
 	}
 
 	div.post {
-		border-radius: 1rem;
-		box-shadow: 1px 1px 20px 2px rgb(0, 0, 0);
+		border-top: 1px solid gray;
+		display: flex;
+		gap: 1rem;
 		height: 100%;
 		padding: 1rem;
 
 		img {
-			max-width: 100%;
+			max-height: 8rem;
+			border-radius: 10px;
+			box-shadow: 0 0 10px 0 black;
+		}
+
+		div.text {
+			h2 {
+				margin: 0;
+			}
 		}
 	}
 }

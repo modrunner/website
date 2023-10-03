@@ -85,7 +85,8 @@ section.post {
 	}
 
 	img {
-		box-shadow: 1px 1px 20px 2px rgb(0, 0, 0);
+		border-radius: 10px;
+		box-shadow: 0 0 10px 0 black;
 		max-width: 100%;
 	}
 }
