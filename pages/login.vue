@@ -7,7 +7,7 @@ useHead({ title: 'Log In' })
 const auth = await useAuth()
 
 // User is already logged in
-if (auth.value.user.id) await navigateTo('/dashboard')
+if (auth.value.user.id) await navigateTo('/dashboard', { external: true })
 
 const route = useRoute()
 
@@ -33,6 +33,6 @@ if (route.query.code) {
 }
 
 onBeforeMount(async () => {
-	await navigateTo('/dashboard')
+	await navigateTo('/dashboard', { external: true })
 })
 </script>
