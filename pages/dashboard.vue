@@ -312,7 +312,7 @@ async function untrackProject() {
 	disableProjectEditModalButtons.value = true
 
 	await $fetch('/api/untrackProject', {
-		method: 'DELETE',
+		method: 'PATCH',
 		body: {
 			projectId: editingProjectData.value.id,
 			channelId: editingProjectData.value.channel.id,
