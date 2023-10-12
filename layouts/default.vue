@@ -128,13 +128,19 @@ let auth = await useAuth()
 const appConfig = useAppConfig()
 const runtimeConfig = useRuntimeConfig()
 
-const theme = ref('dark')
+const theme = useCookie('color-theme', { maxAge: 315569520 })
+if (!theme.value) theme.value = 'dark'
+
 const showMobileMenu = ref(false)
 const showExperimentalBanner = ref(false)
 const isDropdownOpen = ref(false)
 
 onMounted(() => {
-	document.documentElement.classList.add(`dark-mode`)
+	if (theme.value === 'dark') {
+		document.documentElement.classList.add('dark-mode')
+	} else {
+		document.documentElement.classList.add('light-mode')
+	}
 })
 
 function changeTheme() {
