@@ -16,7 +16,7 @@
 				</nav>
 			</section>
 			<section class="user-controls">
-				<NuxtLink to="/invite">Add to Server</NuxtLink>
+				<NuxtLink to="/invite" target="_blank">Add to Server</NuxtLink>
 				<button class="control-button button-transparent" title="Switch theme" @click="changeTheme">
 					<SunIcon v-if="theme === 'light'" />
 					<MoonIcon v-else />

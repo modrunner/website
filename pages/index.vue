@@ -7,7 +7,7 @@
 				follow modding projects on some of the most popular platforms.
 			</h2>
 			<div id="landing-buttons-container">
-				<NuxtLink to="/invite" class="landing-button">Add to Your Server</NuxtLink>
+				<NuxtLink to="/invite" class="landing-button" target="_blank">Add to Your Server</NuxtLink>
 				<NuxtLink to="/docs" class="landing-button">View the Docs</NuxtLink>
 			</div>
 			<section id="supported-platforms">

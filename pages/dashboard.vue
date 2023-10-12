@@ -128,7 +128,7 @@
 			</div>
 			<div v-else class="rounded-container info-panel">
 				Modrunner is not currently present in this server.
-				<NuxtLink to="/invite"> Get started by inviting it. </NuxtLink>
+				<NuxtLink to="/invite" target="_blank"> Get started by inviting it. </NuxtLink>
 			</div>
 		</section>
 		<p v-else>Select a server from the sidebar on the left to get started.</p>
