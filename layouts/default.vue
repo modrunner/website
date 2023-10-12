@@ -103,6 +103,7 @@
 				<h1>Resources</h1>
 				<NuxtLink to="/blog">Blog</NuxtLink>
 				<NuxtLink to="/docs">Docs</NuxtLink>
+				<NuxtLink :to="appConfig.links.roadmap">Roadmap</NuxtLink>
 				<NuxtLink :to="appConfig.links.github">GitHub</NuxtLink>
 				<NuxtLink :to="appConfig.links.statusPage">Status</NuxtLink>
 			</nav>
