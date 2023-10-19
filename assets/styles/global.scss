@@ -42,6 +42,25 @@ html {
 		rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
+.halloween-mode {
+	--color-brand: #c86000;
+	--color-brand-dark: #6e3500;
+	--color-brand-light: #ff7b00;
+
+	--color-bg: #05080c;
+	--color-bg-dark: #000000;
+	--color-bg-light: #1f1f1f;
+
+	--color-text: #ffffff;
+	--color-text-dark: #808080;
+	--color-text-link: #8eccff;
+
+	--color-divider-dark: #646c75;
+
+	--shadow-floating: hsla(0, 0%, 0%, 0) 0px 0px 0px 0px, hsla(0, 0%, 0%, 0) 0px 0px 0px 0px, hsla(0, 0%, 0%, 0.1) 0px 4px 6px -1px,
+		rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+
 body {
 	// Defaults
 	background-color: var(--color-bg);

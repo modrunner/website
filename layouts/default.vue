@@ -7,7 +7,7 @@
 		<div class="container">
 			<section class="navigation">
 				<div>
-					<NuxtLink to="/"><img src="~/assets/images/logo_banner.png" alt="The full-sized Modrunner logo banner" class="logo" /></NuxtLink>
+					<NuxtLink to="/"><img src="~/assets/images/logo_banner_halloween.png" alt="The full-sized Modrunner logo banner" class="logo" /></NuxtLink>
 				</div>
 				<nav>
 					<NuxtLink class="link" to="/dashboard">Dashboard</NuxtLink>
@@ -18,8 +18,9 @@
 			<section class="user-controls">
 				<NuxtLink to="/invite" target="_blank">Add to Server</NuxtLink>
 				<button class="control-button button-transparent" title="Switch theme" @click="changeTheme">
-					<SunIcon v-if="theme === 'light'" />
-					<MoonIcon v-else />
+					<SunIcon v-if="currentTheme === 'light'" />
+					<MoonIcon v-else-if="currentTheme === 'dark'" />
+					<SpiderIcon v-else-if="currentTheme === 'halloween'" />
 				</button>
 				<div
 					v-if="auth.user.id"
@@ -75,7 +76,7 @@
 		<section id="footer-wrapper">
 			<div>
 				<NuxtLink to="/">
-					<img src="~/assets/images/logo_banner.png" alt="The full-sized Modrunner logo banner" class="logo" />
+					<img src="~/assets/images/logo_banner_halloween.png" alt="The full-sized Modrunner logo banner" class="logo" />
 				</NuxtLink>
 				<p>
 					Modrunner is
@@ -122,6 +123,7 @@
 import MenuIcon from '~/assets/images/utils/menu.svg'
 import MoonIcon from '~/assets/images/utils/moon.svg'
 import LogOutIcon from '~/assets/images/utils/log-out.svg'
+import SpiderIcon from '~/assets/images/utils/spider.svg'
 import SunIcon from '~/assets/images/utils/sun.svg'
 import XIcon from '~/assets/images/utils/x.svg'
 
@@ -129,28 +131,28 @@ let auth = await useAuth()
 const appConfig = useAppConfig()
 const runtimeConfig = useRuntimeConfig()
 
-const theme = useCookie('color-theme', { maxAge: 315569520 })
-if (!theme.value) theme.value = 'dark'
+const themes = ref(['dark', 'light', 'halloween'])
+const currentTheme = useCookie('color-theme', { maxAge: 315569520 })
+if (!currentTheme.value) currentTheme.value = 'dark'
 
 const showMobileMenu = ref(false)
 const showExperimentalBanner = ref(false)
 const isDropdownOpen = ref(false)
 
 onMounted(() => {
-	if (theme.value === 'dark') {
-		document.documentElement.classList.add('dark-mode')
-	} else {
-		document.documentElement.classList.add('light-mode')
-	}
+	document.documentElement.classList.add(`${currentTheme.value}-mode`)
 })
 
 function changeTheme() {
-	if (theme.value === 'dark') {
-		theme.value = 'light'
+	if (currentTheme.value === 'dark') {
+		currentTheme.value = 'light'
 		document.documentElement.classList.replace('dark-mode', 'light-mode')
-	} else {
-		theme.value = 'dark'
-		document.documentElement.classList.replace('light-mode', 'dark-mode')
+	} else if (currentTheme.value === 'light') {
+		currentTheme.value = 'halloween'
+		document.documentElement.classList.replace('light-mode', 'halloween-mode')
+	} else if (currentTheme.value === 'halloween') {
+		currentTheme.value = 'dark'
+		document.documentElement.classList.replace('halloween-mode', 'dark-mode')
 	}
 }
 
