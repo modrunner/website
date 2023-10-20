@@ -5,7 +5,11 @@
 			<input v-model.trim="searchInput" id="server-search-input" type="text" name="server-search" placeholder="Search for a server" />
 			<div id="checkbox-container">
 				<input type="checkbox" id="show-managed-guilds-checkbox" name="show-managed-guilds-checkbox" v-model="showOnlyManagedGuilds" />
-				Show Only Managed Guilds
+				Only show servers you manage
+			</div>
+			<div id="checkbox-container">
+				<input type="checkbox" id="show-present-guilds-checkbox" name="show-present-guilds-checkbox" v-model="showOnlyPresentGuilds" />
+				Only show servers Modrunner is present in
 			</div>
 			<nav id="server-navlist-buttons" v-if="!awaitingGuildData">
 				<!-- server items go here -->
@@ -214,10 +218,13 @@ const {
 	headers: auth.value.headers,
 })
 
+const fetchAllGuildsResponse = await useFetch('/api/getAllGuilds');
+
 const selectedGuild = ref('')
 const selectedTab = ref(0)
 const searchInput = ref('')
 const showOnlyManagedGuilds = ref(true)
+const showOnlyPresentGuilds = ref(true)
 const showProjectEditModal = ref(false)
 const disableProjectEditModalButtons = ref(false)
 const editingProjectData = ref({
@@ -239,25 +246,32 @@ watch(editingProjectData, (newData, oldData) => {
 
 const userGuilds = computed(() => {
 	const guilds = data.value
+	let shownGuilds = guilds
 
 	guilds.sort((a, b) => {
 		return a.name.localeCompare(b.name)
 	})
 
 	if (showOnlyManagedGuilds.value === true) {
-		return guilds.filter((guild) => {
+		shownGuilds = guilds.filter((guild) => {
 			return (guild.permissions & 0x20) == 0x20
 		})
-	} else {
-		return guilds
 	}
+
+	if (showOnlyPresentGuilds.value === true) {
+		shownGuilds = shownGuilds.filter((guild) => {
+			return fetchAllGuildsResponse.data.value.includes(guild.id)
+		})
+	}
+
+	return shownGuilds
 })
 
 function computedGuildIcon(guild) {
 	if (guild.icon) {
 		return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`
 	} else {
-		return 'https://cdn.discordapp.com/avatars/978413985722404924/dd5ed95724a0946f97f4917ae978dd96.webp'
+		return 'img/guild-icon-placeholder.png'
 	}
 }
 
@@ -456,6 +470,7 @@ async function saveNotificationStyle(event) {
 				img {
 					border-radius: 99999px;
 					height: 2.5rem;
+					width: 2.5rem;
 				}
 
 				span {
