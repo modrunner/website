@@ -30,8 +30,16 @@
 		</section>
 		<section id="information-panels" v-if="selectedGuild !== ''">
 			<div id="server-name-title">
-				<img :src="computedGuildIcon(selectedGuild)" />
-				<h1>{{ selectedGuild.name }}</h1>
+				<div>
+					<img :src="computedGuildIcon(selectedGuild)" />
+					<h1>{{ selectedGuild.name }}</h1>
+				</div>
+				<div>
+					<button @click="openTrackProjectModal()">
+						<PlusIcon class="plus-icon" />
+						Track Project
+					</button>
+				</div>
 			</div>
 			<div v-if="selectedGuild.isBotPresent">
 				<div id="navigation-bar">
@@ -137,72 +145,112 @@
 		</section>
 		<p v-else>Select a server from the sidebar on the left to get started.</p>
 
-		<div id="edit-project-modal" v-show="showProjectEditModal">
-			<div class="modal-container">
-				<h1>Edit tracked project</h1>
-				<div class="modal-content">
-					<div class="modal-content-grid">
-						<div>
-							<label for="project-name">Project name</label>
-							<input type="text" name="project-name" :value="editingProjectData.name" disabled />
-						</div>
-
-						<div>
-							<label for="project-id">Project ID</label>
-							<input type="text" name="project-id" :value="editingProjectData.id" disabled />
-						</div>
-
-						<div>
-							<label for="project-platform">Project platform</label>
-							<input type="text" name="project-platform" :value="capitalize(editingProjectData.platform)" disabled />
-						</div>
-
-						<div>
-							<label for="project-channel">Channel</label>
-							<select name="project-channel" v-model.lazy="newProjectData.channelId">
-								<option
-									v-for="channel of selectedGuild.channels"
-									:key="channel"
-									:value="channel.id"
-									:selected="channel.id === editingProjectData.channel.id ? true : false"
-								>
-									#{{ channel.name }}
-								</option>
-							</select>
-						</div>
-
-						<div>
-							<label for="project-roles">Notification Roles</label>
-							<select name="project-roles" multiple v-model.lazy="newProjectData.roleIds">
-								<option
-									v-for="role of selectedGuild.roles"
-									:style="`color: ${role.color};`"
-									:key="role"
-									:value="role.id"
-									:selected="editingProjectData.roleIds.includes(role.id) ? true : false"
-								>
-									<div>{{ role.name }}</div>
-								</option>
-							</select>
-							<span>Hold CTRL to select multiple roles.</span>
-						</div>
-					</div>
-					<div class="modal-buttons">
-						<div class="left-buttons">
-							<button class="button-danger" @click="untrackProject()" :disabled="disableProjectEditModalButtons">UNTRACK</button>
-						</div>
-						<div class="right-buttons">
-							<button class="button-primary" @click="editProject()" :disabled="disableProjectEditModalButtons">SAVE CHANGES</button>
-							<button class="button-secondary" @click="showProjectEditModal = false" :disabled="disableProjectEditModalButtons">CLOSE</button>
-						</div>
-					</div>
-				</div>
+		<Modal
+			class="dashboard-modal"
+			id="edit-project-modal"
+			v-show="showProjectEditModal"
+			title="Edit tracked project"
+			@closeModal="showProjectEditModal = false"
+			:buttons="[
+				{
+					text: 'UNTRACK',
+					class: 'button-danger',
+					eventHandler: untrackProject,
+				},
+				{
+					text: 'SAVE CHANGES',
+					class: 'button-primary',
+					eventHandler: editProject,
+				},
+			]"
+		>
+			<div class="track-project-modal-item">
+				<label for="project-name">Project name</label>
+				<input type="text" name="project-name" :value="editingProjectData.name" disabled />
 			</div>
-		</div>
+
+			<div class="track-project-modal-item">
+				<label for="project-id">Project ID</label>
+				<input type="text" name="project-id" :value="editingProjectData.id" disabled />
+			</div>
+
+			<div class="track-project-modal-item">
+				<label for="project-platform">Project platform</label>
+				<input type="text" name="project-platform" :value="capitalize(editingProjectData.platform)" disabled />
+			</div>
+
+			<div class="track-project-modal-item">
+				<label for="project-channel">Channel</label>
+				<select name="project-channel" v-model.lazy="newProjectData.channelId">
+					<option
+						v-for="channel of selectedGuild.channels"
+						:key="channel"
+						:value="channel.id"
+						:selected="channel.id === editingProjectData.channel.id ? true : false"
+					>
+						#{{ channel.name }}
+					</option>
+				</select>
+			</div>
+
+			<div class="track-project-modal-item">
+				<label for="project-roles">Notification Roles</label>
+				<select name="project-roles" multiple v-model.lazy="newProjectData.roleIds">
+					<option
+						v-for="role of selectedGuild.roles"
+						:style="`color: ${role.color};`"
+						:key="role"
+						:value="role.id"
+						:selected="editingProjectData.roleIds.includes(role.id) ? true : false"
+					>
+						<div>{{ role.name }}</div>
+					</option>
+				</select>
+				<span>Hold CTRL to select multiple roles.</span>
+			</div>
+		</Modal>
+
+		<Modal
+			class="dashboard-modal"
+			id="track-project-modal"
+			v-show="showTrackProjectModal"
+			title="Track new project"
+			@closeModal="showTrackProjectModal = false"
+			:buttons="[
+				{
+					text: 'TRACK PROJECT',
+					class: 'button-primary',
+					eventHandler: trackProject,
+				},
+			]"
+		>
+			<div class="track-project-modal-item">
+				<label for="project-id">Project ID</label>
+				<input type="text" name="project-id" v-model.trim="trackProjectData.projectId" />
+			</div>
+
+			<div class="track-project-modal-item">
+				<label for="project-channel">Channel</label>
+				<select name="project-channel" v-model="trackProjectData.channelId">
+					<option v-for="channel of selectedGuild.channels" :key="channel" :value="channel.id">#{{ channel.name }}</option>
+				</select>
+			</div>
+
+			<div class="track-project-modal-item">
+				<label for="project-roles">Notification Roles</label>
+				<select name="project-roles" multiple v-model.lazy="newProjectData.roleIds">
+					<option v-for="role of selectedGuild.roles" :style="`color: ${role.color};`" :key="role" :value="role.id">
+						<div>{{ role.name }}</div>
+					</option>
+				</select>
+				<span>Hold CTRL to select multiple roles.</span>
+			</div>
+		</Modal>
 	</div>
 </template>
 
 <script setup>
+import PlusIcon from '~/assets/images/utils/circle-plus.svg'
 import InfoIcon from '~/assets/images/utils/info.svg'
 
 definePageMeta({ middleware: ['auth'] })
@@ -218,7 +266,7 @@ const {
 	headers: auth.value.headers,
 })
 
-const fetchAllGuildsResponse = await useFetch('/api/getAllGuilds');
+const fetchAllGuildsResponse = await useFetch('/api/getAllGuilds')
 
 const selectedGuild = ref('')
 const selectedTab = ref(0)
@@ -226,12 +274,18 @@ const searchInput = ref('')
 const showOnlyManagedGuilds = ref(true)
 const showOnlyPresentGuilds = ref(true)
 const showProjectEditModal = ref(false)
+const showTrackProjectModal = ref(false)
 const disableProjectEditModalButtons = ref(false)
 const editingProjectData = ref({
 	name: '',
 	id: '',
 	platform: '',
 	channel: '',
+	roleIds: [],
+})
+const trackProjectData = ref({
+	projectId: '',
+	channelId: '',
 	roleIds: [],
 })
 const newProjectData = ref({
@@ -320,6 +374,30 @@ function openProjectEditModal(project, channel) {
 	}
 
 	showProjectEditModal.value = true
+}
+
+function openTrackProjectModal() {
+	showTrackProjectModal.value = true
+}
+
+async function trackProject() {
+	await $fetch('/api/trackProject', {
+		method: 'POST',
+		body: {
+			projectId: trackProjectData.value.projectId,
+			channelId: trackProjectData.value.channelId,
+			guildId: selectedGuild.value.id,
+			roleIds: trackProjectData.value.roleIds,
+		},
+	})
+
+	await selectGuild({
+		id: selectedGuild.value.id,
+		name: selectedGuild.value.name,
+		icon: selectedGuild.value.icon,
+	})
+
+	showTrackProjectModal.value = false
 }
 
 async function untrackProject() {
@@ -492,13 +570,43 @@ async function saveNotificationStyle(event) {
 
 		#server-name-title {
 			display: flex;
+			justify-content: space-between;
 			align-items: center;
 			gap: 1rem;
+
+			div {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+			}
 
 			img {
 				border-radius: 99999px;
 				height: 3rem;
 				width: 3rem;
+			}
+
+			button {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 0.5rem;
+				color: var(--color-text);
+				background-color: var(--color-brand);
+				border-radius: 0.5rem;
+				padding: 0.75rem;
+				width: 180px;
+				font-size: var(--font-size-medium);
+				font-weight: var(--font-weight-medium);
+
+				&:hover {
+					background-color: var(--color-brand-dark);
+				}
+
+				svg.plus-icon {
+					height: 1.25rem;
+					width: 1.25rem;
+				}
 			}
 		}
 
@@ -634,7 +742,19 @@ async function saveNotificationStyle(event) {
 	}
 }
 
-#edit-project-modal {
+.track-project-modal-item {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding: 0.5rem;
+
+	span {
+		font-size: var(--font-size-extrasmall);
+		margin: 0;
+	}
+}
+
+.dashboard-modal {
 	backdrop-filter: blur(5px);
 	position: absolute;
 	min-height: calc(100vh - 70px);
