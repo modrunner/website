@@ -1,6 +1,9 @@
 import svgLoader from 'vite-svg-loader'
 
 export default defineNuxtConfig({
+	experimental: {
+		appManifest: false,
+	},
 	app: {
 		head: {
 			htmlAttrs: {
