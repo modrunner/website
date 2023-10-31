@@ -70,6 +70,9 @@ export default defineNuxtConfig({
 			link: [{ rel: 'icon', href: './favicon.ico' }],
 		},
 	},
+	build: {
+		transpile: ['vue-sonner'],
+	},
 	content: {
 		highlight: {
 			theme: 'material-default',
