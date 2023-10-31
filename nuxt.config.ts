@@ -102,9 +102,9 @@ export default defineNuxtConfig({
 })
 
 function getDomain() {
-	if (process.env.ENVIRONMENT === 'prd') {
+	if (process.env.DOPPLER_ENVIRONMENT === 'prd') {
 		return 'https://beta.modrunner.net'
-	} else if (process.env.ENVIRONMENT === 'stg') {
+	} else if (process.env.DOPPLER_ENVIRONMENT === 'stg') {
 		return 'https://staging.modrunner.net'
 	} else {
 		return 'http://localhost:3000'
