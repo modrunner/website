@@ -250,6 +250,7 @@
 </template>
 
 <script setup>
+import { toast } from 'vue-sonner'
 import PlusIcon from '~/assets/images/utils/circle-plus.svg'
 import InfoIcon from '~/assets/images/utils/info.svg'
 
@@ -391,6 +392,8 @@ async function trackProject() {
 		},
 	})
 
+	toast.success('Added new project to tracking')
+
 	await selectGuild({
 		id: selectedGuild.value.id,
 		name: selectedGuild.value.name,
@@ -411,6 +414,8 @@ async function untrackProject() {
 			guildId: selectedGuild.value.id,
 		},
 	})
+
+	toast.success('Removed project from tracking')
 
 	await selectGuild({
 		id: selectedGuild.value.id,
@@ -440,6 +445,8 @@ async function editProject() {
 		},
 	})
 
+	toast.success('Saved new project settings')
+
 	await selectGuild({
 		id: selectedGuild.value.id,
 		name: selectedGuild.value.name,
@@ -458,6 +465,8 @@ async function saveMaxChars(event) {
 			changelogLength: event.target.value,
 		},
 	})
+
+	toast.success('Saved Maximum Changelog Character Length')
 }
 
 async function saveNotificationStyle(event) {
@@ -466,6 +475,8 @@ async function saveNotificationStyle(event) {
 		query: { guildId: selectedGuild.value.id },
 		body: { notificationStyle: event.target.value },
 	})
+
+	toast.success('Saved Notification Style')
 }
 </script>
 
