@@ -90,8 +90,6 @@
 			<NuxtLink to="/dashboard" class="landing-button">Get Started</NuxtLink>
 		</div>
 	</section>
-
-	<p>{{runtimeConfig.dopplerEnvironment}}</p>
 </template>
 
 <script setup>
@@ -100,8 +98,6 @@ import ModrinthIcon from '~/assets/images/external/modrinth.svg'
 useHead({ title: 'The Ultimate Resource for Modding Communities' })
 
 const { data: stats, pending, error } = await useFetch('/api/stats')
-
-const runtimeConfig = useRuntimeConfig()
 </script>
 
 <style lang="scss" scoped>
