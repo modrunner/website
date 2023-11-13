@@ -70,7 +70,7 @@
 											@click="openProjectEditModal(project, channel)"
 										>
 											<p>{{ project.name }}</p>
-											<p>{{ capitalize(project.platform) }}</p>
+											<p>{{ project.platform }}</p>
 											<p>{{ project.id }}</p>
 											<p>
 												{{ new Date(project.dateUpdated).toDateString() }}
@@ -176,7 +176,7 @@
 
 			<div class="track-project-modal-item">
 				<label for="project-platform">Project platform</label>
-				<input type="text" name="project-platform" :value="capitalize(editingProjectData.platform)" disabled />
+				<input type="text" name="project-platform" :value="editingProjectData.platform" disabled />
 			</div>
 
 			<div class="track-project-modal-item">
