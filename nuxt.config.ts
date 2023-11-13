@@ -80,9 +80,6 @@ export default defineNuxtConfig({
 	},
 	css: ['~/assets/styles/components.scss', '~/assets/styles/fonts.scss', '~/assets/styles/global.scss', '~/assets/styles/layout.scss'],
 	modules: ['@nuxt/content', 'floating-vue/nuxt'],
-	pinia: {
-		autoImports: ['defineStore'],
-	},
 	runtimeConfig: {
 		discordClientSecret: process.env.NUXT_DISCORD_CLIENT_SECRET ?? '',
 		apiKey: process.env.NUXT_API_KEY ?? '',
@@ -102,9 +99,9 @@ export default defineNuxtConfig({
 })
 
 function getDomain() {
-	if (process.env.DOPPLER_ENVIRONMENT === 'prd') {
+	if (process.env.CF_PAGES_BRANCH === 'production') {
 		return 'https://beta.modrunner.net'
-	} else if (process.env.DOPPLER_ENVIRONMENT === 'stg') {
+	} else if (process.env.CF_PAGES_BRANCH === 'staging') {
 		return 'https://staging.modrunner.net'
 	} else {
 		return 'http://localhost:3000'
