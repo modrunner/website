@@ -7,7 +7,7 @@
 		<div class="container">
 			<section class="navigation">
 				<div>
-					<NuxtLink to="/"><img src="~/assets/images/logo_banner_halloween.png" alt="The full-sized Modrunner logo banner" class="logo" /></NuxtLink>
+					<NuxtLink to="/"><img src="~/assets/images/logo_banner.png" alt="The full-sized Modrunner logo banner" class="logo" /></NuxtLink>
 				</div>
 				<nav>
 					<NuxtLink class="link" to="/dashboard">Dashboard</NuxtLink>
@@ -76,7 +76,7 @@
 		<section id="footer-wrapper">
 			<div>
 				<NuxtLink to="/">
-					<img src="~/assets/images/logo_banner_halloween.png" alt="The full-sized Modrunner logo banner" class="logo" />
+					<img src="~/assets/images/logo_banner.png" alt="The full-sized Modrunner logo banner" class="logo" />
 				</NuxtLink>
 				<p>
 					Modrunner is
