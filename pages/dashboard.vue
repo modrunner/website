@@ -466,7 +466,9 @@ async function saveMaxChars(event) {
 		},
 	})
 
-	toast.success('Saved Maximum Changelog Character Length')
+	selectedGuild.value.settings.changelogLength = event.target.value
+
+	toast.success(`Saved maximum changelog length as ${event.target.value} characters`)
 }
 
 async function saveNotificationStyle(event) {
@@ -476,7 +478,9 @@ async function saveNotificationStyle(event) {
 		body: { notificationStyle: event.target.value },
 	})
 
-	toast.success('Saved Notification Style')
+	selectedGuild.value.settings.notificationStyle = event.target.value
+
+	toast.success(`Saved notification style as ${event.target.value}`)
 }
 </script>
 
