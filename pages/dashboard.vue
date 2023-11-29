@@ -70,7 +70,7 @@
 											@click="openProjectEditModal(project, channel)"
 										>
 											<p>{{ project.name }}</p>
-											<p>{{ capitalize(project.platform) }}</p>
+											<p>{{ project.platform }}</p>
 											<p>{{ project.id }}</p>
 											<p>
 												{{ new Date(project.dateUpdated).toDateString() }}
@@ -176,7 +176,7 @@
 
 			<div class="track-project-modal-item">
 				<label for="project-platform">Project platform</label>
-				<input type="text" name="project-platform" :value="capitalize(editingProjectData.platform)" disabled />
+				<input type="text" name="project-platform" :value="editingProjectData.platform" disabled />
 			</div>
 
 			<div class="track-project-modal-item">
@@ -466,7 +466,9 @@ async function saveMaxChars(event) {
 		},
 	})
 
-	toast.success('Saved Maximum Changelog Character Length')
+	selectedGuild.value.settings.changelogLength = event.target.value
+
+	toast.success(`Saved maximum changelog length as ${event.target.value} characters`)
 }
 
 async function saveNotificationStyle(event) {
@@ -476,7 +478,9 @@ async function saveNotificationStyle(event) {
 		body: { notificationStyle: event.target.value },
 	})
 
-	toast.success('Saved Notification Style')
+	selectedGuild.value.settings.notificationStyle = event.target.value
+
+	toast.success(`Saved notification style as ${event.target.value}`)
 }
 </script>
 
