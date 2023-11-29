@@ -61,6 +61,25 @@ html {
 		rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
+.christmas-mode {
+	--color-brand: #c40101;
+	--color-brand-dark: #540000;
+	--color-brand-light: #f40202;
+
+	--color-bg: #003300;
+	--color-bg-dark: #002400;
+	--color-bg-light: #005e00;
+
+	--color-text: #ffffff;
+	--color-text-dark: #808080;
+	--color-text-link: #8eccff;
+
+	--color-divider-dark: #646c75;
+
+	--shadow-floating: hsla(0, 0%, 0%, 0) 0px 0px 0px 0px, hsla(0, 0%, 0%, 0) 0px 0px 0px 0px, hsla(0, 0%, 0%, 0.1) 0px 4px 6px -1px,
+		rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+
 body {
 	// Defaults
 	background-color: var(--color-bg);
