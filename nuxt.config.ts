@@ -79,7 +79,7 @@ export default defineNuxtConfig({
 		},
 	},
 	css: ['~/assets/styles/components.scss', '~/assets/styles/fonts.scss', '~/assets/styles/global.scss', '~/assets/styles/layout.scss'],
-	modules: ['@nuxt/content', 'floating-vue/nuxt'],
+	modules: ['dayjs-nuxt', '@nuxt/content', 'floating-vue/nuxt'],
 	runtimeConfig: {
 		discordClientSecret: process.env.NUXT_DISCORD_CLIENT_SECRET ?? '',
 		apiKey: process.env.NUXT_API_KEY ?? '',

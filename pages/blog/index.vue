@@ -7,7 +7,7 @@
 					<img v-if="article.thumbnail" :src="article.thumbnail" alt="" />
 					<div class="text">
 						<h2>{{ article.title }}</h2>
-						<i>{{ new Date(article.date).toDateString() }}</i>
+						<i>{{ $dayjs.utc(article.date).format('MMMM D, YYYY') }}</i>
 						<p>{{ article.description }}</p>
 					</div>
 				</div>
