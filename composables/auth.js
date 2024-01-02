@@ -26,7 +26,23 @@ export const useAuth = async () => {
 
 export const getAuthUrl = () => {
 	const config = useRuntimeConfig()
+	const state = generateRandomString()
+
+	const stateCookie = useCookie('state')
+	stateCookie.value = state
+
 	return `https://discord.com/api/oauth2/authorize?client_id=${config.public.discordClientId}&redirect_uri=${`${encodeURIComponent(
 		config.public.baseUrl
-	)}/login`}&response_type=code&scope=identify%20guilds&prompt=none`
+	)}/login`}&response_type=code&scope=identify%20guilds&prompt=none&state=${encodeURIComponent(state)}`
+}
+
+function generateRandomString() {
+	let randomString = ''
+	const randomNumber = Math.floor(Math.random() * 10)
+
+	for (let i = 0; i < 20 + randomNumber; i++) {
+		randomString += String.fromCharCode(33 + Math.floor(Math.random() * 94))
+	}
+
+	return randomString
 }

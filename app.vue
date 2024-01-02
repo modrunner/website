@@ -1,7 +1,7 @@
 <template>
 	<NuxtLayout>
 		<NuxtPage />
-		<Toaster position="bottom-right" theme="dark" :toastOptions="{ style: { background: 'var(--color-brand)' } }" />
+		<Toaster position="bottom-right" theme="dark" richColors />
 	</NuxtLayout>
 </template>
 

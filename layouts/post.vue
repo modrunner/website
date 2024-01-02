@@ -10,7 +10,7 @@
 						<NuxtLink class="post-author-name" :to="authorData(doc.author).github">{{ authorData(doc.author).name }}</NuxtLink> -
 						{{ authorData(doc.author).role }}
 					</span>
-					<i class="post-date">{{ new Date(doc.date).toDateString() }}</i>
+					<i class="post-date">{{ $dayjs.utc(doc.date).format('MMMM D, YYYY') }}</i>
 				</div>
 			</div>
 			<hr />

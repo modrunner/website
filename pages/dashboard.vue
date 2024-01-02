@@ -35,7 +35,7 @@
 					<h1>{{ selectedGuild.name }}</h1>
 				</div>
 				<div>
-					<button @click="openTrackProjectModal()">
+					<button @click="openTrackProjectModal()" v-show="(selectedGuild.permissions & 0x20) == 0x20">
 						<PlusIcon class="plus-icon" />
 						Track Project
 					</button>
@@ -68,9 +68,10 @@
 											:key="project"
 											class="project button-transparent"
 											@click="openProjectEditModal(project, channel)"
+											:disabled="(selectedGuild.permissions & 0x20) !== 0x20"
 										>
 											<p>{{ project.name }}</p>
-											<p>{{ capitalize(project.platform) }}</p>
+											<p>{{ project.platform }}</p>
 											<p>{{ project.id }}</p>
 											<p>
 												{{ new Date(project.dateUpdated).toDateString() }}
@@ -107,9 +108,9 @@
 
 							<h2>Tracked Projects Settings</h2>
 							<p>Maximum Characters for Changelogs</p>
-							<input type="text" :value="selectedGuild.settings.changelogLength" @focusout="saveMaxChars($event)" />
+							<input type="text" :value="selectedGuild.settings.changelogLength" @focusout="saveMaxChars($event)" :disabled="(selectedGuild.permissions & 0x20) !== 0x20"/>
 							<p>Notification Style</p>
-							<select @change="saveNotificationStyle($event)">
+							<select @change="saveNotificationStyle($event)" :disabled="(selectedGuild.permissions & 0x20) !== 0x20">
 								<option value="normal" :selected="selectedGuild.settings.notificationStyle === 'normal' ? true : false">Normal</option>
 								<option value="compact" :selected="selectedGuild.settings.notificationStyle === 'compact' ? true : false">Compact</option>
 								<!--<option value="custom" :selected="selectedGuild.settings.notificationStyle === 'custom' ? true : false">Custom</option>-->
@@ -176,7 +177,7 @@
 
 			<div class="track-project-modal-item">
 				<label for="project-platform">Project platform</label>
-				<input type="text" name="project-platform" :value="capitalize(editingProjectData.platform)" disabled />
+				<input type="text" name="project-platform" :value="editingProjectData.platform" disabled />
 			</div>
 
 			<div class="track-project-modal-item">
@@ -344,6 +345,7 @@ async function selectGuild(guild) {
 			roles: guildData.roles,
 			projectChannels: guildData.channels,
 			isBotPresent: true,
+			permissions: userGuilds.value.find((element) => element.id === guild.id).permissions,
 			settings: {
 				changelogLength: guildData.changelogLength,
 				maxProjects: guildData.maxProjects,
@@ -382,17 +384,25 @@ function openTrackProjectModal() {
 }
 
 async function trackProject() {
-	await $fetch('/api/trackProject', {
+	const res = await $fetch.raw('/api/trackProject', {
 		method: 'POST',
 		body: {
 			projectId: trackProjectData.value.projectId,
 			channelId: trackProjectData.value.channelId,
 			guildId: selectedGuild.value.id,
 			roleIds: trackProjectData.value.roleIds,
+			userId: auth.value.user.id,
 		},
+		ignoreResponseError: true,
 	})
 
-	toast.success('Added new project to tracking')
+	if (res.ok) {
+		toast.success('Successfully tracked new project.')
+	} else {
+		toast.error(`An error has ocurred:`, {
+			description: `${res.status} ${res.statusText}`,
+		})
+	}
 
 	await selectGuild({
 		id: selectedGuild.value.id,
@@ -406,16 +416,24 @@ async function trackProject() {
 async function untrackProject() {
 	disableProjectEditModalButtons.value = true
 
-	await $fetch('/api/untrackProject', {
+	const res = await $fetch.raw('/api/untrackProject', {
 		method: 'PATCH',
 		body: {
 			projectId: editingProjectData.value.id,
 			channelId: editingProjectData.value.channel.id,
 			guildId: selectedGuild.value.id,
+			userId: auth.value.user.id,
 		},
+		ignoreResponseError: true,
 	})
 
-	toast.success('Removed project from tracking')
+	if (res.ok) {
+		toast.success('Successfully removed project from tracking.')
+	} else {
+		toast.error(`An error has ocurred:`, {
+			description: `${res.status} ${res.statusText}`,
+		})
+	}
 
 	await selectGuild({
 		id: selectedGuild.value.id,
@@ -430,7 +448,7 @@ async function untrackProject() {
 async function editProject() {
 	disableProjectEditModalButtons.value = true
 
-	await $fetch('/api/editProject', {
+	const res = await $fetch.raw('/api/editProject', {
 		method: 'PATCH',
 		body: {
 			oldProject: {
@@ -442,10 +460,19 @@ async function editProject() {
 				channelId: newProjectData.value.channelId,
 				roleIds: newProjectData.value.roleIds,
 			},
+			guildId: selectedGuild.value.id,
+			userId: auth.value.user.id,
 		},
+		ignoreResponseError: true,
 	})
 
-	toast.success('Saved new project settings')
+	if (res.ok) {
+		toast.success('Successfully saved new project settings.')
+	} else {
+		toast.error(`An error has ocurred:`, {
+			description: `${res.status} ${res.statusText}`,
+		})
+	}
 
 	await selectGuild({
 		id: selectedGuild.value.id,
@@ -458,25 +485,49 @@ async function editProject() {
 }
 
 async function saveMaxChars(event) {
-	await $fetch('/api/editGuild', {
+	const res = await $fetch.raw('/api/editGuild', {
 		method: 'PATCH',
 		query: { guildId: selectedGuild.value.id },
 		body: {
 			changelogLength: event.target.value,
+			guildId: selectedGuild.value.id,
+			userId: auth.value.user.id,
 		},
+		ignoreResponseError: true,
 	})
 
-	toast.success('Saved Maximum Changelog Character Length')
+	if (res.ok) {
+		toast.success('Successfully saved new maximum changelog length.')
+	} else {
+		toast.error(`An error has ocurred:`, {
+			description: `${res.status} ${res.statusText}`,
+		})
+	}
+
+	selectedGuild.value.settings.changelogLength = event.target.value
 }
 
 async function saveNotificationStyle(event) {
-	await $fetch('/api/editGuild', {
+	const res = await $fetch.raw('/api/editGuild', {
 		method: 'PATCH',
 		query: { guildId: selectedGuild.value.id },
-		body: { notificationStyle: event.target.value },
+		body: {
+			notificationStyle: event.target.value,
+			guildId: selectedGuild.value.id,
+			userId: auth.value.user.id,
+		},
+		ignoreResponseError: true,
 	})
 
-	toast.success('Saved Notification Style')
+	if (res.ok) {
+		toast.success('Successfully saved notification style.')
+	} else {
+		toast.error(`An error has ocurred:`, {
+			description: `${res.status} ${res.statusText}`,
+		})
+	}
+
+	selectedGuild.value.settings.notificationStyle = event.target.value
 }
 </script>
 

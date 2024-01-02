@@ -61,6 +61,25 @@ html {
 		rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
+.christmas-mode {
+	--color-brand: #c40101;
+	--color-brand-dark: #540000;
+	--color-brand-light: #f40202;
+
+	--color-bg: #003300;
+	--color-bg-dark: #002400;
+	--color-bg-light: #005e00;
+
+	--color-text: #ffffff;
+	--color-text-dark: #808080;
+	--color-text-link: #8eccff;
+
+	--color-divider-dark: #646c75;
+
+	--shadow-floating: hsla(0, 0%, 0%, 0) 0px 0px 0px 0px, hsla(0, 0%, 0%, 0) 0px 0px 0px 0px, hsla(0, 0%, 0%, 0.1) 0px 4px 6px -1px,
+		rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+
 body {
 	// Defaults
 	background-color: var(--color-bg);
@@ -253,4 +272,28 @@ a:focus-visible,
 [tabindex='0']:focus-visible {
 	outline: 0.25rem solid rebeccapurple;
 	border-radius: 0.25rem;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+	box-sizing: border-box;
+
+	th {
+		border: 1px solid gray;
+		text-align: left;
+		padding: 1rem 0.5rem;
+	}
+
+	tr {
+		background-color: var(--color-bg-dark);
+
+		border-bottom: 1px solid gray;
+		border-top: 1px solid gray;
+	}
+
+	td {
+		border: 1px solid gray;
+		padding: 0.5rem;
+	}
 }
