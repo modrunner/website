@@ -19,7 +19,7 @@
 <script setup>
 useHead({ title: 'Blog' })
 
-const posts = await queryContent('blog').sort({ title: 1 }).find()
+const posts = await queryContent('blog').sort({ date: -1 }).find()
 </script>
 
 <style scoped lang="scss">
