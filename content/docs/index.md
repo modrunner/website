@@ -32,6 +32,31 @@ Then invite the bot to join your server by using [this link](https://invite.modr
 
   - Make Modrunner your own - customize settings like notification style and changelog length (so your notifications don't look like CVS receipts!)
 
+## Roadmap
+
+Items on this list are not in any particular. We also do not provide release dates or estimates, due to the inherent unpredictability of both software development and IRL responsibilities (and I'm also really really bad at estimates in general).
+
+✅ **Things we've already done**
+- Support for CurseForge & Modrinth
+- Searching for & sharing projects in Discord
+- The ability to track projects to receive update notifications
+- A website dashboard to easily manage tracked projects
+
+🏗️ **Things we're currently working on**
+- Support for additional modding platforms like Mod.io, NexusMods & FTB
+- Receiving project update notifications via direct message on Discord
+- The ability to customize notification layout & style
+- General bug fixes & minor quality of life changes across the board
+
+📝 **Things we're planning to add in the future**
+- A publicly available HTTP API
+- Localization
+- Receiving notifications via email & webhook
+- The ability to track an author's profile and receive notifications about newly created projects
+- The ability to send test notifications and to resend previous notifications using the dashboard
+- A feed of newly created projects
+- A project discovery feature
+
 ## Staying Informed
 
 - [GitHub](https://github.com/modrunner)
