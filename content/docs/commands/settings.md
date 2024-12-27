@@ -18,4 +18,6 @@ Modrunner has a variety of different settings that you can modify, which you can
 
 - `notification_style` (optional) - allows you to specify how notifications look. The current options are:
   - Normal (default)
+	- Normal - Alternate (same as Normal, but changelogs are displayed with markdown formatting instead of in a code block)
   - Compact (information is smaller and more densely packed, and does not include changelogs)
+	- AI Generated (in Beta - asks ChatGPT to write an announcement-type message for each notification)

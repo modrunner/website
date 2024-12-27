@@ -112,6 +112,7 @@
 							<p>Notification Style</p>
 							<select @change="saveNotificationStyle($event)" :disabled="(selectedGuild.permissions & 0x20) !== 0x20">
 								<option value="normal" :selected="selectedGuild.settings.notificationStyle === 'normal' ? true : false">Normal</option>
+								<option value="alt" :selected="selectedGuild.settings.notificationStyle === 'alt' ? true : false">Normal - Alternate</option>
 								<option value="compact" :selected="selectedGuild.settings.notificationStyle === 'compact' ? true : false">Compact</option>
 								<!--<option value="custom" :selected="selectedGuild.settings.notificationStyle === 'custom' ? true : false">Custom</option>-->
 								<option value="ai" :selected="selectedGuild.settings.notificationStyle === 'ai' ? true : false">AI Generated (Beta)</option>
