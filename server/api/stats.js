@@ -1,9 +1,24 @@
 export default defineEventHandler(async (event) => {
 	const config = useRuntimeConfig()
 
-	return await $fetch(`${config.apiUrl}/stats`, {
-		headers: {
-			'x-api-key': config.apiKey,
+	let response = {
+		data: {
+			stats: {
+				servers: 0,
+				projects: 0,
+				uptime: 0,
+			},
 		},
-	}).catch((error) => console.error('Error while fetching bot statistics from the backend:', error))
+	}
+	try {
+		response = $fetch(`${config.apiUrl}/stats`, {
+			headers: {
+				'x-api-key': config.apiKey,
+			},
+		})
+	} catch (error) {
+		console.error('Error while fetching bot statistics from the backend:', error)
+	}
+
+	return response
 })
